@@ -20,11 +20,6 @@
         }
     ],
     "require": {},
-    "scripts": {
-        "post-package-install": [
-            "ASamir\\InDbPerformanceMonitor\\InDbPerformanceMonitorProvider::postPackageInstall"
-        ]
-    },
     "autoload": {
         "psr-4": {
             "ASamir\\InDbPerformanceMonitor\\": "src/"
