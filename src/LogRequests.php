@@ -42,8 +42,8 @@ class LogRequests extends Model {
         return $this->hasMany('\ASamir\InDbPerformanceMonitor\LogQueries', 'request_id');
     }
 
-    public function errors() {
-        return $this->hasMany('\ASamir\InDbPerformanceMonitor\LogErrors', 'request_id');
+    public function error() {
+        return $this->hasOne('\ASamir\InDbPerformanceMonitor\LogErrors', 'request_id');
     }
 
 }

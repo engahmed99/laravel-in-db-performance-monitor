@@ -67,6 +67,7 @@ class InDbPerformanceMonitorController extends Controller {
         $search_type = $request->get('search_type');
         $order_by = $request->get('order_by', 'created_at');
         $order_type = $request->get('order_type', 'desc');
+        $has_errors = $request->get('has_errors');
         //
         if ($search) {
             if (in_array($search_type, ['%...', '!%...']))
@@ -82,8 +83,8 @@ class InDbPerformanceMonitorController extends Controller {
                 $search_type = 'not like';
 
             // Search using the keyword
-            $query->where(function($q) use($search_type, $search) {
-                if (in_array($search_type, ['not like', '!=']))
+            $query->where(function($q) use($search_type, $search, $has_errors) {
+                if (in_array($search_type, ['not like', '!='])) {
                     $q->where('action', $search_type, $search)
                             ->where('route_uri', $search_type, $search)
                             ->where('route_static_prefix', $search_type, $search)
@@ -92,7 +93,12 @@ class InDbPerformanceMonitorController extends Controller {
                             ->where('session_id', $search_type, $search)
                             ->where('ip', $search_type, $search)
                             ->where('archive_tag', $search_type, $search);
-                else
+                    if ($has_errors)
+                        $q->whereHas('error', function($qq) use($search_type, $search) {
+                            $qq->where('message', $search_type, $search)
+                                    ->where('file', $search_type, $search);
+                        });
+                } else {
                     $q->where('action', $search_type, $search)
                             ->orWhere('route_uri', $search_type, $search)
                             ->orWhere('route_static_prefix', $search_type, $search)
@@ -101,6 +107,12 @@ class InDbPerformanceMonitorController extends Controller {
                             ->orWhere('session_id', $search_type, $search)
                             ->orWhere('ip', $search_type, $search)
                             ->orWhere('archive_tag', $search_type, $search);
+                    if ($has_errors)
+                        $q->orWhereHas('error', function($qq) use($search_type, $search) {
+                            $qq->where('message', $search_type, $search)
+                                    ->orWhere('file', $search_type, $search);
+                        });
+                }
             });
         }
 
@@ -119,7 +131,7 @@ class InDbPerformanceMonitorController extends Controller {
         if ($request->get('to_date'))
             $query->where('created_at', '<', date('Y-m-d', strtotime($request->get('to_date') . "+1 days")));
 
-        $requests = $query->orderBy($order_by, $order_type)->paginate();
+        $requests = $query->with('error')->orderBy($order_by, $order_type)->paginate();
 
         return view('inDbPerformanceMonitor::getRequests', compact('requests'));
     }

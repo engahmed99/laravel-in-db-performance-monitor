@@ -50,6 +50,8 @@ Monitor your laravel application performance by logging requests in your databas
 		\ASamir\InDbPerformanceMonitor\InDbPerformanceMonitorProvider::class,
 	]
 
+**Now you can make requests and monitor it at /admin-monitor**
+
 ## Documentation
 ### Configurations
 
@@ -65,17 +67,6 @@ Monitor your laravel application performance by logging requests in your databas
 	- **IN\_DB\_MONITOR\_LOG\_PACKAGE\_QUERIES** => If true log queries made by the package in your laravel log (default = false)
 	
 - **Hint:** You will find the package env variables created in your .env file
- 
 
-	
-
-
-
-
-
-
-
-
-
-
+### Demo Screen shots
 

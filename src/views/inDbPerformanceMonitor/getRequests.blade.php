@@ -158,7 +158,7 @@
                 <b>Parameters: </b>
                 <span class="label label-success">{{$req->type}}</span>
                 @if($req->has_errors == '1')
-                <span class="label label-danger">Error</span>
+                <span class="label label-danger" title="@if($req->error){{$req->error->message.' => file '.$req->error->file.' => line:'.$req->error->line }}@endif">Error</span>
                 @endif
                 @if($req->is_json_response == '1')
                 <span class="label label-warning">JSON Response</span>
