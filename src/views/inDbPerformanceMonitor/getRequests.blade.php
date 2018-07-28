@@ -1,11 +1,6 @@
 @extends('inDbPerformanceMonitor::layout')
 
 @section('content')
-<style>
-    tr, th, td {
-        text-align: center !important;
-    }
-</style>
 <div class="container">
     <div class="panel panel-primary" style="padding: 0px; margin: 0px"> 
         <div class="panel-heading" style="text-align: center"> 
