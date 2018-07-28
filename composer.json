@@ -1,0 +1,35 @@
+{
+    "name": "asamir/laravel-in-db-performance-monitor",
+    "license": "MIT",
+    "description": "Monitor your laravel application perfoemance by logging requests in your database then analyze it. The log includes request parameters, actions, sql queries and errors beside that you can know the requests with raw sql queries.",
+    "keywords": [
+        "laravel",
+        "in db",
+        "analysis",
+        "performance analysis",
+        "performance",
+        "monitor",
+        "performance monitor",
+        "laravel in db performance monitor",
+        "admin monitor"
+    ],
+    "authors": [
+        {
+            "name": "Ahmed Samir",
+            "email": "eng.ahmed.samir.fci@gmail.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "ASamir\\InDbPerformanceMonitor\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "ASamir\\InDbPerformanceMonitor\\InDbPerformanceMonitorProvider"
+            ]
+        }
+    }
+}
