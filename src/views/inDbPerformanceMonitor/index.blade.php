@@ -4,7 +4,7 @@
 <div class="container">
     <div class="panel panel-warning"> 
         <div class="panel-heading text-center">
-            <h2 style="padding: 0px; margin: 0px">Login</h2> 
+            <h2 style="">Login to Admin Monitor</h2> 
         </div>
         <div class="panel-body">
             <form class="" method="post" style="text-align: center">
