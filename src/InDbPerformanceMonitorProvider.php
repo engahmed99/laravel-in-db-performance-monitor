@@ -17,7 +17,8 @@ class InDbPerformanceMonitorProvider extends ServiceProvider {
         $this->loadMigrationsFrom(__DIR__ . '/migrations');
         $this->publishes([
             __DIR__ . '/config/inDbPerformanceMonitor.php' => config_path('inDbPerformanceMonitor.php'),
-            __DIR__ . '/assets/inDbPerformanceMonitor.css' => public_path('css/inDbPerformanceMonitor.css')
+            __DIR__ . '/assets/inDbPerformanceMonitor.css' => public_path('css/inDbPerformanceMonitor.css'),
+            __DIR__ . '/assets/inDbPerformanceMonitor.js' => public_path('js/inDbPerformanceMonitor.js'),
         ]);
     }
 
