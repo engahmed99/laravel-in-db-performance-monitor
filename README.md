@@ -142,12 +142,12 @@ Monitor your laravel application performance by logging requests in your databas
 
 - Request of create applicant
 ![alt 04-Request-POST.png](screenshots/04-Request-POST.png)
----
+...
 ![alt 05-Request-POST-Run.png](screenshots/05-Request-POST-Run.png)
 
 - Request of search applicants
 ![alt 04-Request-POST.png](screenshots/04-Request-POST.png)
----
+...
 ![alt 07-Request-GET-Run.png](screenshots/07-Request-GET-Run.png)
 
 - Request of error add/4/5+
