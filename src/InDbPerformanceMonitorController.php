@@ -235,4 +235,41 @@ class InDbPerformanceMonitorController extends Controller {
         return view('inDbPerformanceMonitor::statisticsReport', compact('statistics'));
     }
 
+    public function errorsReport(Request $request) {
+        $model_r = new LogRequests();
+        $table_name_r = $model_r->getTable();
+        $model_e = new LogErrors();
+        $table_name_e = $model_e->getTable();
+        $conn_name = $model_r->getConnectionName();
+        $query = \DB::connection($conn_name)
+                ->table($table_name_e)
+                ->join($table_name_r, $table_name_e . '.request_id', '=', $table_name_r . '.id')
+                ->select('route_uri', 'type', 'message',
+                //
+                \DB::raw('count(*) errors_count'),
+                //
+                \DB::raw('max(is_json_response) is_json_response'), \DB::raw('max(has_errors) has_errors'), \DB::raw('max(request_id) last_id')
+        );
+        $search = $request->get('search');
+        if ($search)
+            $query->where(function($q) use($search) {
+                $q->where('route_uri', 'like', '%' . $search . '%')
+                        ->orWhere('session_id', 'like', '%' . $search . '%')
+                        ->orWhere('message', 'like', '%' . $search . '%')
+                        ->orWhere('file', 'like', '%' . $search . '%');
+            });
+        if ($request->get('type'))
+            $query->where('type', '=', strtoupper($request->get('type')));
+        if ($request->get('not_archived'))
+            $query->where('archive_tag', '=', 0);
+        if ($request->get('from_date'))
+            $query->where($table_name_r . '.created_at', '>=', $request->get('from_date'));
+        if ($request->get('to_date'))
+            $query->where($table_name_r . '.created_at', '<', date('Y-m-d', strtotime($request->get('to_date') . "+1 days")));
+        $errors_stats = $query->groupBy('route_uri', 'type', 'message')
+                ->orderBy($request->get('order_by', 'errors_count'), $request->get('order_type', 'desc'))
+                ->paginate();
+        return view('inDbPerformanceMonitor::errorsReport', compact('errors_stats'));
+    }
+
 }

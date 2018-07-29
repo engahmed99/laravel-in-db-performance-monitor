@@ -8,7 +8,7 @@
         <!-- CSRF Token -->
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>Admin Monitor</title>
+        <title>Admin Monitor | @yield('title')</title>
 
         <!-- Scripts -->
         <script src="{{ asset('js/inDbPerformanceMonitor.js') }}" defer></script>
@@ -26,6 +26,7 @@
                         <ol class="breadcrumb">
                             <li><a href="{{url('admin-monitor/requests')}}" class="">Requests List</a></li>
                             <li><a href="{{url('admin-monitor/statistics-report')}}" class="">Statistics Report</a></li>
+                            <li><a href="{{url('admin-monitor/errors-report')}}" class="">Errors Report</a></li>
                             <li>Latest By 
                                 <a href="{{url('admin-monitor/request/-1')}}" class="">Session ID</a>
                                 or
