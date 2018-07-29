@@ -146,7 +146,7 @@ Monitor your laravel application performance by logging requests in your databas
 ![alt 05-Request-POST-Run.png](screenshots/05-Request-POST-Run.png)
 
 - Request of search applicants
-![alt 04-Request-POST.png](screenshots/04-Request-POST.png)
+![alt 06-Request-GET.png](screenshots/06-Request-GET.png)
 ...
 ![alt 07-Request-GET-Run.png](screenshots/07-Request-GET-Run.png)
 
@@ -156,7 +156,7 @@ Monitor your laravel application performance by logging requests in your databas
 ------------------------------------------------
 
 **4- /admin-monitor/statistics-report** => Statistics report about the requests performance
-![alt 10-Statistics Report.png](screenshots/10-Statistics Report.png)
+![alt 10-Statistics_Report.png](screenshots/10-Statistics_Report.png)
 
 ------------------------------------------------
 
