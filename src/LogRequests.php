@@ -11,7 +11,7 @@ class LogRequests extends Model {
     protected $primaryKey = 'id';
     protected $fillable = [
         'action', 'parameters', 'type', 'url', 'session_id', 'session_data', 'ip', 'queries_total_time',
-        'queries_total_count', 'queries_not_elequent_count', 'exec_time', 'route_uri', 
+        'queries_total_count', 'queries_not_elequent_count', 'exec_time', 'route_uri',
         'route_static_prefix', 'has_errors', 'is_json_response', 'archive_tag'
     ];
 
@@ -26,7 +26,7 @@ class LogRequests extends Model {
         $req = LogRequests::create([
                     'action' => request()->getPathInfo(),
                     'parameters' => json_encode(request()->all()),
-                    'type' => request()->method(),
+                    'type' => strtoupper(request()->method() . ((request()->isAjax()) ? '-AJAX' : '')),
                     'url' => request()->url(),
                     'session_serrialized' => serialize(session()->all()),
                     'ip' => request()->ip(),
