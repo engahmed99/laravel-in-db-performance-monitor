@@ -39,18 +39,49 @@ class InDbPerformanceMonitorController extends Controller {
      */
     public function index(Request $request) {
         if ($this->isAuthenticated())
-            return redirect('admin-monitor/requests');
+            return redirect('admin-monitor/dashboard');
         if ($request->isMethod('POST')) {
             // Authenticated
             if (\Hash::check($request->get('password'), config('inDbPerformanceMonitor.IN_DB_MONITOR_TOKEN'))) {
                 session()->put('__asamir_token', bcrypt(session()->getId()));
-                return redirect('admin-monitor/requests');
+                return redirect('admin-monitor/dashboard');
             }
             // Return with error
             return redirect('admin-monitor')->with('alert-danger', 'Passsowrd is Not correct');
         }
         // Render login view GET
         return view('inDbPerformanceMonitor::index');
+    }
+
+    /**
+     * Display dashboard
+     * @param Request $request
+     */
+    public function dashboard(Request $request) {
+        $model = new LogRequests();
+        $table_name = $model->getTable();
+        $conn_name = $model->getConnectionName();
+        // Select requests types
+        $requests_types = \DB::connection($conn_name)->table($table_name)
+                ->select('type', \DB::raw('count(*) total_c'),
+                        //
+                        \DB::raw('count(id) requests_count'), \DB::raw('sum(has_errors) with_errors_count'), \DB::raw('(count(id)-sum(has_errors)) with_no_errors_count')
+                )
+                ->groupBy('type')
+                ->orderBy('type', 'asc')
+                ->get();
+        // Select aggregate functions
+        $archive_tags = \DB::connection($conn_name)->table($table_name)
+                        ->select('archive_tag', 'type', \DB::raw('count(*) total_c'),
+                                //
+                                \DB::raw('count(id) requests_count'), \DB::raw('sum(has_errors) with_errors_count'), \DB::raw('(count(id)-sum(has_errors)) with_no_errors_count')
+                        )
+                        ->groupBy('archive_tag', 'type')
+                        ->orderBy('archive_tag', 'asc')
+                        ->orderBy('type', 'asc')
+                        ->get()->groupBy('archive_tag');
+
+        return view('inDbPerformanceMonitor::dashboard', compact(['archive_tags', 'requests_types']));
     }
 
     /**

@@ -24,6 +24,7 @@
                     <div class="col-md-12" style="padding: 0px; margin: 0px">
                         @if(session('__asamir_token'))
                         <ol class="breadcrumb">
+                            <li><a href="{{url('admin-monitor/dashboard')}}" class="">Dashboard</a></li>
                             <li><a href="{{url('admin-monitor/requests')}}" class="">Requests List</a></li>
                             <li><a href="{{url('admin-monitor/statistics-report')}}" class="">Statistics Report</a></li>
                             <li><a href="{{url('admin-monitor/errors-report')}}" class="">Errors Report</a></li>

@@ -2,6 +2,7 @@
 
 Route::middleware(['web'])->group(function () {
     Route::prefix('admin-monitor')->group(function () {
+        Route::get('dashboard', 'ASamir\InDbPerformanceMonitor\InDbPerformanceMonitorController@dashboard');
         Route::get('requests', 'ASamir\InDbPerformanceMonitor\InDbPerformanceMonitorController@getRequests');
         Route::get('request/{id}', 'ASamir\InDbPerformanceMonitor\InDbPerformanceMonitorController@showRequest');
         Route::get('run-query/{id}', 'ASamir\InDbPerformanceMonitor\InDbPerformanceMonitorController@runQuery');
