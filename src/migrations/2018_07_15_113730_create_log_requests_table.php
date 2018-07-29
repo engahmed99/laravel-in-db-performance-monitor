@@ -30,7 +30,7 @@ class CreateLogRequestsTable extends Migration {
             $table->float('exec_time')->nullable();
             $table->tinyInteger('has_errors')->default(0)->nullable();
             $table->tinyInteger('is_json_response')->default(0)->nullable();
-            $table->integer('archive_tag')->default(0)->nullable();
+            $table->string('archive_tag', 20)->default('0')->nullable();
         });
     }
 
