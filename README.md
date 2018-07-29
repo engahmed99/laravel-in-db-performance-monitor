@@ -1,10 +1,24 @@
 # Laravel In DB Performance Monitor
+------------------------------------------
 Monitor your laravel application performance by logging requests in your database then analyze it. The log includes request parameters, actions, SQL queries and errors beside that you can know the requests with raw SQL queries.
 
-### Requirements
+## Table of contents
+
+<!--ts-->
+   * [Requirements](#requirements)
+   * [Installation](#installation)
+   * [Documentation](#documentation)
+      * [Configurations](#configurations)
+      * [Routes](#routes)
+      * [Demo Screen shots](#demo-screen-shots)
+   * [Author](#author)
+<!--te-->
+
+## Requirements
+
     Laravel >=5.0
 
-### Installation
+## Installation
 
 1- Run `composer require asamir/laravel-in-db-performance-monitor`
 
@@ -59,7 +73,7 @@ Monitor your laravel application performance by logging requests in your databas
 
 - The package creates **inDbPerformanceMonitor.php** file in your config folder which has options
 	- **IN\_DB\_MONITOR\_WORK** => If true the package will work and log the comming requests (default = true)
-	
+
 	- **IN\_DB\_MONITOR\_TOKEN** => Holds the admin-monitor passowrd token (default password = monitor)
 
 	- **IN\_DB\_MONITOR\_NEGLICT\_START\_WITH** => Array of routes to neglict from log (e.x. /test so any request start with /test will not be  logged in the DB)
@@ -68,9 +82,18 @@ Monitor your laravel application performance by logging requests in your databas
 	
 - **Hint:** You will find the package env variables created in your .env file
 
-### Demo Screen shots
+### Routes
 
-1- **/admin-monitor** => login page (default password = monitor)
+- **/admin-monitor** => The login page (default password = monitor).
+- **/admin-monitor/requests** => List all requests and provided with search panel to filter the results.
+- **/admin-monitor/request/{id}** => Display request details.
+- **/admin-monitor/run-query/{id}** => Display query details and re-run it.
+- **/admin-monitor/statistics-report** => Statistics report of requests performance.
+- **/admin-monitor/changePassword** => Change the password of the admin monitor panel.
+- **/admin-monitor/logout** => Logout from the admin monitor panel.
+### Demo screen shots
+
+1- **/admin-monitor** => The login page (default password = monitor)
 ![alt 01-Login.png](screenshots/01-Login.png)
 
 2- **/admin-monitor/requests** => list all logged requests
@@ -102,7 +125,7 @@ Monitor your laravel application performance by logging requests in your databas
 
 ![alt 08-Requests-JSON-ERROR.png](screenshots/08-Requests-JSON-ERROR.png)
 
-3- **/admin-monitor/request/{id}** => Shows the request details, queries, and error beside that it allows you to rerun the queries.
+3- **/admin-monitor/request/{id}** => Shows the request details, queries, and error beside that it allows you to re-run the queries.
 
 
 	Hint => You can quickly get your last request by Latest By Session ID Or IP
@@ -133,3 +156,10 @@ Monitor your laravel application performance by logging requests in your databas
 
 5- **/admin-monitor/changePassword** => To change monitor panel password
 ![alt 11-Change_Password.png](screenshots/11-Change_Password.png)
+
+## Author
+
+**Ahmed Samir**
+
+**Contacts:** [eng.ahmed.samir.fci@gmail.com](mailto:eng.ahmed.samir.fci@gmail.com) | [Linkedin](https://www.linkedin.com/in/ahmed-samir-58250284/)
+
