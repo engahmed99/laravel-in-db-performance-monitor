@@ -55,6 +55,7 @@
                                 <option value="queries_total_time" @if(request('order_by') == 'queries_total_time'){{'selected'}}@endif >Queries Total Time</option>
                                 <option value="queries_total_count" @if(request('order_by') == 'queries_total_count'){{'selected'}}@endif >Queries Total Count</option>
                                 <option value="exec_time" @if(request('order_by') == 'exec_time'){{'selected'}}@endif >Execution Time</option>
+                                <option value="archive_tag" @if(request('order_by') == 'archive_tag'){{'selected'}}@endif >Archive Tag</option>
                             </select>
                         </div>
                         <div class="col-md-2">
