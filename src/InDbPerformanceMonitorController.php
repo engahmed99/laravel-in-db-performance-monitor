@@ -23,6 +23,8 @@ class InDbPerformanceMonitorController extends Controller {
      */
     public function __construct() {
         $this->middleware(function ($request, $next) {
+            if (!config('inDbPerformanceMonitor.IN_DB_MONITOR_PANEL'))
+                abort(404);
             if (!$this->isAuthenticated())
                 return redirect('admin-monitor');
             return $next($request);
@@ -209,10 +211,10 @@ class InDbPerformanceMonitorController extends Controller {
         if ($request->get('order'))
             $order = explode('.', $request->get('order'));
         $logQueries = $query->orderBy($order[0], $order[1])->paginate();
-        
+
         // Get request error
         $logError = LogErrors::where('request_id', $id)->first();
-        
+
         return view('inDbPerformanceMonitor::showRequest', compact(['logRequest', 'logQueries', 'logError', 'is_last_of_mine']));
     }
 
@@ -252,7 +254,7 @@ class InDbPerformanceMonitorController extends Controller {
         LogRequests::where('archive_tag', '0')->update([
             'archive_tag' => date('YmdHis')
         ]);
-        
+
         return redirect('admin-monitor/requests')->with('alert-success', 'Requests archived successfully');
     }
 
@@ -281,7 +283,7 @@ class InDbPerformanceMonitorController extends Controller {
                 //
                 \DB::raw('max(is_json_response) is_json_response'), \DB::raw('max(has_errors) has_errors'), \DB::raw('max(id) last_id')
         );
-        
+
         // Filter the result
         $search = $request->get('search');
         if ($search)
@@ -297,7 +299,7 @@ class InDbPerformanceMonitorController extends Controller {
             $query->where('created_at', '>=', $request->get('from_date'));
         if ($request->get('to_date'))
             $query->where('created_at', '<', date('Y-m-d', strtotime($request->get('to_date') . "+1 days")));
-        
+
         // Get the result
         $statistics = $query->groupBy('route_uri', 'type')
                 ->orderBy($request->get('order_by', 'max_queries_time'), $request->get('order_type', 'desc'))
@@ -312,7 +314,7 @@ class InDbPerformanceMonitorController extends Controller {
      * @return \Illuminate\View\View
      */
     public function errorsReport(Request $request) {
-        
+
         $model_r = new LogRequests();
         $table_name_r = $model_r->getTable();
         $model_e = new LogErrors();
@@ -328,7 +330,7 @@ class InDbPerformanceMonitorController extends Controller {
                 //
                 \DB::raw('max(is_json_response) is_json_response'), \DB::raw('max(has_errors) has_errors'), \DB::raw('max(request_id) last_id')
         );
-        
+
         // Filter the result
         $search = $request->get('search');
         if ($search)
@@ -346,7 +348,7 @@ class InDbPerformanceMonitorController extends Controller {
             $query->where($table_name_r . '.created_at', '>=', $request->get('from_date'));
         if ($request->get('to_date'))
             $query->where($table_name_r . '.created_at', '<', date('Y-m-d', strtotime($request->get('to_date') . "+1 days")));
-        
+
         // Get the result
         $errors_stats = $query->groupBy('route_uri', 'type', 'message')
                 ->orderBy($request->get('order_by', 'errors_count'), $request->get('order_type', 'desc'))
