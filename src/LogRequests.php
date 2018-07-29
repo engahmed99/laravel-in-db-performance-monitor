@@ -26,7 +26,7 @@ class LogRequests extends Model {
         $req = LogRequests::create([
                     'action' => request()->getPathInfo(),
                     'parameters' => json_encode(request()->all()),
-                    'type' => strtoupper(request()->method() . ((request()->isAjax()) ? '-AJAX' : '')),
+                    'type' => strtoupper(request()->method() . ((request()->ajax()) ? '-AJAX' : '')),
                     'url' => request()->url(),
                     'session_serrialized' => serialize(session()->all()),
                     'ip' => request()->ip(),
