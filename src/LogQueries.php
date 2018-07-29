@@ -13,6 +13,10 @@ class LogQueries extends Model {
         'query', 'bindings', 'time', 'connection_name', 'is_elequent', 'request_id'
     ];
 
+    /**
+     * Listen to DB queries and log them in the DB
+     * @return type
+     */
     public static function inDbLogQueries() {
         if (!request('__asamir_request_id'))
             return;
@@ -38,6 +42,10 @@ class LogQueries extends Model {
         });
     }
 
+    /**
+     * The relation with LogRequests
+     * @return type
+     */
     public function request() {
         return $this->belongsTo('LogRequests', 'request_id');
     }

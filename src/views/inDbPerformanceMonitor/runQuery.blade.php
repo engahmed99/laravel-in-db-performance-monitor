@@ -1,9 +1,12 @@
 @extends('inDbPerformanceMonitor::layout')
+
+@section('title', 'Run Query')
+
 <style>
     .panel-custom>.panel-heading {
         color: #fff;
-        background-color: #ed5441 !important;
-        border-color: #ed5441 !important;
+        background-color: #cb79e6 !important;
+        border-color: #cb79e6 !important;
     }
 </style>
 

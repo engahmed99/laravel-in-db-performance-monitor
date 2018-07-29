@@ -12,7 +12,7 @@ class InDbPerformanceMonitorProvider extends ServiceProvider {
      * @return void
      */
     public function boot() {
-        //
+        // Add routes, migrations, and publish files
         include __DIR__ . '/routes.php';
         $this->loadMigrationsFrom(__DIR__ . '/migrations');
         $this->publishes([
@@ -28,7 +28,7 @@ class InDbPerformanceMonitorProvider extends ServiceProvider {
      * @return void
      */
     public function register() {
-        //
+        // Add files and views
         $this->app->make('ASamir\InDbPerformanceMonitor\InDbPerformanceMonitorController');
         $this->app->make('ASamir\InDbPerformanceMonitor\InDbPerformanceMonitorMiddleware');
         $this->loadViewsFrom(__DIR__ . '/views/inDbPerformanceMonitor', 'inDbPerformanceMonitor');
@@ -40,6 +40,7 @@ class InDbPerformanceMonitorProvider extends ServiceProvider {
                     \Log::info('[' . $query->connectionName . '] ' . $query->sql . ' => [' . implode(', ', $query->bindings) . '] => ' . $query->time);
             });
 
+        // Add command
         $this->commands(
                 'ASamir\InDbPerformanceMonitor\InDbPerformanceMonitorCommand'
         );

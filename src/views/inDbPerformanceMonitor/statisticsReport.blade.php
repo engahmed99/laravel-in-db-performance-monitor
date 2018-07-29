@@ -1,4 +1,7 @@
 @extends('inDbPerformanceMonitor::layout')
+
+@section('title', 'Statistics Report')
+
 <style>
     .panel-custom>.panel-heading {
         color: #fff;

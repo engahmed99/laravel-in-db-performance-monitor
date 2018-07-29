@@ -10,10 +10,17 @@ use ASamir\InDbPerformanceMonitor\LogErrors;
 
 class InDbPerformanceMonitorController extends Controller {
 
+    /**
+     * Check if you authorized to show this request
+     * @return bool
+     */
     public function isAuthenticated() {
         return \Hash::check(session()->getId(), session('__asamir_token'));
     }
 
+    /**
+     * Attach authorization check middleware
+     */
     public function __construct() {
         $this->middleware(function ($request, $next) {
             if (!$this->isAuthenticated())
@@ -22,27 +29,47 @@ class InDbPerformanceMonitorController extends Controller {
         })->except('index');
     }
 
+    /**
+     * Handles Login page
+     * and create admin monitor login token
+     * @param Request $request
+     * @return \Illuminate\View\View
+     */
     public function index(Request $request) {
         if ($this->isAuthenticated())
             return redirect('admin-monitor/requests');
         if ($request->isMethod('POST')) {
+            // Authenticated
             if (\Hash::check($request->get('password'), config('inDbPerformanceMonitor.IN_DB_MONITOR_TOKEN'))) {
                 session()->put('__asamir_token', bcrypt(session()->getId()));
                 return redirect('admin-monitor/requests');
             }
+            // Return with error
             return redirect('admin-monitor')->with('alert-danger', 'Passsowrd is Not correct');
         }
+        // Render login view GET
         return view('inDbPerformanceMonitor::index');
     }
 
+    /**
+     * Clear your admin monitor login token
+     * @param Request $request
+     * @return \Illuminate\View\View
+     */
     public function logout(Request $request) {
         session()->remove('__asamir_token');
         return redirect('admin-monitor')->with('alert-success', 'You are logged out from admin monitor');
     }
 
+    /**
+     * Change your password
+     * @param Request $request
+     * @return \Illuminate\View\View
+     */
     public function changePassword(Request $request) {
         if ($request->isMethod('POST')) {
             if (\Hash::check($request->get('password'), config('inDbPerformanceMonitor.IN_DB_MONITOR_TOKEN'))) {
+                // Validate password
                 if (strlen($request->get('new_password')) < 6 || $request->get('new_password') != $request->get('new_password_confirmed'))
                     return redirect('admin-monitor/changePassword')->with('alert-danger', 'New Passsowrd must be at least 6 digits and confirmed');
                 // Set new passowrd
@@ -57,18 +84,20 @@ class InDbPerformanceMonitorController extends Controller {
     }
 
     /**
-     * Display a listing of the resource.
+     * Display logged requests list
      *
      * @return \Illuminate\View\View
      */
     public function getRequests(Request $request) {
+        // Initialize variables
         $query = LogRequests::query();
         $search = $request->get('search');
         $search_type = $request->get('search_type');
         $order_by = $request->get('order_by', 'created_at');
         $order_type = $request->get('order_type', 'desc');
         $has_errors = $request->get('has_errors');
-        //
+
+        // Handle search where conditions
         if ($search) {
             if (in_array($search_type, ['%...', '!%...']))
                 $search = '%' . $search;
@@ -115,7 +144,7 @@ class InDbPerformanceMonitorController extends Controller {
                 }
             });
         }
-
+        // continue handles search where conditions
         if ($request->get('queries_count') && is_numeric($request->get('queries_count')))
             $query->where('queries_total_count', '>=', $request->get('queries_count'));
         if ($request->get('has_errors'))
@@ -131,27 +160,42 @@ class InDbPerformanceMonitorController extends Controller {
         if ($request->get('to_date'))
             $query->where('created_at', '<', date('Y-m-d', strtotime($request->get('to_date') . "+1 days")));
 
+        // Get requests
         $requests = $query->with('error')->orderBy($order_by, $order_type)->paginate();
 
         return view('inDbPerformanceMonitor::getRequests', compact('requests'));
     }
 
+    /**
+     * Show certian request details
+     * if $id == -1 => Get last request by my session ID
+     * if $id == -2 => Get last request by my ip
+     * else get request by $id
+     * @param Request $request
+     * @param integer $id
+     * @return \Illuminate\View\View
+     */
     public function showRequest(Request $request, $id) {
         $is_last_of_mine = 0;
+        // Get last request by my session id
         if ($id == -1) {
             $id = LogRequests::where('session_id', session()->getId())->max('id');
             $is_last_of_mine = -1;
             if (!$id)
                 return redirect('admin-monitor/requests')->with('alert-danger', 'There are no requests made by your current session ID.');
         }
+        // Get last request by my ip
         if ($id == -2) {
             $id = LogRequests::where('ip', request()->ip())->max('id');
             $is_last_of_mine = -2;
             if (!$id)
                 return redirect('admin-monitor/requests')->with('alert-danger', 'There are no requests made by your current IP.');
         }
+
+        // Get request
         $logRequest = LogRequests::findOrFail($id);
 
+        // Get request queries 
         $search = $request->get('search');
         $query = LogQueries::where('request_id', $id);
         if ($search)
@@ -165,20 +209,30 @@ class InDbPerformanceMonitorController extends Controller {
         if ($request->get('order'))
             $order = explode('.', $request->get('order'));
         $logQueries = $query->orderBy($order[0], $order[1])->paginate();
-
+        
+        // Get request error
         $logError = LogErrors::where('request_id', $id)->first();
+        
         return view('inDbPerformanceMonitor::showRequest', compact(['logRequest', 'logQueries', 'logError', 'is_last_of_mine']));
     }
 
+    /**
+     * Run certain query
+     * @param Request $request
+     * @param type $id
+     * @return \Illuminate\View\View
+     */
     public function runQuery(Request $request, $id) {
+        // Get query data
         $logQuery = LogQueries::findOrFail($id);
         $results = null;
         $exception = null;
         $start_time = microtime(true);
         try {
+            // Case select query => Get records
             if (substr(strtolower($logQuery->query), 0, 7) == 'select ')
                 $results = \DB::select(\DB::raw($logQuery->query), json_decode($logQuery->bindings, true));
-            else
+            else // Else run statement
                 $results = \DB::statement(\DB::raw($logQuery->query), json_decode($logQuery->bindings, true));
         } catch (\Exception $e) {
             $exception = $e;
@@ -189,17 +243,29 @@ class InDbPerformanceMonitorController extends Controller {
         return view('inDbPerformanceMonitor::runQuery', compact(['logQuery', 'results', 'exception', 'exec_time']));
     }
 
+    /**
+     * Archive all requests with tag=0 to tag = date(YmdHis)
+     * @return \Illuminate\View\View
+     */
     public function archiveRequests() {
+        //Update and archive tags
         LogRequests::where('archive_tag', '0')->update([
             'archive_tag' => date('YmdHis')
         ]);
+        
         return redirect('admin-monitor/requests')->with('alert-success', 'Requests archived successfully');
     }
 
+    /**
+     * Display statistics report about all requests
+     * @param Request $request
+     * @return \Illuminate\View\View
+     */
     public function statisticsReport(Request $request) {
         $model = new LogRequests();
         $table_name = $model->getTable();
         $conn_name = $model->getConnectionName();
+        // Select aggregate functions
         $query = \DB::connection($conn_name)->table($table_name)
                 ->select('route_uri', 'type',
                 //
@@ -215,6 +281,8 @@ class InDbPerformanceMonitorController extends Controller {
                 //
                 \DB::raw('max(is_json_response) is_json_response'), \DB::raw('max(has_errors) has_errors'), \DB::raw('max(id) last_id')
         );
+        
+        // Filter the result
         $search = $request->get('search');
         if ($search)
             $query->where(function($q) use($search) {
@@ -229,18 +297,28 @@ class InDbPerformanceMonitorController extends Controller {
             $query->where('created_at', '>=', $request->get('from_date'));
         if ($request->get('to_date'))
             $query->where('created_at', '<', date('Y-m-d', strtotime($request->get('to_date') . "+1 days")));
+        
+        // Get the result
         $statistics = $query->groupBy('route_uri', 'type')
                 ->orderBy($request->get('order_by', 'max_queries_time'), $request->get('order_type', 'desc'))
                 ->paginate();
+
         return view('inDbPerformanceMonitor::statisticsReport', compact('statistics'));
     }
 
+    /**
+     * Display statistics report about all requests errors
+     * @param Request $request
+     * @return \Illuminate\View\View
+     */
     public function errorsReport(Request $request) {
+        
         $model_r = new LogRequests();
         $table_name_r = $model_r->getTable();
         $model_e = new LogErrors();
         $table_name_e = $model_e->getTable();
         $conn_name = $model_r->getConnectionName();
+        // Select aggregate functions
         $query = \DB::connection($conn_name)
                 ->table($table_name_e)
                 ->join($table_name_r, $table_name_e . '.request_id', '=', $table_name_r . '.id')
@@ -250,6 +328,8 @@ class InDbPerformanceMonitorController extends Controller {
                 //
                 \DB::raw('max(is_json_response) is_json_response'), \DB::raw('max(has_errors) has_errors'), \DB::raw('max(request_id) last_id')
         );
+        
+        // Filter the result
         $search = $request->get('search');
         if ($search)
             $query->where(function($q) use($search) {
@@ -266,6 +346,8 @@ class InDbPerformanceMonitorController extends Controller {
             $query->where($table_name_r . '.created_at', '>=', $request->get('from_date'));
         if ($request->get('to_date'))
             $query->where($table_name_r . '.created_at', '<', date('Y-m-d', strtotime($request->get('to_date') . "+1 days")));
+        
+        // Get the result
         $errors_stats = $query->groupBy('route_uri', 'type', 'message')
                 ->orderBy($request->get('order_by', 'errors_count'), $request->get('order_type', 'desc'))
                 ->paginate();

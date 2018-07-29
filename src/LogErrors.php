@@ -13,6 +13,11 @@ class LogErrors extends Model {
         'message', 'code', 'file', 'line', 'trace', 'request_id'
     ];
 
+    /**
+     * Log error in the DB
+     * @param \Exception $exception
+     * @return type
+     */
     public static function inDbLogError(\Exception $exception) {
         if (!request('__asamir_request_id'))
             return;
@@ -32,8 +37,12 @@ class LogErrors extends Model {
         ]);
     }
 
+    /**
+     * The relation with LogRequests
+     * @return type
+     */
     public function request() {
-        return $this->belongsTo('LogRequests', 'request_id');
+        return $this->hasOne('LogRequests', 'request_id');
     }
 
 }

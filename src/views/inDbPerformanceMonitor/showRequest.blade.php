@@ -1,4 +1,7 @@
 @extends('inDbPerformanceMonitor::layout')
+
+@section('title', 'Show Request '.$logRequest->id)
+
 <style>
     .panel-custom>.panel-heading {
         color: #fff;

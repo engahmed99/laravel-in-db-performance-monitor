@@ -15,16 +15,21 @@ class InDbPerformanceMonitorMiddleware {
      * @return mixed
      */
     public function handle($request, Closure $next) {
-        //
+        // Log the request in case it is valid
         if (LogRequests::isValidPathToLog($request->getPathInfo()))
             LogRequests::startInDbMonitor();
 
         return $next($request);
     }
 
+    /**
+     * Runs before the request finish
+     * @param type $request
+     * @param type $response
+     */
     public function terminate($request, $response) {
         //
-        if (LogRequests::isValidPathToLog($request->getPathInfo()))
+        if ($request->input('__asamir_request_id'))
         {
             $session_data = session()->all();
             unset($session_data['__asamir_token']);

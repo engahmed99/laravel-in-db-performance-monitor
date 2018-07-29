@@ -1,5 +1,7 @@
 @extends('inDbPerformanceMonitor::layout')
 
+@section('title', 'Login')
+
 @section('content')
 <div class="container">
     <div class="panel panel-warning"> 

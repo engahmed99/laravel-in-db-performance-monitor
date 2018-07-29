@@ -15,6 +15,12 @@ class LogRequests extends Model {
         'route_static_prefix', 'has_errors', 'is_json_response', 'archive_tag'
     ];
 
+    /**
+     * Start the request log operation
+     * Log Request
+     * Log Queries
+     * Log Error
+     */
     public static function startInDbMonitor() {
 
         $req = LogRequests::create([
@@ -29,6 +35,12 @@ class LogRequests extends Model {
         LogQueries::inDbLogQueries();
     }
 
+    /**
+     * Check if the path is valid to be monitored 
+     * by checking the config variables IN_DB_MONITOR_WORK and IN_DB_MONITOR_NEGLICT_START_WITH
+     * @param type $pathInfo
+     * @return boolean
+     */
     public static function isValidPathToLog($pathInfo) {
         if (!config('inDbPerformanceMonitor.IN_DB_MONITOR_WORK'))
             return false;
@@ -38,10 +50,18 @@ class LogRequests extends Model {
         return true;
     }
 
+    /**
+     * The relation with LogQueries
+     * @return type
+     */
     public function queries() {
         return $this->hasMany('\ASamir\InDbPerformanceMonitor\LogQueries', 'request_id');
     }
 
+    /**
+     * The relation with LogErrors
+     * @return type
+     */
     public function error() {
         return $this->hasOne('\ASamir\InDbPerformanceMonitor\LogErrors', 'request_id');
     }

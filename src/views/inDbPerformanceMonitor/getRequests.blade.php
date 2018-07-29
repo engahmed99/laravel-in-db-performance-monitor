@@ -1,5 +1,7 @@
 @extends('inDbPerformanceMonitor::layout')
 
+@section('title', 'Requests List')
+
 @section('content')
 <div class="container">
     <div class="panel panel-primary" style="padding: 0px; margin: 0px"> 
