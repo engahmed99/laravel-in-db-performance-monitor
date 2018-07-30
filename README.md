@@ -92,6 +92,7 @@ Monitor your laravel application performance by logging requests in your databas
 - **/admin-monitor/request/{id}** => Display request details.
 - **/admin-monitor/run-query/{id}** => Display query details and re-run it.
 - **/admin-monitor/statistics-report** => Statistics report of requests performance group by request route uri and type.
+- **/admin-monitor/errors-report** => Statistics report of requests errors by group by page uri, type, and error message.
 - **/admin-monitor/changePassword** => Change the password of the admin monitor panel.
 - **/admin-monitor/logout** => Logout from the admin monitor panel.
 ### Demo screen shots
@@ -168,7 +169,12 @@ Monitor your laravel application performance by logging requests in your databas
 
 ------------------------------------------------
 
-**6- /admin-monitor/changePassword** => To change admin monitor panel password.
+**6- /admin-monitor/errors-report** => Statistics report of requests errors by group by page uri, type, and error message.
+![alt 13-Errors_Report.png](screenshots/13-Errors_Report.png)
+
+------------------------------------------------
+
+**7- /admin-monitor/changePassword** => To change admin monitor panel password.
 ![alt 11-Change_Password.png](screenshots/11-Change_Password.png)
 
 ## Author
