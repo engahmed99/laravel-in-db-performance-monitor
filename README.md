@@ -11,7 +11,7 @@ Monitor your laravel application performance by logging requests in your databas
       * [Configurations](#configurations)
       * [Routes](#routes)
       * [Demo Screen shots](#demo-screen-shots)
-	      * [1- /admin-monitor](#1--/admin-monitor)
+	      * [/admin-monitor](#/admin-monitor)
    * [Author](#author)
 <!--te-->
 
@@ -98,12 +98,14 @@ Monitor your laravel application performance by logging requests in your databas
 - **/admin-monitor/logout** => Logout from the admin monitor panel.
 ### Demo screen shots
 
-**1- /admin-monitor** => The login page (default password = monitor)
+#### /admin-monitor
+
+The login page (default password = monitor)
 ![alt 01-Login.png](screenshots/01-Login.png)
 
 ------------------------------------------------
 
-**2- /admin-dashboard** => Dashboard with requests counts grouped by type and archive tag.
+**2- /admin-dashboard** =>Dashboard with requests counts grouped by type and archive tag.
 ![alt 12-Dashboard.png](screenshots/12-Dashboard.png)
 
 ------------------------------------------------
