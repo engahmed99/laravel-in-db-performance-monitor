@@ -12,6 +12,12 @@ Monitor your laravel application performance by logging requests in your databas
       * [Routes](#routes)
       * [Demo Screen shots](#demo-screen-shots)
 	      * [/admin-monitor](#admin-monitor)
+	      * [/admin-monitor/dashboard](#admin-monitor-dashboard)
+	      * [/admin-monitor/requests](#admin-monitor-requests)
+	      * [/admin-monitor/request/{id}](#admin-monitor-request-{id})
+	      * [/admin-monitor/statistics-report](#admin-monitor-statistics-report)
+	      * [/admin-monitor/errors-report](#admin-monitor-errors-report)
+	      * [/admin-monitor/changePassword](#admin-monitor-changePassword)
    * [Author](#author)
 <!--te-->
 
@@ -105,12 +111,16 @@ The login page (default password = monitor)
 
 ------------------------------------------------
 
-**2- /admin-dashboard** =>Dashboard with requests counts grouped by type and archive tag.
+#### /admin-monitor/dashboard
+
+Dashboard with requests counts grouped by type and archive tag.
 ![alt 12-Dashboard.png](screenshots/12-Dashboard.png)
 
 ------------------------------------------------
 
-**3- /admin-monitor/requests** => list all logged requests
+#### /admin-monitor/requests
+
+List all logged requests
 
 - **Search box:** search in (Action, Route, URL, Session ID, Type[POST,GET,...], Archive Tag) and in (Error Message, Error File) in case of checked **Has errors** check box
 
@@ -139,7 +149,9 @@ The login page (default password = monitor)
 
 ------------------------------------------------
 
-**4- /admin-monitor/request/{id}** => Shows the request details, queries, and error beside that it allows you to re-run the queries.
+#### /admin-monitor/request/{id}
+
+Shows the request details, queries, and error beside that it allows you to re-run the queries.
 
 
 	Hint => You can quickly get your last request by Latest By Session ID Or IP
@@ -167,17 +179,23 @@ The login page (default password = monitor)
 
 ------------------------------------------------
 
-**5- /admin-monitor/statistics-report** => Statistics report about the requests performance group by request route uri and type.
+#### /admin-monitor/statistics-report
+
+Statistics report about the requests performance group by request route uri and type.
 ![alt 10-Statistics_Report.png](screenshots/10-Statistics_Report.png)
 
 ------------------------------------------------
 
-**6- /admin-monitor/errors-report** => Statistics report of requests errors by group by page uri, type, and error message.
+#### /admin-monitor/errors-report
+
+Statistics report of requests errors by group by page uri, type, and error message.
 ![alt 13-Errors_Report.png](screenshots/13-Errors_Report.png)
 
 ------------------------------------------------
 
-**7- /admin-monitor/changePassword** => To change admin monitor panel password.
+#### /admin-monitor/changePassword
+
+To change admin monitor panel password.
 ![alt 11-Change_Password.png](screenshots/11-Change_Password.png)
 
 ## Author
