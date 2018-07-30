@@ -11,7 +11,7 @@ Monitor your laravel application performance by logging requests in your databas
       * [Configurations](#configurations)
       * [Routes](#routes)
       * [Demo Screen shots](#demo-screen-shots)
-	      * [/admin-monitor](#/admin-monitor)
+	      * [/admin-monitor](#admin-monitor)
    * [Author](#author)
 <!--te-->
 
