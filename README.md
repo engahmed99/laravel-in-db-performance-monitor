@@ -12,12 +12,12 @@ Monitor your laravel application performance by logging requests in your databas
       * [Routes](#routes)
       * [Demo Screen shots](#demo-screen-shots)
 	      * [/admin-monitor](#admin-monitor)
-	      * [/admin-monitor/dashboard](#admin-monitor-dashboard)
-	      * [/admin-monitor/requests](#admin-monitor-requests)
-	      * [/admin-monitor/request/{id}](#admin-monitor-request-{id})
-	      * [/admin-monitor/statistics-report](#admin-monitor-statistics-report)
-	      * [/admin-monitor/errors-report](#admin-monitor-errors-report)
-	      * [/admin-monitor/changePassword](#admin-monitor-changePassword)
+	      * [/admin-monitor/dashboard](#admin-monitordashboard)
+	      * [/admin-monitor/requests](#admin-monitorrequests)
+	      * [/admin-monitor/request/{id}](#admin-monitorrequest-{id})
+	      * [/admin-monitor/statistics-report](#admin-monitorstatistics-report)
+	      * [/admin-monitor/errors-report](#admin-monitorerrors-report)
+	      * [/admin-monitor/changePassword](#admin-monitorchangePassword)
    * [Author](#author)
 <!--te-->
 
