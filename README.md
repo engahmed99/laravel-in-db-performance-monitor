@@ -1,5 +1,5 @@
 # Laravel In DB Performance Monitor
-------------------------------------------
+
 Monitor your laravel application performance by logging requests in your database then analyze it. The log includes request parameters, actions, SQL queries and errors beside that you can know the requests with raw SQL queries.
 
 ## Table of contents
