@@ -14,10 +14,10 @@ Monitor your laravel application performance by logging requests in your databas
 	      * [/admin-monitor](#admin-monitor)
 	      * [/admin-monitor/dashboard](#admin-monitordashboard)
 	      * [/admin-monitor/requests](#admin-monitorrequests)
-	      * [/admin-monitor/request/{id}](#admin-monitorrequest-{id})
+	      * [/admin-monitor/request/{id}](#admin-monitorrequestid)
 	      * [/admin-monitor/statistics-report](#admin-monitorstatistics-report)
 	      * [/admin-monitor/errors-report](#admin-monitorerrors-report)
-	      * [/admin-monitor/changePassword](#admin-monitorchangePassword)
+	      * [/admin-monitor/change-password](#admin-monitorchange-password)
    * [Author](#author)
 <!--te-->
 
@@ -100,7 +100,7 @@ Monitor your laravel application performance by logging requests in your databas
 - **/admin-monitor/run-query/{id}** => Display query details and re-run it.
 - **/admin-monitor/statistics-report** => Statistics report of requests performance group by request route uri and type.
 - **/admin-monitor/errors-report** => Statistics report of requests errors by group by page uri, type, and error message.
-- **/admin-monitor/changePassword** => Change the password of the admin monitor panel.
+- **/admin-monitor/change-password** => Change the password of the admin monitor panel.
 - **/admin-monitor/logout** => Logout from the admin monitor panel.
 ### Demo screen shots
 
@@ -193,7 +193,7 @@ Statistics report of requests errors by group by page uri, type, and error messa
 
 ------------------------------------------------
 
-#### /admin-monitor/changePassword
+#### /admin-monitor/change-password
 
 To change admin monitor panel password.
 ![alt 11-Change_Password.png](screenshots/11-Change_Password.png)

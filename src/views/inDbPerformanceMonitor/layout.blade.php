@@ -32,7 +32,7 @@
                                 <a href="{{url('admin-monitor/request/-1')}}" class="">Session ID</a>
                                 or
                                 <a href="{{url('admin-monitor/request/-2')}}" class="">IP</a></li>
-                            <li><a href="{{url('admin-monitor/changePassword')}}" class="">Change Password</a></li>
+                            <li><a href="{{url('admin-monitor/change-password')}}" class="">Change Password</a></li>
                             <li><a href="{{url('admin-monitor/logout')}}" class="">Exit</a></li>
                             <li style="float: right"><h5 style="text-align: right; bottom: 0px"><span class="label label-warning">Your Session ID = {{session()->getId()}}</span> - <span class="label label-warning">Your IP = {{request()->ip()}} </span></h5></li>
                         </ol>           

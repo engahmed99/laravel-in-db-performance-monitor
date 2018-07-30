@@ -12,8 +12,8 @@ Route::middleware(['web'])->group(function () {
         route::get('/', 'ASamir\InDbPerformanceMonitor\InDbPerformanceMonitorController@index');
         route::post('/', 'ASamir\InDbPerformanceMonitor\InDbPerformanceMonitorController@index');
         route::get('logout', 'ASamir\InDbPerformanceMonitor\InDbPerformanceMonitorController@logout');
-        route::get('changePassword', 'ASamir\InDbPerformanceMonitor\InDbPerformanceMonitorController@changePassword');
-        route::post('changePassword', 'ASamir\InDbPerformanceMonitor\InDbPerformanceMonitorController@changePassword');
+        route::get('change-password', 'ASamir\InDbPerformanceMonitor\InDbPerformanceMonitorController@changePassword');
+        route::post('change-password', 'ASamir\InDbPerformanceMonitor\InDbPerformanceMonitorController@changePassword');
         route::get('test', function() {
             
         });

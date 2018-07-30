@@ -104,16 +104,16 @@ class InDbPerformanceMonitorController extends Controller {
             if (\Hash::check($request->get('password'), config('inDbPerformanceMonitor.IN_DB_MONITOR_TOKEN'))) {
                 // Validate password
                 if (strlen($request->get('new_password')) < 6 || $request->get('new_password') != $request->get('new_password_confirmed'))
-                    return redirect('admin-monitor/changePassword')->with('alert-danger', 'New Passsowrd must be at least 6 digits and confirmed');
+                    return redirect('admin-monitor/change-password')->with('alert-danger', 'New Passsowrd must be at least 6 digits and confirmed');
                 // Set new passowrd
                 $content = file_get_contents(config_path('inDbPerformanceMonitor.php'));
                 $content = str_replace(config('inDbPerformanceMonitor.IN_DB_MONITOR_TOKEN'), bcrypt($request->get('new_password')), $content);
                 file_put_contents(config_path('inDbPerformanceMonitor.php'), $content);
                 return redirect('admin-monitor/requests')->with('alert-success', 'Passsowrd changed successfully');
             }
-            return redirect('admin-monitor/changePassword')->with('alert-danger', 'Passsowrd is Not correct');
+            return redirect('admin-monitor/change-password')->with('alert-danger', 'Passsowrd is Not correct');
         }
-        return view('inDbPerformanceMonitor::changePassword');
+        return view('inDbPerformanceMonitor::change-password');
     }
 
     /**
