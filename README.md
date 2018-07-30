@@ -74,6 +74,8 @@ Monitor your laravel application performance by logging requests in your databas
 - The package creates **inDbPerformanceMonitor.php** file in your config folder which has options
 	- **IN\_DB\_MONITOR\_WORK** => If true the package will work and log the comming requests (default = true)
 
+	- **IN\_DB\_MONITOR\_PANEL** => If false the admin panel will not be accessible and any link to '/admin-monitor/*' with throw 404 (default = true)
+
 	- **IN\_DB\_MONITOR\_TOKEN** => Holds the admin-monitor passowrd token (default password = monitor)
 
 	- **IN\_DB\_MONITOR\_NEGLICT\_START\_WITH** => Array of routes to neglict from log (e.x. /test so any request start with /test will not be  logged in the DB)
@@ -85,6 +87,7 @@ Monitor your laravel application performance by logging requests in your databas
 ### Routes
 
 - **/admin-monitor** => The login page (default password = monitor).
+- **/admin-monitor/dashboard** => Dashboard with requests counts.
 - **/admin-monitor/requests** => List all requests and provided with search panel to filter the results.
 - **/admin-monitor/request/{id}** => Display request details.
 - **/admin-monitor/run-query/{id}** => Display query details and re-run it.
@@ -98,7 +101,12 @@ Monitor your laravel application performance by logging requests in your databas
 
 ------------------------------------------------
 
-**2- /admin-monitor/requests** => list all logged requests
+**2- /admin-dashboard** => Dashboard with requests counts grouped by type and archive tag.
+![alt 12-Dashboard.png](screenshots/12-Dashboard.png)
+
+------------------------------------------------
+
+**3- /admin-monitor/requests** => list all logged requests
 
 - **Search box:** search in (Action, Route, URL, Session ID, Type[POST,GET,...], Archive Tag) and in (Error Message, Error File) in case of checked **Has errors** check box
 
@@ -127,7 +135,7 @@ Monitor your laravel application performance by logging requests in your databas
 
 ------------------------------------------------
 
-**3- /admin-monitor/request/{id}** => Shows the request details, queries, and error beside that it allows you to re-run the queries.
+**4- /admin-monitor/request/{id}** => Shows the request details, queries, and error beside that it allows you to re-run the queries.
 
 
 	Hint => You can quickly get your last request by Latest By Session ID Or IP
@@ -155,12 +163,12 @@ Monitor your laravel application performance by logging requests in your databas
 
 ------------------------------------------------
 
-**4- /admin-monitor/statistics-report** => Statistics report about the requests performance group by request route uri and type.
+**5- /admin-monitor/statistics-report** => Statistics report about the requests performance group by request route uri and type.
 ![alt 10-Statistics_Report.png](screenshots/10-Statistics_Report.png)
 
 ------------------------------------------------
 
-**5- /admin-monitor/changePassword** => To change admin monitor panel password.
+**6- /admin-monitor/changePassword** => To change admin monitor panel password.
 ![alt 11-Change_Password.png](screenshots/11-Change_Password.png)
 
 ## Author
