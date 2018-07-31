@@ -29,9 +29,16 @@ Monitor your laravel application performance by logging requests in your databas
 
 1- Run `composer require asamir/laravel-in-db-performance-monitor`
 
-2- Run `php artisan in-db-performance-monitor:init`
+2- For **laravel < 5.5** add this provider in **config/app.php**
 
-3- Add and configure the **inDbMonitorConn** connection in **config/database.php file**
+	'providers' => [
+		\\...
+		\ASamir\InDbPerformanceMonitor\InDbPerformanceMonitorProvider::class,
+	]
+
+3- Run `php artisan in-db-performance-monitor:init`
+
+4- Add and configure the **inDbMonitorConn** connection in **config/database.php file** => **Hint:** the package .env variables is created for you by the previous command:
 
     'connections' => [
         //...
@@ -50,26 +57,24 @@ Monitor your laravel application performance by logging requests in your databas
         ],
 	]
 
-4- Add the this middleware in **app/Http/Kernel.php** file 
+5- Add the this middleware in **app/Http/Kernel.php** file 
 
     protected $middleware = [
         //...
         \ASamir\InDbPerformanceMonitor\InDbPerformanceMonitorMiddleware::class
     ];
 
-5- Add this line in **app/Exceptions/Handler.php** => **public function report(Exception $exception)**
+6- Add this line in **app/Exceptions/Handler.php** => **public function report(Exception $exception)**
 
-    //...
+    //... For laravel >= 5.3
     \ASamir\InDbPerformanceMonitor\LogErrors::inDbLogError($exception);
 
-6- Run `php artisan migrate`
+    //..OR.. For laravel < 5.3
+    \ASamir\InDbPerformanceMonitor\LogErrors::inDbLogError($e);
 
-7- For **laravel < 5.5** add this provider in **config/app.php**
+7- Run `php artisan migrate`
 
-	'providers' => [
-		\\...
-		\ASamir\InDbPerformanceMonitor\InDbPerformanceMonitorProvider::class,
-	]
+
 
 **Now you can make requests and monitor it at /admin-monitor**
 

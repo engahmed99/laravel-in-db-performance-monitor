@@ -44,19 +44,20 @@ class InDbPerformanceMonitorCommand extends Command {
         file_put_contents(config_path('inDbPerformanceMonitor.php'), $content);
         $this->info('Done => Set package default passowrd to "monitor"');
         // Add env variables
-        if (file_exists(base_path('.env'))) {
+        $conten = "";
+        if (file_exists(base_path('.env')))
             $content = file_get_contents(base_path('.env'));
-            $append = "\nIN_DB_MONITOR_WORK=true"
-                    . "\nIN_DB_MONITOR_PANEL=true"
-                    . "\nIN_DB_MONITOR_DB_HOST=localhost"
-                    . "\nIN_DB_MONITOR_DB_PORT=3306"
-                    . "\nIN_DB_MONITOR_DB_DB="
-                    . "\nIN_DB_MONITOR_DB_USERNAME="
-                    . "\nIN_DB_MONITOR_DB_PASSWORD="
-                    . "\nIN_DB_MONITOR_LOG_PACKAGE_QUERIES=false";
-            file_put_contents(base_path('.env'), $content . $append);
-            $this->info('Done => Append .env file with the package variables');
-        }
+        $append = "\nIN_DB_MONITOR_WORK=true"
+                . "\nIN_DB_MONITOR_PANEL=true"
+                . "\nIN_DB_MONITOR_DB_HOST=localhost"
+                . "\nIN_DB_MONITOR_DB_PORT=3306"
+                . "\nIN_DB_MONITOR_DB_DB="
+                . "\nIN_DB_MONITOR_DB_USERNAME="
+                . "\nIN_DB_MONITOR_DB_PASSWORD="
+                . "\nIN_DB_MONITOR_LOG_PACKAGE_QUERIES=false";
+        file_put_contents(base_path('.env'), $content . $append);
+        $this->info('Done => Append .env file with the package variables');
+        
         $this->info("---------");
         $this->info("--------- Remember ---------");
         $this->info("---------");
