@@ -26,10 +26,8 @@ class InDbPerformanceMonitorController extends Controller {
         $version = substr(app()->version(), 0, 3);
         if (in_array($version, ['5.0', '5.1']))
             \View::share('app_version_less_2', true);
-        else {
+        else
             \View::share('app_version_less_2', false);
-            $this->middleware('web');
-        }
         \View::share('app_version', substr(app()->version(), 0, 3));
 
         // Add security middleware
@@ -76,18 +74,18 @@ class InDbPerformanceMonitorController extends Controller {
                 ->orderBy('type', 'asc')
                 ->get();
         $requests_types = collect($requests_types);
-        
+
         // Select aggregate functions
         $archive_tags = \DB::connection($conn_name)->table($table_name)
-                        ->select('archive_tag', 'type', \DB::raw('count(*) total_c'),
-                                //
-                                \DB::raw('count(id) requests_count'), \DB::raw('sum(has_errors) with_errors_count'), \DB::raw('(count(id)-sum(has_errors)) with_no_errors_count')
-                        )
-                        ->groupBy('archive_tag', 'type')
-                        ->orderBy('archive_tag', 'asc')
-                        ->orderBy('type', 'asc')
-                        ->get();
-        
+                ->select('archive_tag', 'type', \DB::raw('count(*) total_c'),
+                        //
+                        \DB::raw('count(id) requests_count'), \DB::raw('sum(has_errors) with_errors_count'), \DB::raw('(count(id)-sum(has_errors)) with_no_errors_count')
+                )
+                ->groupBy('archive_tag', 'type')
+                ->orderBy('archive_tag', 'asc')
+                ->orderBy('type', 'asc')
+                ->get();
+
         $archive_tags = collect($archive_tags)->groupBy('archive_tag');
 
         return view('inDbPerformanceMonitor::dashboard', compact(['archive_tags', 'requests_types']));
