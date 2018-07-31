@@ -22,13 +22,18 @@ class InDbPerformanceMonitorController extends Controller {
      * Attach authorization check middleware
      */
     public function __construct() {
-        $this->middleware(function ($request, $next) {
-            if (!config('inDbPerformanceMonitor.IN_DB_MONITOR_PANEL'))
-                abort(404);
-            if (!$this->isAuthenticated())
-                return redirect('admin-monitor');
-            return $next($request);
-        })->except('index');
+        // Get laravel version
+        $version = substr(app()->version(), 0, 3);
+        if (in_array($version, ['5.0', '5.1']))
+            \View::share('app_version_less_2', true);
+        else {
+            \View::share('app_version_less_2', false);
+            $this->middleware('web');
+        }
+        \View::share('app_version', substr(app()->version(), 0, 3));
+
+        // Add security middleware
+        $this->middleware('\ASamir\InDbPerformanceMonitor\InDbPerformanceMonitorSecurityMiddleware', ['except' => ['index']]);
     }
 
     /**
