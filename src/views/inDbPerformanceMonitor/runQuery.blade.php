@@ -2,6 +2,7 @@
 
 @section('title', 'Run Query')
 
+@push('styles')
 <style>
     .panel-custom>.panel-heading {
         color: #fff;
@@ -9,6 +10,7 @@
         border-color: #cb79e6 !important;
     }
 </style>
+@endpush
 
 @section('content')
 <div class="container">

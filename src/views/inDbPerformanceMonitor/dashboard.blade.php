@@ -2,6 +2,7 @@
 
 @section('title', 'Dashboard')
 
+@push('styles')
 <style> 
     .panel-custom>.panel-heading {
         color: #fff;
@@ -23,6 +24,8 @@
         text-align: center;
     }*/
 </style>
+@endpush
+
 @section('content')
 <div class="container">
     <div class="panel panel-custom"> 

@@ -2,6 +2,7 @@
 
 @section('title', 'Errors Report')
 
+@push('scripts')
 <style>
     .panel-custom>.panel-heading {
         color: #fff;
@@ -9,6 +10,7 @@
         border-color: #ed5441 !important;
     }
 </style>
+@endpush
 
 @section('content')
 <div class="container">
@@ -116,7 +118,11 @@
         </tbody>
     </table>
     <div class="row" align='center'>
+        @if($app_version_less_2)
+        {!!$errors_stats->appends(request()->all())->render()!!}
+        @else
         {{$errors_stats->appends(request()->all())->links()}}
+        @endif
     </div>
 </div>
 

@@ -12,9 +12,12 @@
 
         <!-- Scripts -->
         <script src="{{ asset('js/inDbPerformanceMonitor.js') }}" defer></script>
+        @stack('scripts')
 
         <!-- Styles -->
         <link href="{{ asset('css/inDbPerformanceMonitor.css') }}" rel="stylesheet">
+        @stack('styles')
+
     </head>
     <body>
         <div id="app">

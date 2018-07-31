@@ -2,6 +2,7 @@
 
 @section('title', 'Show Request '.$logRequest->id)
 
+@push('styles')
 <style>
     .panel-custom>.panel-heading {
         color: #fff;
@@ -9,6 +10,7 @@
         border-color: #666666 !important;
     }
 </style>
+@endpush
 
 @section('content')
 <div class="container">
@@ -161,7 +163,11 @@
                 @endforelse
             </table>
             <div class="row" align='center'>
+                @if($app_version_less_2)
+                {!!$logQueries->appends(request()->all())->render()!!}
+                @else
                 {{$logQueries->appends(request()->all())->links()}}
+                @endif
             </div>
         </div> 
     </div>

@@ -173,7 +173,11 @@
         </tbody>
     </table>
     <div class="row" align='center'>
+        @if($app_version_less_2)
+        {!!$requests->appends(request()->all())->render()!!}
+        @else
         {{$requests->appends(request()->all())->links()}}
+        @endif
     </div>
 </div>
 

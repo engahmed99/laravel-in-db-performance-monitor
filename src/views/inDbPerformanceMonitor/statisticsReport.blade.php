@@ -2,6 +2,7 @@
 
 @section('title', 'Statistics Report')
 
+@push('styles')
 <style>
     .panel-custom>.panel-heading {
         color: #fff;
@@ -9,6 +10,7 @@
         border-color: #32c8de !important;
     }
 </style>
+@endpush
 
 @section('content')
 <div class="container">
@@ -142,7 +144,11 @@
         </tbody>
     </table>
     <div class="row" align='center'>
+        @if($app_version_less_2)
+        {!!$statistics->appends(request()->all())->render()!!}
+        @else
         {{$statistics->appends(request()->all())->links()}}
+        @endif
     </div>
 </div>
 
