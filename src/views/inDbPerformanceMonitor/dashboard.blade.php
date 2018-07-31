@@ -45,6 +45,7 @@
                         @foreach ($requests_types as $type)
                         <th style="text-align: center" class="alert-warning">{{$type->type}}</th>
                         @endforeach
+                        <th style="text-align: center" class="alert-warning">Total</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -91,6 +92,7 @@
                         @foreach ($requests_types as $type)
                         <th style="text-align: center" class="alert-warning">{{$type->type}}</th>
                         @endforeach
+                        <th style="text-align: center" class="alert-warning">Total</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -100,8 +102,9 @@
                         <th style="text-align: center;" class="alert-info">{{$archive_tag}}</th>
                         <?php $sum = 0; ?>
                         @foreach ($requests_types as $type)
-                        <?php $temp = $tag_reqs->firstWhere('type', $type->type); ?>
-                        @if($temp)
+                        <?php $temp = $tag_reqs->where('type', $type->type); ?>
+                        @if(count($temp)>0)
+                        <?php $temp = $temp->first(); ?>
                         <?php $sum += $temp->requests_count; ?>
                         <td style="text-align: center;">
                             <span class="" style="color: red">{{$temp->with_errors_count}}</span> +

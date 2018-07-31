@@ -75,6 +75,8 @@ class InDbPerformanceMonitorController extends Controller {
                 ->groupBy('type')
                 ->orderBy('type', 'asc')
                 ->get();
+        $requests_types = collect($requests_types);
+        
         // Select aggregate functions
         $archive_tags = \DB::connection($conn_name)->table($table_name)
                         ->select('archive_tag', 'type', \DB::raw('count(*) total_c'),
@@ -84,7 +86,9 @@ class InDbPerformanceMonitorController extends Controller {
                         ->groupBy('archive_tag', 'type')
                         ->orderBy('archive_tag', 'asc')
                         ->orderBy('type', 'asc')
-                        ->get()->groupBy('archive_tag');
+                        ->get();
+        
+        $archive_tags = collect($archive_tags)->groupBy('archive_tag');
 
         return view('inDbPerformanceMonitor::dashboard', compact(['archive_tags', 'requests_types']));
     }

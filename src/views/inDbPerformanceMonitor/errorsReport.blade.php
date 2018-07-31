@@ -2,7 +2,7 @@
 
 @section('title', 'Errors Report')
 
-@push('scripts')
+@push('styles')
 <style>
     .panel-custom>.panel-heading {
         color: #fff;
