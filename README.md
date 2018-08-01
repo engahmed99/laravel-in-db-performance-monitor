@@ -23,7 +23,7 @@ Monitor your laravel application performance by logging requests in your databas
 
 ## Requirements
 
-    Laravel >=5.0
+    Laravel >=5.1
 
 ## Installation
 
