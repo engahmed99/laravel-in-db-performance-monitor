@@ -66,7 +66,7 @@
                         <?php $total_without_errors += $type->with_no_errors_count; ?>
                         <td style="text-align: center; color: green">{{$type->with_no_errors_count}}</td>
                         @endforeach
-                        <th style="text-align: center" class="alert-success">{{$total_with_errors}}</th>
+                        <th style="text-align: center" class="alert-success">{{$total_without_errors}}</th>
                     </tr>
                     <tr>
                         <th class="alert-info">Total:</th>
