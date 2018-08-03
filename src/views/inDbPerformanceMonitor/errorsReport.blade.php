@@ -60,6 +60,7 @@
                             <select id="order_by" class="form-control" name="order_by" value="{{request('order_by')}}">
                                 <option value="errors_count" @if(request('order_by') == 'errors_count'){{'selected'}}@endif >Errors Count</option>
                                 <option value="route_uri" @if(request('order_by') == 'route_uri'){{'selected'}}@endif >Route URI Name</option>
+                                <option value="message" @if(request('order_by') == 'message'){{'selected'}}@endif >Error  Message</option>
                             </select>
                         </div>
                         <div class="col-md-2">
