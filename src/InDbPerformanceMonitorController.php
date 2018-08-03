@@ -133,32 +133,22 @@ class InDbPerformanceMonitorController extends Controller {
         $query = LogRequests::query();
         $search = $request->get('search');
         $search_type = $request->get('search_type');
-        $order_by = $request->get('order_by', 'created_at');
+        $order_by = $request->get('order_by', 'id');
         $order_type = $request->get('order_type', 'desc');
         $has_errors = $request->get('has_errors');
+        $type = strtoupper($request->get('type'));
 
         // Handle search where conditions
+        if($type)
+            $query->where('type', '=', $type);
         if ($search) {
-            if (in_array($search_type, ['%...', '!%...']))
-                $search = '%' . $search;
-            else if (in_array($search_type, ['...%', '!...%']))
-                $search = $search . '%';
-            else if (in_array($search_type, ['%...%', '!%...%']))
-                $search = '%' . $search . '%';
-            //
-            if (in_array($search_type, ['%...%', '%...', '...%']))
-                $search_type = 'like';
-            else if (in_array($search_type, ['!%...%', '!%...', '!...%']))
-                $search_type = 'not like';
-
             // Search using the keyword
             $query->where(function($q) use($search_type, $search, $has_errors) {
-                if (in_array($search_type, ['not like', '!='])) {
+                if ($search_type == 'not like') {
                     $q->where('action', $search_type, $search)
                             ->where('route_uri', $search_type, $search)
                             ->where('route_static_prefix', $search_type, $search)
                             ->where('url', $search_type, $search)
-                            ->where('type', $search_type, $search)
                             ->where('session_id', $search_type, $search)
                             ->where('ip', $search_type, $search)
                             ->where('archive_tag', $search_type, $search);
@@ -172,7 +162,6 @@ class InDbPerformanceMonitorController extends Controller {
                             ->orWhere('route_uri', $search_type, $search)
                             ->orWhere('route_static_prefix', $search_type, $search)
                             ->orWhere('url', $search_type, $search)
-                            ->orWhere('type', $search_type, $search)
                             ->orWhere('session_id', $search_type, $search)
                             ->orWhere('ip', $search_type, $search)
                             ->orWhere('archive_tag', $search_type, $search);

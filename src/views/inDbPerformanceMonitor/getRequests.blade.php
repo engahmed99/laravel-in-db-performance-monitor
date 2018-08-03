@@ -23,14 +23,8 @@
                         </div>
                         <div class="col-md-2">
                             <select id="search_type" class="form-control" name="search_type" value="{{request('search_type')}}">
-                                <option value="%...%" @if(request('search_type') == '%...%'){{'selected'}}@endif >Like %...%</option>
-                                <option value="%..." @if(request('search_type') == '%...'){{'selected'}}@endif >Like %...</option>
-                                <option value="...%" @if(request('search_type') == '...%'){{'selected'}}@endif >Like ...%</option>
-                                <option value="!%...%" @if(request('search_type') == '!%...%'){{'selected'}}@endif >Not Like %...%</option>
-                                <option value="!%..." @if(request('search_type') == '!%...'){{'selected'}}@endif >Not Like %...</option>
-                                <option value="!...%" @if(request('search_type') == '!...%'){{'selected'}}@endif >Not Like ...%</option>
-                                <option value="=" @if(request('search_type') == '='){{'selected'}}@endif >=</option>
-                                <option value="!=" @if(request('search_type') == '!='){{'selected'}}@endif >!=</option>
+                                <option value="like" @if(request('search_type') == 'like'){{'selected'}}@endif >Like</option>
+                                <option value="not like" @if(request('search_type') == 'not like'){{'selected'}}@endif >Not Like</option>
                             </select>
                         </div>
                         <div class="col-md-1" style="text-align: center">
@@ -53,7 +47,7 @@
                         </div>
                         <div class="col-md-6">
                             <select id="order_by" class="form-control" name="order_by" value="{{request('order_by')}}">
-                                <option value="created_at" @if(request('order_by') == 'created_at'){{'selected'}}@endif >Creation Date</option>
+                                <option value="id" @if(request('order_by') == 'id'){{'selected'}}@endif >Creation Date</option>
                                 <option value="queries_total_time" @if(request('order_by') == 'queries_total_time'){{'selected'}}@endif >Queries Total Time</option>
                                 <option value="queries_total_count" @if(request('order_by') == 'queries_total_count'){{'selected'}}@endif >Queries Total Count</option>
                                 <option value="exec_time" @if(request('order_by') == 'exec_time'){{'selected'}}@endif >Execution Time</option>
@@ -83,22 +77,25 @@
                             <label for="queries_count">Filters</label>
                         </div>
                         <div class="col-md-2">
+                            <input type="text" class="form-control" id="type" name="type" placeholder="e.x. GET,POST,..." value="{{request('type')}}">
+                        </div>
+                        <div class="col-md-2">
                             <input type="number" class="form-control" id="queries_count" name="queries_count" placeholder="Queries >= X" value="{{request('queries_count')}}">
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-5" style="text-align: center">
                             <div class="checkbox-inline">
                                 <label>
-                                    <input type="checkbox" name="has_not_elequent" id="has_not_elequent" value="1" @if(request('has_not_elequent') == '1'){{'checked'}}@endif > With Not Elequent
+                                    <input type="checkbox" name="has_not_elequent" id="has_not_elequent" value="1" @if(request('has_not_elequent') == '1'){{'checked'}}@endif > Not Elequent
                                 </label>
                             </div>
                             <div class="checkbox-inline">
                                 <label>
-                                    <input type="checkbox" name="is_json_response" id="is_json_response" value="1" @if(request('is_json_response') == '1'){{'checked'}}@endif > Has JSON Response
+                                    <input type="checkbox" name="is_json_response" id="is_json_response" value="1" @if(request('is_json_response') == '1'){{'checked'}}@endif > JSON Response
                                 </label>
                             </div>
                             <div class="checkbox-inline">
                                 <label>
-                                    <input type="checkbox" name="has_errors" id="has_errors" value="1" @if(request('has_errors') == '1'){{'checked'}}@endif > Has Errors
+                                    <input type="checkbox" name="has_errors" id="has_errors" value="1" @if(request('has_errors') == '1'){{'checked'}}@endif > Errors
                                 </label>
                             </div>
                             <div class="checkbox-inline">
@@ -107,9 +104,8 @@
                                 </label>
                             </div>                            
                         </div>
-                        <div class="col-md-3" style="text-align: center">
+                        <div class="col-md-2" style="text-align: center">
                             <button type="submit" class="btn btn-primary">Search</button>
-                            <button type="reset" class="btn btn-white">Reset</button>
                             <button type="reset" class="btn btn-danger" onclick="confirmArchive()">Archive</button>
                         </div>
                     </div>

@@ -124,14 +124,14 @@
         <li><b>Max:</b> {{$stat->max_queries_count}} &rarr; <span style="color: red" title="Not elequent queries">({{$stat->max_not_elequent_queries_count}})</span></li>
         </td>
         <td>
-        <li><b>Min:</b> {{round($stat->min_queries_time, 3)}}</li>
-        <li><b>Avg:</b> {{round($stat->avg_queries_time, 3)}}</li>
-        <li><b>Max:</b> {{round($stat->max_queries_time, 3)}}</li>
+        <li><b>Min:</b> {{round($stat->min_queries_time, 3)}} ms</li>
+        <li><b>Avg:</b> {{round($stat->avg_queries_time, 3)}} ms</li>
+        <li><b>Max:</b> {{round($stat->max_queries_time, 3)}} ms</li>
         </td>
         <td>
-        <li><b>Min:</b> {{round($stat->min_exec_time, 3)}}</li>
-        <li><b>Avg:</b> {{round($stat->avg_exec_time, 3)}}</li>
-        <li><b>Max:</b> {{round($stat->max_exec_time, 3)}}</li>
+        <li><b>Min:</b> {{round($stat->min_exec_time, 3)}} s</li>
+        <li><b>Avg:</b> {{round($stat->avg_exec_time, 3)}} s</li>
+        <li><b>Max:</b> {{round($stat->max_exec_time, 3)}} s</li>
         </td>
         <td>
         <li style="color: red"><b>With Errors:</b> {{$stat->with_errors_count}}</li>
