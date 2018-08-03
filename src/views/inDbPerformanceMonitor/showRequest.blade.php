@@ -96,16 +96,16 @@
                                 <label for="search">Search</label>
                             </div>
                             <div class="col-md-5">
-                                <textarea class="form-control" id="search" name="search" placeholder="Query Or Connection Name">{{request('search')}}</textarea>
+                                <textarea class="form-control" id="search" name="search" placeholder="Query, Bindings, Or Connection Name">{{request('search')}}</textarea>
                             </div>
                             <div class="col-md-3">
                                 <select id="order" class="form-control" name="order" value="{{request('order')}}">
-                                    <option value="id.asc" @if(request('order_type') == 'id.asc'){{'selected'}}@endif >ID Ascending</option>
-                                    <option value="id.desc" @if(request('order_type') == 'id.desc'){{'selected'}}@endif >ID Descending</option>
-                                    <option value="time.asc" @if(request('order_type') == 'time.asc'){{'selected'}}@endif >Time Ascending</option>
-                                    <option value="time.desc" @if(request('order_type') == 'time.desc'){{'selected'}}@endif >Time Descending</option>
-                                    <option value="connection_name.asc" @if(request('order_type') == 'connection_name.asc'){{'selected'}}@endif >Connection Ascending</option>
-                                    <option value="connection_name.desc" @if(request('order_type') == 'connection_name.desc'){{'selected'}}@endif >Connection Descending</option>
+                                    <option value="id.asc" @if(request('order') == 'id.asc'){{'selected'}}@endif >ID Ascending</option>
+                                    <option value="id.desc" @if(request('order') == 'id.desc'){{'selected'}}@endif >ID Descending</option>
+                                    <option value="time.asc" @if(request('order') == 'time.asc'){{'selected'}}@endif >Time Ascending</option>
+                                    <option value="time.desc" @if(request('order') == 'time.desc'){{'selected'}}@endif >Time Descending</option>
+                                    <option value="connection_name.asc" @if(request('order') == 'connection_name.asc'){{'selected'}}@endif >Connection Ascending</option>
+                                    <option value="connection_name.desc" @if(request('order') == 'connection_name.desc'){{'selected'}}@endif >Connection Descending</option>
                                 </select>
                             </div>
                             <div class="col-md-1">
@@ -117,7 +117,6 @@
                             </div>
                             <div class="col-md-2" style="text-align: center">
                                 <button type="submit" class="btn btn-primary">Search</button>
-                                <button type="reset" class="btn btn-white">Reset</button>
                             </div>
                         </div>
                     </div>

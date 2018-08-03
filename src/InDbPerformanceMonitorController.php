@@ -229,8 +229,9 @@ class InDbPerformanceMonitorController extends Controller {
         $query = LogQueries::where('request_id', $id);
         if ($search)
             $query->where(function($q) use($search) {
-                $q->where('query', 'like', '%' . $search . '%')
-                        ->orWhere('connection_name', 'like', '%' . $search . '%');
+                $q->where('query', 'like', $search)
+                        ->orWhere('connection_name', 'like', $search)
+                        ->orWhere('bindings', 'like', $search);
             });
         if ($request->get('is_not_elequent'))
             $query->where('is_elequent', '=', 0);
@@ -315,9 +316,9 @@ class InDbPerformanceMonitorController extends Controller {
         $search = $request->get('search');
         if ($search)
             $query->where(function($q) use($search) {
-                $q->where('route_uri', 'like', '%' . $search . '%')
-                        ->orWhere('session_id', 'like', '%' . $search . '%')
-                        ->orWhere('ip', 'like', '%' . $search . '%');
+                $q->where('route_uri', 'like', $search)
+                        ->orWhere('session_id', 'like', $search)
+                        ->orWhere('ip', 'like', $search);
             });
         if ($request->get('type'))
             $query->where('type', '=', strtoupper($request->get('type')));
@@ -363,11 +364,11 @@ class InDbPerformanceMonitorController extends Controller {
         $search = $request->get('search');
         if ($search)
             $query->where(function($q) use($search) {
-                $q->where('route_uri', 'like', '%' . $search . '%')
-                        ->orWhere('session_id', 'like', '%' . $search . '%')
-                        ->orWhere('ip', 'like', '%' . $search . '%')
-                        ->orWhere('message', 'like', '%' . $search . '%')
-                        ->orWhere('file', 'like', '%' . $search . '%');
+                $q->where('route_uri', 'like', $search)
+                        ->orWhere('session_id', 'like', $search)
+                        ->orWhere('ip', 'like', $search)
+                        ->orWhere('message', 'like', $search)
+                        ->orWhere('file', 'like', $search);
             });
         if ($request->get('type'))
             $query->where('type', '=', strtoupper($request->get('type')));
