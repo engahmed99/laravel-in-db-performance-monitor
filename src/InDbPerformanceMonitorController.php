@@ -139,7 +139,7 @@ class InDbPerformanceMonitorController extends Controller {
         $type = strtoupper($request->get('type'));
 
         // Handle search where conditions
-        if($type)
+        if ($type)
             $query->where('type', '=', $type);
         if ($search) {
             // Search using the keyword
@@ -316,7 +316,8 @@ class InDbPerformanceMonitorController extends Controller {
         if ($search)
             $query->where(function($q) use($search) {
                 $q->where('route_uri', 'like', '%' . $search . '%')
-                        ->orWhere('session_id', 'like', '%' . $search . '%');
+                        ->orWhere('session_id', 'like', '%' . $search . '%')
+                        ->orWhere('ip', 'like', '%' . $search . '%');
             });
         if ($request->get('type'))
             $query->where('type', '=', strtoupper($request->get('type')));
@@ -364,6 +365,7 @@ class InDbPerformanceMonitorController extends Controller {
             $query->where(function($q) use($search) {
                 $q->where('route_uri', 'like', '%' . $search . '%')
                         ->orWhere('session_id', 'like', '%' . $search . '%')
+                        ->orWhere('ip', 'like', '%' . $search . '%')
                         ->orWhere('message', 'like', '%' . $search . '%')
                         ->orWhere('file', 'like', '%' . $search . '%');
             });

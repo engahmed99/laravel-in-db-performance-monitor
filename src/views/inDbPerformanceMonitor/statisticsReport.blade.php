@@ -29,7 +29,7 @@
                             <label for="search">Search</label>
                         </div>
                         <div class="col-md-4">
-                            <input type="text" class="form-control" id="search" name="search" placeholder="Route URI Or Session ID" value="{{request('search')}}">
+                            <input type="text" class="form-control" id="search" name="search" placeholder="Route URI, Session ID, Or IP" value="{{request('search')}}">
                         </div>
                         <div class="col-md-2">
                             <input type="text" class="form-control" id="type" name="type" placeholder="e.x GET,POST,..." value="{{request('type')}}">
@@ -40,7 +40,7 @@
                         <div class="col-md-2">
                             <input type="date" class="form-control" id="from_date" name="from_date" placeholder="From Date" value="{{request('from_date')}}">
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-2" style="text-align: center">
                             <div class="checkbox-inline">
                                 <label>
                                     <input type="checkbox" name="not_archived" id="not_archived" value="1" @if(request('not_archived') == '1'){{'checked'}}@endif > Not Archived
@@ -83,7 +83,6 @@
                         </div>
                         <div class="col-md-2" style="text-align: center">
                             <button type="submit" class="btn btn-primary">Search</button>
-                            <button type="reset" class="btn btn-white">Reset</button>
                         </div>
                     </div>
                 </div>
