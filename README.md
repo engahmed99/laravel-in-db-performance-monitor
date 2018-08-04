@@ -19,6 +19,7 @@ Monitor your laravel application performance by logging requests in your databas
 	      * [/admin-monitor/errors-report](#admin-monitorerrors-report)
 	      * [/admin-monitor/change-password](#admin-monitorchange-password)
    * [Best Practices](#best-practices)
+   * [Generate Dummy Requests](./tests)
    * [Author](#author)
 <!--te-->
 
