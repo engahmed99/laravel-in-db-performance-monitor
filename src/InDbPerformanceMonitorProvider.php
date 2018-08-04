@@ -13,6 +13,10 @@ class InDbPerformanceMonitorProvider extends ServiceProvider {
      */
     public function boot() {
         // Add routes, migrations, and publish files
+        $middleware = ['middleware' => 'web'];
+        $version = substr(app()->version(), 0, 3);
+        if($version == '5.1')
+            $middleware = [];
         include __DIR__ . '/routes.php';
         $this->publishes([
             __DIR__ . '/config/inDbPerformanceMonitor.php' => config_path('inDbPerformanceMonitor.php'),

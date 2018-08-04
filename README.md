@@ -33,7 +33,7 @@ Monitor your laravel application performance by logging requests in your databas
 
 	'providers' => [
 		\\...
-		\ASamir\InDbPerformanceMonitor\InDbPerformanceMonitorProvider::class,
+		ASamir\InDbPerformanceMonitor\InDbPerformanceMonitorProvider::class,
 	]
 
 3- Run `php artisan in-db-performance-monitor:init`
