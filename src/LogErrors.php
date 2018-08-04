@@ -23,11 +23,11 @@ class LogErrors extends Model {
             return;
         // Save Errors Log
         LogErrors::create([
-            'message' => $exception->getMessage(),
+            'message' => str_replace(base_path(), "~BASE_PATH~", $exception->getMessage()),
             'code' => $exception->getCode(),
-            'file' => $exception->getFile(),
+            'file' => str_replace(base_path(), "~BASE_PATH~", $exception->getFile()),
             'line' => $exception->getLine(),
-            'trace' => $exception->getTraceAsString(),
+            'trace' => "<b>BASE_PATH = \"" . base_path() . "\"</b>\n" . str_replace(base_path(), "~BASE_PATH~", $exception->getTraceAsString()),
             'request_id' => request('__asamir_request_id'),
         ]);
 
