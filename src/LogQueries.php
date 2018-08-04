@@ -45,7 +45,7 @@ class LogQueries extends Model {
             'query' => (!is_string($query->sql)) ? $query->sql->getValue() : $query->sql,
             'bindings' => json_encode($query->bindings),
             'time' => $query->time,
-            'connection_name' => ($query->connectionName) ?: 'default',
+            'connection_name' => ($query->connectionName) ?: config('database.default'),
             'is_elequent' => (!is_string($query->sql)) ? 0 : 1,
             'request_id' => request('__asamir_request_id')
         ]);

@@ -193,7 +193,7 @@
                     <th>Line</th><td>{{$logError->line}}</td>
                 </tr>
                 <tr>
-                    <th>Trace</th><td>{!!str_replace('#', '<br/>#', $logError->trace)!!}</td>
+                    <th>Trace</th><td>{!!str_replace("\n", "<br/>---<br/>", $logError->trace)!!}</td>
                 </tr>
                 @else
                 <tr><td>The request has no errors</td></tr>

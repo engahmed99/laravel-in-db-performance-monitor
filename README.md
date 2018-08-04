@@ -18,6 +18,7 @@ Monitor your laravel application performance by logging requests in your databas
 	      * [/admin-monitor/statistics-report](#admin-monitorstatistics-report)
 	      * [/admin-monitor/errors-report](#admin-monitorerrors-report)
 	      * [/admin-monitor/change-password](#admin-monitorchange-password)
+   * [Best Practices](#best-practices)
    * [Author](#author)
 <!--te-->
 
@@ -66,11 +67,13 @@ Monitor your laravel application performance by logging requests in your databas
 
 6- Add this line in **app/Exceptions/Handler.php** => **public function report(Exception $exception)**
 
-    //... For laravel >= 5.3
-    \ASamir\InDbPerformanceMonitor\LogErrors::inDbLogError($exception);
-
-    //..OR.. For laravel < 5.3
-    \ASamir\InDbPerformanceMonitor\LogErrors::inDbLogError($e);
+    public function report(Exception $exception) {
+        //...
+        \ASamir\InDbPerformanceMonitor\LogErrors::inDbLogError($exception);
+        
+        parent::report($exception);
+    }
+    //..Hint For laravel < 5.3 => instead of $exception it will be $e
 
 7- Run `php artisan migrate`
 
@@ -108,6 +111,8 @@ Monitor your laravel application performance by logging requests in your databas
 - **/admin-monitor/change-password** => Change the password of the admin monitor panel.
 - **/admin-monitor/logout** => Logout from the admin monitor panel.
 ### Demo screen shots
+
+**Hint: in the search boxes you can use the like wildcards like %%**
 
 #### /admin-monitor
 
@@ -202,6 +207,27 @@ Statistics report of requests errors by group by page uri, type, and error messa
 
 To change admin monitor panel password.
 ![alt 11-Change_Password.png](screenshots/11-Change_Password.png)
+
+## Best Practices
+
+I was working on a project and my task was to test the application performance and list the requests with performance issues. The problem was that after migrating the data and the database size became larger the application performance decreased and sometimes crashes. Instead of loop on all the application code and check every line on it, I built a listener to log the requests data (queries) run by the application then I analyzed this data and quickly found the requests with weak points. As a result of this, I built the laravel-in-db-performance-monitor package and published it to be used by anyone.
+
+**Here are some tips for best practices:**
+
+- Put the log tables in a separated database, because it's size increase rapidly.
+- Switch the logger on: 
+	- In the development and testing stages to analyze the performance of your requests and check your queries.
+	- In the production for a small period (e.x. first week) to monitor the application performance and understand your users behaviors. After that switch it off (Set IN\_DB\_MONITOR\_WORK=false).
+	- In case of any issue to debug the request queries and error.
+	- Remember to set (IN\_DB\_MONITOR\_PANEL=false) when your application is online, so the /admin-monitor links will not be accessible and set it to true when you want to debug something or review the reports.
+- Use the "Latest By Session ID or IP" to get your last request quickly without searching.
+- Change the password to a complex one.
+- Use the "Statistics Report" to detect the requests which have performance issues by max queries count, max queries time, max execution time, non elequent queries count, and so on. 
+- Use the "Errors Report" to detect the most frequent exceptions happened in your system.
+- Check the generated queries of the third party packages you use.
+- Check the request which preview lists (e.x. list of customers) and make sure that you use pagination and loaded the relations correctly by using the laravel "with()" function.
+	- e.x. if model customer has relation with model orders, and model products and we will display 10 customers => (without "with()" laravel will generate 21 query - but by using "with()" it will be 4 queries only).
+- Check the requests of your dashboards and reports and make sure that you use the sql aggregation functions correctly.
 
 ## Author
 

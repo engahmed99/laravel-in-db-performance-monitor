@@ -60,12 +60,19 @@
                             <select id="order_by" class="form-control" name="order_by" value="{{request('order_by')}}">
                                 <option value="max_queries_time" @if(request('order_by') == 'max_queries_time'){{'selected'}}@endif >Max Queries Time</option>
                                 <option value="min_queries_time" @if(request('order_by') == 'min_queries_time'){{'selected'}}@endif >Min Queries Time</option>
+                                <option value="" disabled="">---------------------------</option>
                                 <option value="max_queries_count" @if(request('order_by') == 'max_queries_count'){{'selected'}}@endif >Max Queries Count</option>
                                 <option value="min_queries_count" @if(request('order_by') == 'min_queries_count'){{'selected'}}@endif >Min Queries Count</option>
+                                <option value="" disabled="">---------------------------</option>
+                                <option value="max_not_elequent_queries_count" @if(request('order_by') == 'max_not_elequent_queries_count'){{'selected'}}@endif >Max Queries Count (Not Elequent)</option>
+                                <option value="min_not_elequent_queries_count" @if(request('order_by') == 'min_not_elequent_queries_count'){{'selected'}}@endif >Min Queries Count (Not Elequent)</option>
+                                <option value="" disabled="">---------------------------</option>
                                 <option value="max_exec_time" @if(request('order_by') == 'max_exec_time'){{'selected'}}@endif >Max Exec. Time</option>
                                 <option value="min_exec_time" @if(request('order_by') == 'min_exec_time'){{'selected'}}@endif >Min Exec. Time</option>
+                                <option value="" disabled="">---------------------------</option>
                                 <option value="requests_count" @if(request('order_by') == 'requests_count'){{'selected'}}@endif >Requests Count</option>
                                 <option value="with_errors_count" @if(request('order_by') == 'with_errors_count'){{'selected'}}@endif >Requests Errors Count</option>
+                                <option value="" disabled="">---------------------------</option>
                                 <option value="route_uri" @if(request('order_by') == 'route_uri'){{'selected'}}@endif >Route URI Name</option>
                             </select>
                         </div>
