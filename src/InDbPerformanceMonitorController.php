@@ -120,7 +120,7 @@ class InDbPerformanceMonitorController extends Controller {
             }
             return redirect('admin-monitor/change-password')->with('alert-danger', 'Passsowrd is Not correct');
         }
-        return view('inDbPerformanceMonitor::change-password');
+        return view('inDbPerformanceMonitor::changePassword');
     }
 
     /**
