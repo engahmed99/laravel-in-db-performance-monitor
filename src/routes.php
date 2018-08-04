@@ -1,6 +1,6 @@
 <?php
 
-Route::group($middleware, function () {
+Route::group($__middleware, function () {
     Route::get('admin-monitor/dashboard', 'ASamir\InDbPerformanceMonitor\InDbPerformanceMonitorController@dashboard');
     Route::get('admin-monitor/requests', 'ASamir\InDbPerformanceMonitor\InDbPerformanceMonitorController@getRequests');
     Route::get('admin-monitor/request/{id}', 'ASamir\InDbPerformanceMonitor\InDbPerformanceMonitorController@showRequest');
