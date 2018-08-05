@@ -52,9 +52,13 @@
             </div>
 
             @yield('content')
+            <div class="container">
+                <div style="text-align: center; padding: 5px; bottom: 0px; width: 100%" class="alert-success">
+                    <h5>© {{date('Y')}} Copyrights: <a href="#">Ahmed Samir</a> | <a href="https://github.com/engahmed99/laravel-in-db-performance-monitor">GitHub</a></h5>
+                </div>
+            </div>
             <br/>
             <br/>
-
         </div>
     </body>
 </html>

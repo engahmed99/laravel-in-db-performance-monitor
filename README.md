@@ -230,6 +230,10 @@ I was working on a project and my task was to test the application performance a
 	- e.x. if model customer has relation with model orders, and model products and we will display 10 customers => (without "with()" laravel will generate 21 query - but by using "with()" it will be 4 queries only).
 - Check the requests of your dashboards and reports and make sure that you use the sql aggregation functions correctly.
 
+--------------------
+
+#### Dummy Data => [Demo](http://asamirdemos.codeagroup.net/admin-monitor "http://asamirdemos.codeagroup.net/admin-monitor") (password=monitor)
+
 ## Author
 
 **Ahmed Samir**

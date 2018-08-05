@@ -19,7 +19,9 @@ class LogErrors extends Model {
      * @return type
      */
     public static function inDbLogError(\Exception $exception) {
-        if (!request('__asamir_request_id'))
+        // Return if request not found
+        // Or the error is from this class [To prevent looping]
+        if (!request('__asamir_request_id') || $exception->getFile() == __DIR__ . '\LogErrors.php')
             return;
         // Save Errors Log
         LogErrors::create([
