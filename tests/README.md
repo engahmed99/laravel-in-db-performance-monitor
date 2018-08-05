@@ -10,7 +10,7 @@
 
  - Create new laravel application >= 5.1.
  - Copy the files in the base_path folder into your laravel base path.
- - In your **config/database.php** create two connections
+ - In your **config/database.php** create two connections + the inDbMonitorConn connection
 	
     	'connections' => [
 	        /**
@@ -35,7 +35,7 @@
 	        /**
 			* used for Ads model
 			*/
-			'mysql' => [
+			'ads_connection' => [
 	            'driver' => 'mysql',
 	            'host' => env('DB_HOST', '127.0.0.1'),
 	            'port' => env('DB_PORT', '3306'),
