@@ -8,9 +8,9 @@ Route::group($__middleware, function () {
     Route::get('admin-monitor/archive-requests', 'ASamir\InDbPerformanceMonitor\InDbPerformanceMonitorController@archiveRequests');
     Route::get('admin-monitor/statistics-report', 'ASamir\InDbPerformanceMonitor\InDbPerformanceMonitorController@statisticsReport');
     Route::get('admin-monitor/errors-report', 'ASamir\InDbPerformanceMonitor\InDbPerformanceMonitorController@errorsReport');
-    route::get('admin-monitor', '\ASamir\InDbPerformanceMonitor\InDbPerformanceMonitorController@index');
-    route::post('admin-monitor', '\ASamir\InDbPerformanceMonitor\InDbPerformanceMonitorController@index');
-    route::get('admin-monitor/logout', '\ASamir\InDbPerformanceMonitor\InDbPerformanceMonitorController@logout');
-    route::get('admin-monitor/change-password', 'ASamir\InDbPerformanceMonitor\InDbPerformanceMonitorController@changePassword');
-    route::post('admin-monitor/change-password', 'ASamir\InDbPerformanceMonitor\InDbPerformanceMonitorController@changePassword');
+    Route::get('admin-monitor', '\ASamir\InDbPerformanceMonitor\InDbPerformanceMonitorController@index');
+    Route::post('admin-monitor', '\ASamir\InDbPerformanceMonitor\InDbPerformanceMonitorController@index');
+    Route::get('admin-monitor/logout', '\ASamir\InDbPerformanceMonitor\InDbPerformanceMonitorController@logout');
+    Route::get('admin-monitor/change-password', 'ASamir\InDbPerformanceMonitor\InDbPerformanceMonitorController@changePassword');
+    Route::post('admin-monitor/change-password', 'ASamir\InDbPerformanceMonitor\InDbPerformanceMonitorController@changePassword');
 });
