@@ -76,7 +76,7 @@
 	To neglict the CSRF check for the jmeter requests
 
 - Run ` php artisan migrate `
-- Open the **Test-Plan-[in-db-performance-monitor].jmx** file by the jmeter.
+- Open the **Test-Plan-[in-db-performance-monitor].jmx** file by the jmeter. [Download Jmeter](https://jmeter.apache.org/ "Download Jmeter")
 - Edit the monitor password if changed in the **User Defined Variables** (default = monitor).
 - Edit the web server info in the **HTTP Request Defaults** (default = http://localhost:8000)
 - At each thread group you can edit the number of threads and number of loops.
