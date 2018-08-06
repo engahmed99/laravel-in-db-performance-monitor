@@ -230,7 +230,7 @@ I was working on a project and my task was to test the application performance a
 	- In case of any issue to debug the request queries and error.
 	- Remember to set (**IN\_DB\_MONITOR\_PANEL**=false) when your application is online, so the /admin-monitor links will not be accessible and set it to true when you want to debug something or review the reports.
 - Set your custom configurations in the **config/inDbPerformanceMonitor.php** file specially the **IN\_DB\_MONITOR\_NEGLICT\_START\_WITH** and **IN\_DB\_MONITOR\_NEGLICT\_PARAMS\_CONTAIN** parameters.
-- Use the "Latest By Session ID or IP" to get your last request quickly without searching.
+- Use the **"Latest By Session ID or IP"** to get your last request quickly without searching.
 - Change the password to a complex one.
 - Use the **"Statistics Report"** to detect the requests which have performance issues by max queries count, max queries time, max execution time, non elequent queries count, and so on. 
 - Use the **"Errors Report"** to detect the most frequent exceptions happened in your system.
