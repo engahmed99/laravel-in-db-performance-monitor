@@ -82,7 +82,7 @@ Monitor your laravel application performance by logging requests in your databas
 
 **Now you can make requests and monitor it at /admin-monitor**
 
-**Remember to open config/inDbPerformanceMonitor.php to set your extra configurations**
+**Remember to open config/inDbPerformanceMonitor.php to set your custom configurations**
 
 ## Documentation
 ### Configurations
