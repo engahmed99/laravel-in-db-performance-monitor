@@ -22,8 +22,10 @@ class InDbPerformanceMonitorSecurityMiddleware {
      * @return mixed
      */
     public function handle($request, Closure $next) {
-        if (!config('inDbPerformanceMonitor.IN_DB_MONITOR_PANEL'))
+        if (!config('inDbPerformanceMonitor.IN_DB_MONITOR_PANEL')) {
+            session()->remove('__asamir_token');
             abort(404);
+        }
         if (!$this->isAuthenticated()) {
             session()->remove('__asamir_token');
             return redirect('admin-monitor');
