@@ -44,7 +44,7 @@ Monitor your laravel application performance by logging requests in your databas
 
     'connections' => [
         //...
-		'inDbMonitorConn' => [
+        'inDbMonitorConn' => [
             'driver' => 'mysql',
             'host' => env('IN_DB_MONITOR_DB_HOST', ''),
             'port' => env('IN_DB_MONITOR_DB_PORT', '3306'),
@@ -82,6 +82,8 @@ Monitor your laravel application performance by logging requests in your databas
 
 **Now you can make requests and monitor it at /admin-monitor**
 
+**Remember to open config/inDbPerformanceMonitor.php to set your extra configurations**
+
 ## Documentation
 ### Configurations
 
@@ -95,6 +97,12 @@ Monitor your laravel application performance by logging requests in your databas
 	- **IN\_DB\_MONITOR\_TOKEN** => Holds the admin-monitor passowrd token (default password = monitor)
 
 	- **IN\_DB\_MONITOR\_NEGLICT\_START\_WITH** => Array of routes to neglict from log (e.x. /test so any request start with /test will not be  logged in the DB)
+
+	- **IN\_DB\_MONITOR\_NEGLICT\_REQUEST\_DATA** => If true request data will not be logged and will be replaced with ['%\_\_ALL\_HIDDEN\_\_%'] (default = false)
+	
+	- **IN\_DB\_MONITOR\_NEGLICT\_PARAMS\_CONTAIN** => Fields in the request which contain any of these names will not be logged and it will be replaced with %\_HIDDEN\_%
+
+	- **IN\_DB\_MONITOR\_NEGLICT\_SESSION\_DATA** => If true session data will not be logged and will be replaced with ['%\_\_ALL\_HIDDEN\_\_%'] and will log the session id only (default = false)
 	
 	- **IN\_DB\_MONITOR\_LOG\_PACKAGE\_QUERIES** => If true log queries made by the package in your laravel log (default = false)
 	
@@ -218,13 +226,14 @@ I was working on a project and my task was to test the application performance a
 - Put the log tables in a separated database, because it's size increase rapidly.
 - Switch the logger on: 
 	- In the development and testing stages to analyze the performance of your requests and check your queries.
-	- In the production for a small period (e.x. first week) to monitor the application performance and understand your users behaviors. After that switch it off (Set IN\_DB\_MONITOR\_WORK=false).
+	- In the production for a small period (e.x. first week) to monitor the application performance and understand your users behaviors. After that switch it off (Set **IN\_DB\_MONITOR\_WORK**=false).
 	- In case of any issue to debug the request queries and error.
-	- Remember to set (IN\_DB\_MONITOR\_PANEL=false) when your application is online, so the /admin-monitor links will not be accessible and set it to true when you want to debug something or review the reports.
+	- Remember to set (**IN\_DB\_MONITOR\_PANEL**=false) when your application is online, so the /admin-monitor links will not be accessible and set it to true when you want to debug something or review the reports.
+- Set your custom configurations in the **config/inDbPerformanceMonitor.php** file specially the **IN\_DB\_MONITOR\_NEGLICT\_START\_WITH** and **IN\_DB\_MONITOR\_NEGLICT\_PARAMS\_CONTAIN** parameters.
 - Use the "Latest By Session ID or IP" to get your last request quickly without searching.
 - Change the password to a complex one.
-- Use the "Statistics Report" to detect the requests which have performance issues by max queries count, max queries time, max execution time, non elequent queries count, and so on. 
-- Use the "Errors Report" to detect the most frequent exceptions happened in your system.
+- Use the **"Statistics Report"** to detect the requests which have performance issues by max queries count, max queries time, max execution time, non elequent queries count, and so on. 
+- Use the **"Errors Report"** to detect the most frequent exceptions happened in your system.
 - Check the generated queries of the third party packages you use.
 - Check the request which preview lists (e.x. list of customers) and make sure that you use pagination and loaded the relations correctly by using the laravel "with()" function.
 	- e.x. if model customer has relation with model orders, and model products and we will display 10 customers => (without "with()" laravel will generate 21 query - but by using "with()" it will be 4 queries only).

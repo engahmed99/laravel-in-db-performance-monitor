@@ -29,10 +29,12 @@ class InDbPerformanceMonitorMiddleware {
      */
     public function terminate($request, $response) {
         //
-        if ($request->input('__asamir_request_id'))
-        {
+        if ($request->input('__asamir_request_id')) {
             $session_data = session()->all();
             unset($session_data['__asamir_token']);
+            if ($session_data && config('inDbPerformanceMonitor.IN_DB_MONITOR_NEGLICT_SESSION_DATA') == true)
+                $session_data = ['%__ALL_HIDDEN__%'];
+
             LogRequests::find($request->input('__asamir_request_id'))->update([
                 'session_id' => session()->getId(),
                 'session_data' => json_encode($session_data),

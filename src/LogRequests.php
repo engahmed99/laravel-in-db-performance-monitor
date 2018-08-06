@@ -25,14 +25,32 @@ class LogRequests extends Model {
 
         $req = LogRequests::create([
                     'action' => request()->getPathInfo(),
-                    'parameters' => json_encode(request()->all()),
+                    'parameters' => json_encode(self::getRequestFields()),
                     'type' => strtoupper(request()->method() . ((request()->ajax()) ? '-AJAX' : '')),
                     'url' => request()->url(),
-                    'session_serrialized' => serialize(session()->all()),
                     'ip' => request()->ip(),
         ]);
         request()->request->add(['__asamir_request_id' => $req->id]);
         LogQueries::inDbLogQueries();
+    }
+
+    /**
+     * Return request data after adjusting hidden parameters
+     * @return array
+     */
+    public static function getRequestFields() {
+        $data = request()->all();
+        if (!$data)
+            return $data;
+        if (config('inDbPerformanceMonitor.IN_DB_MONITOR_NEGLICT_REQUEST_DATA') == true)
+            return ['%__ALL_HIDDEN__%'];
+
+        $neglict = config('inDbPerformanceMonitor.IN_DB_MONITOR_NEGLICT_PARAMS_CONTAIN');
+        foreach ($data as $k => $v)
+            foreach ($neglict as $n)
+                if (strpos(trim(strtolower($k)), trim(strtolower($n))) !== false)
+                    $data[$k] = '%_HIDDEN_%';
+        return $data;
     }
 
     /**

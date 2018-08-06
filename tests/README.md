@@ -14,10 +14,10 @@
 	
     	'connections' => [
 	        /**
-			* This is the base connection
-			* used for Customers, Products, and Orders models
-			*/
-			'mysql' => [
+                * This is the base connection
+                * used for Customers, Products, and Orders models
+                */
+                'mysql' => [
 	            'driver' => 'mysql',
 	            'host' => env('DB_HOST', '127.0.0.1'),
 	            'port' => env('DB_PORT', '3306'),
@@ -33,9 +33,9 @@
 	        ],
 	
 	        /**
-			* used for Ads model
-			*/
-			'ads_connection' => [
+                * used for Ads model
+                */
+                'ads_connection' => [
 	            'driver' => 'mysql',
 	            'host' => env('DB_HOST', '127.0.0.1'),
 	            'port' => env('DB_PORT', '3306'),
@@ -49,7 +49,7 @@
 	            'strict' => true,
 	            'engine' => null,
 	        ],
-		]
+        ]
 
 	You can give them the same configurations or not, as you like, we use two connections to test the log behavior with multiple queries connections.
 
