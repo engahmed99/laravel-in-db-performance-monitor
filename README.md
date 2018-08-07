@@ -241,7 +241,7 @@ I was working on a project and my task was to test the application performance a
 
 --------------------
 
-#### Dummy Data => [Demo](http://asamirdemos.codeagroup.net/admin-monitor "http://asamirdemos.codeagroup.net/admin-monitor") (password=monitor)
+#### Dummy Data => [Demo](http://asamirdemos.codeagroup.net/admin-monitor "http://asamirdemos.codeagroup.net") (password=monitor)
 
 ## Author
 

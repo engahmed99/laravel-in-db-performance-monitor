@@ -4,7 +4,7 @@
 
 ## Generating Dummy Requests Using Jmeter
 
-#### Dummy Data => [Demo](http://asamirdemos.codeagroup.net/admin-monitor "http://asamirdemos.codeagroup.net/admin-monitor") (password=monitor)
+#### Dummy Data => [Demo](http://asamirdemos.codeagroup.net/admin-monitor "http://asamirdemos.codeagroup.net") (password=monitor)
 
 ### Setup
 
@@ -87,7 +87,6 @@
 
 --------------------
 
-#### Dummy Data => [Demo](http://asamirdemos.codeagroup.net/admin-monitor "http://asamirdemos.codeagroup.net/admin-monitor") (password=monitor)
 
 ## Author
 
