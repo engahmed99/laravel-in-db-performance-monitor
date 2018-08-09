@@ -60,7 +60,7 @@
             <h2 class="panel-title">Query Result - Script executed in <b>{{$exec_time}}</b> s, Returned <b>{{count($results)}}</b> records</h2> 
         </div> 
         <div class="panel-body">
-            @if(is_array($results))
+            @if(is_array($results) && count($results)>0)
             @foreach ($results as $i=>$res)
             <p>
                 <button class="btn btn-success" type="button" data-toggle="collapse" data-target="#res-{{($i+1)}}" aria-expanded="@if($i==0){{'true'}}@else{{'false'}}@endif" aria-controls="res-{{($i+1)}}" style="width: 100%">
