@@ -38,8 +38,8 @@
                             <td style="text-align: center">{{$logQuery->created_at}}</td>
                             <td>
                                 <div class="row">
-                                    <div class="col-md-8"><div class="well" style="background-color: white">{{$logQuery->query}}</div></div>
-                                    <div class="col-md-4"><div class="well" style="background-color: white">{{$logQuery->getBindingsPrint()}}</div></div>
+                                    <div class="col-md-7"><div class="well" style="background-color: white">{{$logQuery->query}}</div></div>
+                                    <div class="col-md-5"><div class="well" style="background-color: white"><pre>{{$logQuery->getBindingsPrint()}}</pre></div></div>
                                 </div>                                                        
                             </td>
                             <td style="text-align: center">

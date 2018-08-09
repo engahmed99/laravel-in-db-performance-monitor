@@ -67,7 +67,7 @@ $(function () {
                                 <li @if(request()->getPathInfo() == '/admin-monitor/statistics-report') class="active" @endif><a href="{{url('admin-monitor/statistics-report')}}" class="">Statistics Report</a></li>
                                 <li @if(request()->getPathInfo() == '/admin-monitor/errors-report') class="active" @endif><a href="{{url('admin-monitor/errors-report')}}" class="">Errors Report</a></li>
                                 <li @if(substr(request()->getPathInfo(), 0, 23) == '/admin-monitor/request/') class="active" @endif role="presentation" class="dropdown">
-                                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                                     <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
                                         Latest By <span class="caret"></span>
                                     </a>
                                     <ul class="dropdown-menu">
@@ -89,9 +89,11 @@ $(function () {
                     @endif
                     @endforeach
                 </div>
+                @if(session('__asamir_token'))
                 <div style="padding: 0px; margin: 0px">
                     <h5 style="text-align: center;"><span class="label label-warning">Your Session ID = {{session()->getId()}}</span> - <span class="label label-warning">Your IP = {{request()->ip()}} </span></h5>
                 </div>
+                @endif
             </div>
             @yield('content')
             <div class="container">

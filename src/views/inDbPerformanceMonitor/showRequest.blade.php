@@ -106,7 +106,7 @@
                                 <label for="search">Search</label>
                             </div>
                             <div class="col-md-5">
-                                <textarea class="form-control" id="search" name="search" placeholder="Query, Bindings, Or Connection Name">{{request('search')}}</textarea>
+                                <textarea class="form-control" id="search" name="search" placeholder="Query, Bindings, Or Connection Name => You can use the like wildcards e.x. select * from%">{{request('search')}}</textarea>
                             </div>
                             <div class="col-md-6">
                                 <div class="row">
@@ -163,9 +163,9 @@
                         <tr>
                             <th style="text-align: center">#</th>
                             <th>Query</th>
+                            <th style="text-align: center">Repeated</th>
                             <th style="text-align: center">Total Time</th>
                             <th style="text-align: center">Connection Name</th>
-                            <th style="text-align: center">Repeated</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -173,16 +173,16 @@
                     <tr>
                         <th style="text-align: center">{!!($i+1+(($logQueries->currentPage()-1)*$logQueries->perPage()))!!}</th>
                         <td><textarea readonly="" class="form-control">{{$query->query2}}</textarea></td>
-                        <td style="text-align: center">{{$query->sum_t}} ms<br/>
-                            {{($query->sum_t/1000)}} s
-                        </td>
-                        <td style="text-align: center">{{$query->connection_name2}}</td>
                         <td><ul>
                                 <li style="color: red"><b>Non Elequent:</b> {{$query->non_elequent_c}}</li>
                                 <li style="color: green"><b>Elequent:</b> {{$query->elequent_c}}</li>
                                 <li><b>Total:</b> {{$query->total_c}}</li>
                             </ul>
                         </td>
+                        <td style="text-align: center">{{$query->sum_t}} ms<br/>
+                            {{($query->sum_t/1000)}} s
+                        </td>
+                        <td style="text-align: center">{{$query->connection_name2}}</td>
                         <td style="text-align: center"><br/><a href="{{url('admin-monitor/run-query/'.$query->last_id)}}">Run Last Query</a></td>
                     </tr>
                     @empty
