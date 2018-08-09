@@ -29,7 +29,7 @@
                             <label for="search">Search</label>
                         </div>
                         <div class="col-md-4">
-                            <input type="text" class="form-control" id="search" name="search" placeholder="Route URI, Session ID, Or IP" value="{{request('search')}}">
+                            <input type="text" class="form-control" id="search" name="search" placeholder="Route URI, Session ID, Or IP" value="{{request('search')}}" data-toggle="tooltip" data-placement="right" title="Remember: you can use sql like wildcards like % or _ e.x. %/customers%, /sales%">
                         </div>
                         <div class="col-md-2">
                             <input type="text" class="form-control" id="type" name="type" placeholder="e.x GET,POST,..." value="{{request('type')}}">

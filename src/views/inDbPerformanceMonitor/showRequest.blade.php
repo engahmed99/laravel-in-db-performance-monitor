@@ -106,7 +106,7 @@
                                 <label for="search">Search</label>
                             </div>
                             <div class="col-md-5">
-                                <textarea class="form-control" id="search" name="search" placeholder="Query, Bindings, Or Connection Name => You can use the like wildcards e.x. select * from%">{{request('search')}}</textarea>
+                                <textarea class="form-control" id="search" name="search" placeholder="Query, Bindings, Or Connection Name => e.x. select * from%" data-toggle="tooltip" data-placement="right" title="Remember: you can use sql like wildcards like % or _ e.x. %/customers%, /sales%">{{request('search')}}</textarea>
                             </div>
                             <div class="col-md-6">
                                 <div class="row">
@@ -136,7 +136,7 @@
                                         </div>
                                         <div class="checkbox-inline">
                                             <label>
-                                                <input type="checkbox" name="distinct_view" id="distinct_view" value="1" @if(request('distinct_view') == '1'){{'checked'}}@endif > Distinct View
+                                                <input type="checkbox" name="distinct_view" id="distinct_view" value="1" @if(request('distinct_view') == '1'){{'checked'}}@endif > View Distinct Queries
                                             </label>
                                         </div>
                                     </div>
@@ -233,6 +233,7 @@
                     @endforelse
                 </table>
             </div>
+            @endif
             <div class="row" align='center'>
                 @if($app_version_less_2)
                 {!!$logQueries->appends(request()->all())->render()!!}
@@ -240,7 +241,6 @@
                 {{$logQueries->appends(request()->all())->links()}}
                 @endif
             </div>
-            @endif
         </div> 
     </div>
     <div class="panel panel-danger"> 

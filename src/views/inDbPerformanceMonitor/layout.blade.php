@@ -14,6 +14,7 @@
         <script src="{{ asset('js/inDbPerformanceMonitor.js') }}"></script>
         <script>
 $(function () {
+    $('[data-toggle="tooltip"]').tooltip();
     // Animate textareas
     $("textarea").not('.query-textarea, .bind-textarea').focus(function () {
         $(this).attr('data-cols', $(this)[0].cols);
