@@ -87,36 +87,38 @@
 
     <div class="alert-info" style="text-align: center"><h4 class="">Page {{$errors_stats->currentPage()}} of {{$errors_stats->lastPage()}} - Display {{$errors_stats->count()}} of {{$errors_stats->total()}} Records</h4></div>   
 
-    <table class="table table-hover table-striped table-bordered">
-        <thead>
-            <tr>
-                <th style="text-align: center">#</th>
-                <th>Route URI</th>
-                <th style="text-align: center">Error Message</th>
-                <th style="text-align: center">Errors Count</th>
-                <th style="text-align: center"></th>                
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($errors_stats as $i => $stat)
-            <tr>
-                <th style="text-align: center">{{($i+1+(($errors_stats->currentPage()-1)*$errors_stats->perPage()))}}</th>
-                <th style="text-align: center">{{$stat->route_uri}}
-                    <br/><span class="label label-success">{{$stat->type}}</span>
-                    @if($stat->has_errors == '1')
-                    <span class="label label-danger">Error</span>
-                    @endif
-                    @if($stat->is_json_response == '1')
-                    <span class="label label-warning">JSON Response</span>
-                    @endif
-                </th>
-                <td style="text-align: center;">{{$stat->message}}</td>
-                <td style="text-align: center;color: red">{{$stat->errors_count}}</td>
-                <td style="text-align: center"><a href="{{url('admin-monitor/request/'.$stat->last_id)}}" class="btn btn-danger">Show Last Request</a></td>
-            </tr>
-            @endforeach
-        </tbody>
-    </table>
+    <div class="table-responsive">
+        <table class="table table-hover table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th style="text-align: center">#</th>
+                    <th>Route URI</th>
+                    <th style="text-align: center">Error Message</th>
+                    <th style="text-align: center">Errors Count</th>
+                    <th style="text-align: center"></th>                
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($errors_stats as $i => $stat)
+                <tr>
+                    <th style="text-align: center">{{($i+1+(($errors_stats->currentPage()-1)*$errors_stats->perPage()))}}</th>
+                    <th style="text-align: center">{{$stat->route_uri}}
+                        <br/><span class="label label-success">{{$stat->type}}</span>
+                        @if($stat->has_errors == '1')
+                        <span class="label label-danger">Error</span>
+                        @endif
+                        @if($stat->is_json_response == '1')
+                        <span class="label label-warning">JSON Response</span>
+                        @endif
+                    </th>
+                    <td style="text-align: center;">{{$stat->message}}</td>
+                    <td style="text-align: center;color: red">{{$stat->errors_count}}</td>
+                    <td style="text-align: center"><a href="{{url('admin-monitor/request/'.$stat->last_id)}}" class="btn btn-danger">Show Last Request</a></td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
     <div class="row" align='center'>
         @if($app_version_less_2)
         {!!$errors_stats->appends(request()->all())->render()!!}

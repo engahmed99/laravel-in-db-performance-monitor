@@ -20,39 +20,44 @@
         </div> 
         <div class="panel-body">
             <a href="{{url('admin-monitor/request/'.$logQuery->request_id)}}" style="left: 0px; display: inline">Return to Request</a>
-            <table class="table table-hover table-striped table-bordered">
-                <thead>
-                    <tr>
-                        <th style="text-align: center">ID</th>
-                        <th style="text-align: center">Creation Date</th>
-                        <th>Query</th>
-                        <th>Bindings</th>
-                        <th style="text-align: center">Time</th>
-                        <th style="text-align: center">Connection Name</th>
-                        <th style="text-align: center">Is Elequent</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td style="text-align: center">{{$logQuery->id}}</td>
-                        <td style="text-align: center">{{$logQuery->created_at}}</td>
-                        <td><textarea readonly="" class="form-control">{{$logQuery->query}}</textarea></td>
-                        <td><textarea readonly="" class="form-control">{{$logQuery->bindings}}</textarea></td>
-                        <td style="text-align: center">
-                            {{$logQuery->time}} ms<br/>
-                            {{($logQuery->time/1000)}} s
-                        </td>
-                        <td style="text-align: center">{{$logQuery->connection_name}}</td>
-                        <td style="text-align: center">{{$logQuery->is_elequent}}</td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="table-responsive">
+                <table class="table table-hover table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th style="text-align: center">ID</th>
+                            <th style="text-align: center">Creation Date</th>
+                            <th style="text-align: center">Query & Bindings</th>
+                            <th style="text-align: center">Time</th>
+                            <th style="text-align: center">Connection Name</th>
+                            <th style="text-align: center">Is Elequent</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="text-align: center">{{$logQuery->id}}</td>
+                            <td style="text-align: center">{{$logQuery->created_at}}</td>
+                            <td>
+                                <div class="row">
+                                    <div class="col-md-8"><div class="well" style="background-color: white">{{$logQuery->query}}</div></div>
+                                    <div class="col-md-4"><div class="well" style="background-color: white">{{$logQuery->getBindingsPrint()}}</div></div>
+                                </div>                                                        
+                            </td>
+                            <td style="text-align: center">
+                                {{$logQuery->time}} ms<br/>
+                                {{($logQuery->time/1000)}} s
+                            </td>
+                            <td style="text-align: center">{{$logQuery->connection_name}}</td>
+                            <td style="text-align: center">@if($logQuery->is_elequent == 1) Yes @else No @endif</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 
     <div class="panel panel-success"> 
         <div class="panel-heading text-center"> 
-            <h2 class="panel-title">Query Result - Script executed in {{$exec_time}} s, Returned {{count($results)}} records</h2> 
+            <h2 class="panel-title">Query Result - Script executed in <b>{{$exec_time}}</b> s, Returned <b>{{count($results)}}</b> records</h2> 
         </div> 
         <div class="panel-body">
             @if(is_array($results))

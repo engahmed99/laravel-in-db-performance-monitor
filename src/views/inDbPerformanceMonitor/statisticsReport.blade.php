@@ -100,55 +100,57 @@
 
     <div class="alert-info" style="text-align: center"><h4 class="">Page {{$statistics->currentPage()}} of {{$statistics->lastPage()}} - Display {{$statistics->count()}} of {{$statistics->total()}} Records</h4></div>   
 
-    <table class="table table-hover table-striped table-bordered">
-        <thead>
-            <tr>
-                <th style="text-align: center">#</th>
-                <th>Route URI</th>
-                <th style="text-align: center">Queries Count</th>
-                <th style="text-align: center">Queries Time</th>
-                <th style="text-align: center">Exec Time</th>
-                <th style="text-align: center">Requests Count</th>
-                <th style="text-align: center"></th>                
+    <div class="table-responsive">
+        <table class="table table-hover table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th style="text-align: center">#</th>
+                    <th>Route URI</th>
+                    <th style="text-align: center">Queries Count</th>
+                    <th style="text-align: center">Queries Time</th>
+                    <th style="text-align: center">Exec Time</th>
+                    <th style="text-align: center">Requests Count</th>
+                    <th style="text-align: center"></th>                
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($statistics as $i => $stat)
+                <tr>
+                    <th style="text-align: center">{{($i+1+(($statistics->currentPage()-1)*$statistics->perPage()))}}</th>
+                    <th style="text-align: center">{{$stat->route_uri}}
+                        <br/><span class="label label-success">{{$stat->type}}</span>
+                        @if($stat->has_errors == '1')
+                        <span class="label label-danger">Error</span>
+                        @endif
+                        @if($stat->is_json_response == '1')
+                        <span class="label label-warning">JSON Response</span>
+                        @endif
+                    </th>
+                    <td>
+            <li><b>Min:</b> {{$stat->min_queries_count}} &rarr; <span style="color: red" title="Not elequent queries">({{$stat->min_not_elequent_queries_count}})</span></li>
+            <li><b>Max:</b> {{$stat->max_queries_count}} &rarr; <span style="color: red" title="Not elequent queries">({{$stat->max_not_elequent_queries_count}})</span></li>
+            </td>
+            <td>
+            <li><b>Min:</b> {{round($stat->min_queries_time, 3)}} ms</li>
+            <li><b>Avg:</b> {{round($stat->avg_queries_time, 3)}} ms</li>
+            <li><b>Max:</b> {{round($stat->max_queries_time, 3)}} ms</li>
+            </td>
+            <td>
+            <li><b>Min:</b> {{round($stat->min_exec_time, 3)}} s</li>
+            <li><b>Avg:</b> {{round($stat->avg_exec_time, 3)}} s</li>
+            <li><b>Max:</b> {{round($stat->max_exec_time, 3)}} s</li>
+            </td>
+            <td>
+            <li style="color: red"><b>With Errors:</b> {{$stat->with_errors_count}}</li>
+            <li style="color: green"><b>Without Errors:</b> {{$stat->with_no_errors_count}}</li>
+            <li><b>Total:</b> {{$stat->requests_count}}</li>
+            </td>
+            <td style="text-align: center"><br/><a href="{{url('admin-monitor/request/'.$stat->last_id)}}" class="btn btn-danger">Show Last Request</a></td>
             </tr>
-        </thead>
-        <tbody>
-            @foreach ($statistics as $i => $stat)
-            <tr>
-                <th style="text-align: center">{{($i+1+(($statistics->currentPage()-1)*$statistics->perPage()))}}</th>
-                <th style="text-align: center">{{$stat->route_uri}}
-                    <br/><span class="label label-success">{{$stat->type}}</span>
-                    @if($stat->has_errors == '1')
-                    <span class="label label-danger">Error</span>
-                    @endif
-                    @if($stat->is_json_response == '1')
-                    <span class="label label-warning">JSON Response</span>
-                    @endif
-                </th>
-                <td>
-        <li><b>Min:</b> {{$stat->min_queries_count}} &rarr; <span style="color: red" title="Not elequent queries">({{$stat->min_not_elequent_queries_count}})</span></li>
-        <li><b>Max:</b> {{$stat->max_queries_count}} &rarr; <span style="color: red" title="Not elequent queries">({{$stat->max_not_elequent_queries_count}})</span></li>
-        </td>
-        <td>
-        <li><b>Min:</b> {{round($stat->min_queries_time, 3)}} ms</li>
-        <li><b>Avg:</b> {{round($stat->avg_queries_time, 3)}} ms</li>
-        <li><b>Max:</b> {{round($stat->max_queries_time, 3)}} ms</li>
-        </td>
-        <td>
-        <li><b>Min:</b> {{round($stat->min_exec_time, 3)}} s</li>
-        <li><b>Avg:</b> {{round($stat->avg_exec_time, 3)}} s</li>
-        <li><b>Max:</b> {{round($stat->max_exec_time, 3)}} s</li>
-        </td>
-        <td>
-        <li style="color: red"><b>With Errors:</b> {{$stat->with_errors_count}}</li>
-        <li style="color: green"><b>Without Errors:</b> {{$stat->with_no_errors_count}}</li>
-        <li><b>Total:</b> {{$stat->requests_count}}</li>
-        </td>
-        <td style="text-align: center"><br/><a href="{{url('admin-monitor/request/'.$stat->last_id)}}" class="btn btn-danger">Show Last Request</a></td>
-        </tr>
-        @endforeach
-        </tbody>
-    </table>
+            @endforeach
+            </tbody>
+        </table>
+    </div>
     <div class="row" align='center'>
         @if($app_version_less_2)
         {!!$statistics->appends(request()->all())->render()!!}

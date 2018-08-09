@@ -117,57 +117,59 @@
 
     <div class="alert-info" style="text-align: center"><h4 class="">Page {{$requests->currentPage()}} of {{$requests->lastPage()}} - Display {{$requests->count()}} of {{$requests->total()}} Records</h4></div>
 
-    <table class="table table-hover table-striped table-bordered">
-        <thead>
-            <tr>
-                <th style="text-align: center"># (ID)</th>
-                <th style="text-align: center">Creation Date</th>
-                <th>Action</th>
-                <th style="text-align: center">Queries Count</th>
-                <th style="text-align: center">Queries Time</th>
-                <th style="text-align: center">Exec Time</th>
-                <th style="text-align: center">Session</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($requests as $i => $req)
-            <tr>
-                <th rowspan="2" style="text-align: center">{!!($i+1+(($requests->currentPage()-1)*$requests->perPage())).' <span class="label label-info">('.$req->id.')</span>'!!}</th>
-                <th rowspan="2" style="text-align: center"><a href="{{url('admin-monitor/request/'.$req->id)}}">{{$req->created_at}} --></a> <br/><br/><span class="label label-default">Archive: {{$req->archive_tag}}</span></th>
-                <td rowspan="2">
-        <li><b>Action:</b> {{$req->action}}</li>
-        <li><b>Route URI:</b> {{$req->route_uri}}</li>
-        <li><b>Route Static:</b> {{$req->route_static_prefix}}</li>
-        <li><b>IP:</b> {{$req->ip}}</li>
-        <li><b>URL:</b> {{$req->url}}</li>
-        </td>
-        <td style="text-align: center">{{$req->queries_total_count}} &rarr; <span style="color: red" title="Not elequent queries">({{$req->queries_not_elequent_count}})</span></td>
-        <td style="text-align: center">
-            {{$req->queries_total_time}} ms <br/>
-            {{$req->queries_total_time/1000}} s
-        </td>
-        <td style="text-align: center">{{$req->exec_time}} s</td>
-        <td rowspan="2" style="text-align: center">
-            <p><b>Session ID:</b> {{$req->session_id}}</p>
-            <p><b>Session Data:</b><textarea readonly="" class="form-control">{{ $req->session_data }}</textarea></p>
-        </td>
-        </tr>
-        <tr>
-            <td colspan="3" style="text-align: center">
-                <b>Parameters: </b>
-                <span class="label label-success">{{$req->type}}</span>
-                @if($req->has_errors == '1')
-                <span class="label label-danger" title="@if($req->error){{$req->error->message.' => file '.$req->error->file.' => line:'.$req->error->line }}@endif">Error</span>
-                @endif
-                @if($req->is_json_response == '1')
-                <span class="label label-warning">JSON Response</span>
-                @endif
-                <textarea readonly="" class="form-control">{{ $req->parameters }}</textarea>
+    <div class="table-responsive">
+        <table class="table table-hover table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th style="text-align: center"># (ID)</th>
+                    <th style="text-align: center">Creation Date</th>
+                    <th>Action</th>
+                    <th style="text-align: center">Queries Count</th>
+                    <th style="text-align: center">Queries Time</th>
+                    <th style="text-align: center">Exec Time</th>
+                    <th style="text-align: center">Session</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($requests as $i => $req)
+                <tr>
+                    <th rowspan="2" style="text-align: center">{!!($i+1+(($requests->currentPage()-1)*$requests->perPage())).' <span class="label label-info">('.$req->id.')</span>'!!}</th>
+                    <th rowspan="2" style="text-align: center"><a href="{{url('admin-monitor/request/'.$req->id)}}">{{$req->created_at}} --></a> <br/><br/><span class="label label-default">Archive: {{$req->archive_tag}}</span></th>
+                    <td rowspan="2">
+            <li><b>Action:</b> {{$req->action}}</li>
+            <li><b>Route URI:</b> {{$req->route_uri}}</li>
+            <li><b>Route Static:</b> {{$req->route_static_prefix}}</li>
+            <li><b>IP:</b> {{$req->ip}}</li>
+            <li><b>URL:</b> {{$req->url}}</li>
             </td>
-        </tr>
-        @endforeach
-        </tbody>
-    </table>
+            <td style="text-align: center">{{$req->queries_total_count}} &rarr; <span style="color: red" title="Not elequent queries">({{$req->queries_not_elequent_count}})</span></td>
+            <td style="text-align: center">
+                {{$req->queries_total_time}} ms <br/>
+                {{$req->queries_total_time/1000}} s
+            </td>
+            <td style="text-align: center">{{$req->exec_time}} s</td>
+            <td rowspan="2" style="text-align: center">
+                <p><b>Session ID:</b> {{$req->session_id}}</p>
+                <p><b>Session Data:</b><textarea readonly="" class="form-control">{{ $req->session_data }}</textarea></p>
+            </td>
+            </tr>
+            <tr>
+                <td colspan="3" style="text-align: center">
+                    <b>Parameters: </b>
+                    <span class="label label-success">{{$req->type}}</span>
+                    @if($req->has_errors == '1')
+                    <span class="label label-danger" title="@if($req->error){{$req->error->message.' => file '.$req->error->file.' => line:'.$req->error->line }}@endif">Error</span>
+                    @endif
+                    @if($req->is_json_response == '1')
+                    <span class="label label-warning">JSON Response</span>
+                    @endif
+                    <textarea readonly="" class="form-control">{{ $req->parameters }}</textarea>
+                </td>
+            </tr>
+            @endforeach
+            </tbody>
+        </table>
+    </div>
     <div class="row" align='center'>
         @if($app_version_less_2)
         {!!$requests->appends(request()->all())->render()!!}

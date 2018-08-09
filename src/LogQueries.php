@@ -66,4 +66,15 @@ class LogQueries extends Model {
         return $this->belongsTo('LogRequests', 'request_id');
     }
 
+    public function getBindingsPrint() {
+        $arr = json_decode($this->bindings, true);
+        $print = print_r($arr, true);
+        $lines = explode("\n", $print);
+        $final = "";
+        foreach ($lines as $i => $l)
+            if ($i > 1 && $i < (count($arr) + 2))
+                $final .= trim($l) . "\n";
+        return $final;
+    }
+
 }

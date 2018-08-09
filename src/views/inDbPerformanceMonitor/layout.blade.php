@@ -11,7 +11,31 @@
         <title>Admin Monitor | @yield('title')</title>
 
         <!-- Scripts -->
-        <script src="{{ asset('js/inDbPerformanceMonitor.js') }}" defer></script>
+        <script src="{{ asset('js/inDbPerformanceMonitor.js') }}"></script>
+        <script>
+$(function () {
+    // Animate textareas
+    $("textarea").not('.query-textarea, .bind-textarea').focus(function () {
+        $(this).attr('data-cols', $(this)[0].cols);
+        $(this).attr('data-rows', $(this)[0].rows);
+        var cols = $(this)[0].cols;
+        var lines_c = 0;
+        $.each($(this).html().split("\n"), function (i, l) {
+            lines_c += Math.ceil(l.length / cols); // Take into account long lines
+        });
+        $(this).animate({
+            'rows': lines_c
+        }, 200);
+    });
+    $("textarea").not('.query-textarea, .bind-textarea').blur(function () {
+        $(this).animate({
+            'cols': $(this).attr('data-cols'),
+            'rows': $(this).attr('data-rows')
+        }, 200);
+    });
+
+});
+        </script>
         @stack('scripts')
 
         <!-- Styles -->
@@ -23,25 +47,41 @@
         <div id="app">
             <br/>
             <div class="container">
-                <div class="row" style="padding: 0px; margin: 0px; line-height: 0px">
-                    <div class="col-md-12" style="padding: 0px; margin: 0px">
-                        @if(session('__asamir_token'))
-                        <ol class="breadcrumb">
-                            <li><a href="{{url('admin-monitor/dashboard')}}" class="">Dashboard</a></li>
-                            <li><a href="{{url('admin-monitor/requests')}}" class="">Requests List</a></li>
-                            <li><a href="{{url('admin-monitor/statistics-report')}}" class="">Statistics Report</a></li>
-                            <li><a href="{{url('admin-monitor/errors-report')}}" class="">Errors Report</a></li>
-                            <li>Latest By 
-                                <a href="{{url('admin-monitor/request/-1')}}" class="">Session ID</a>
-                                or
-                                <a href="{{url('admin-monitor/request/-2')}}" class="">IP</a></li>
-                            <li><a href="{{url('admin-monitor/change-password')}}" class="">Change Password</a></li>
-                            <li><a href="{{url('admin-monitor/logout')}}" class="">Exit</a></li>
-                            <li style="float: right"><h5 style="text-align: right; bottom: 0px"><span class="label label-warning">Your Session ID = {{session()->getId()}}</span> - <span class="label label-warning">Your IP = {{request()->ip()}} </span></h5></li>
-                        </ol>           
-                        @endif
-                    </div>
-                </div>
+
+                @if(session('__asamir_token'))
+                <nav class="navbar navbar-default" style=""> 
+                    <div class="container-fluid"> 
+                        <div class="navbar-header"> 
+                            <button type="button" class="collapsed navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-9" aria-expanded="false"> 
+                                <span class="sr-only">Toggle navigation</span> 
+                                <span class="icon-bar"></span> 
+                                <span class="icon-bar"></span> 
+                                <span class="icon-bar"></span> 
+                            </button> 
+                            <a href="#" class="navbar-brand">Admin Monitor</a> 
+                        </div> 
+                        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-9"> 
+                            <ul class="nav navbar-nav"> 
+                                <li @if(request()->getPathInfo() == '/admin-monitor/dashboard') class="active" @endif><a href="{{url('admin-monitor/dashboard')}}" class="">Dashboard</a></li>
+                                <li @if(request()->getPathInfo() == '/admin-monitor/requests') class="active" @endif><a href="{{url('admin-monitor/requests')}}" class="">Requests List</a></li>
+                                <li @if(request()->getPathInfo() == '/admin-monitor/statistics-report') class="active" @endif><a href="{{url('admin-monitor/statistics-report')}}" class="">Statistics Report</a></li>
+                                <li @if(request()->getPathInfo() == '/admin-monitor/errors-report') class="active" @endif><a href="{{url('admin-monitor/errors-report')}}" class="">Errors Report</a></li>
+                                <li @if(substr(request()->getPathInfo(), 0, 23) == '/admin-monitor/request/') class="active" @endif role="presentation" class="dropdown">
+                                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                                        Latest By <span class="caret"></span>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="{{url('admin-monitor/request/-1')}}" class="">Session ID</a></li>
+                                        <li><a href="{{url('admin-monitor/request/-2')}}" class="">IP</a></li>
+                                    </ul>
+                                </li>
+                                <li @if(request()->getPathInfo() == '/admin-monitor/change-password') class="active" @endif><a href="{{url('admin-monitor/change-password')}}" class="">Change Password</a></li>
+                                <li><a href="{{url('admin-monitor/logout')}}" class="">Exit</a></li>
+                            </ul> 
+                        </div> 
+                    </div> 
+                </nav>
+                @endif
                 <div class="flash-message">
                     @foreach (['danger', 'warning', 'success', 'info'] as $msg)
                     @if(session('alert-' . $msg))
@@ -49,8 +89,10 @@
                     @endif
                     @endforeach
                 </div>
+                <div style="padding: 0px; margin: 0px">
+                    <h5 style="text-align: center;"><span class="label label-warning">Your Session ID = {{session()->getId()}}</span> - <span class="label label-warning">Your IP = {{request()->ip()}} </span></h5>
+                </div>
             </div>
-
             @yield('content')
             <div class="container">
                 <div style="text-align: center; padding: 5px; bottom: 0px; width: 100%" class="alert-success">
