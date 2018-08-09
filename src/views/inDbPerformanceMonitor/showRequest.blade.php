@@ -49,41 +49,42 @@
                         <tr>
                             <th rowspan="2" style="text-align: center">{{($logRequest->id)}}</th>
                             <td style="text-align: center">{{$logRequest->created_at}}</td>
-                            <td>
-                    <li><b>Action:</b> {{$logRequest->action}}</li>
-                    <li><b>Route URI:</b> {{$logRequest->route_uri}}</li>
-                    <li><b>Route Static:</b> {{$logRequest->route_static_prefix}}</li>
-                    <li><b>IP:</b> {{$logRequest->ip}}</li>
-                    <li><b>URL:</b> {{$logRequest->url}}</li>
-                    </td>
-                    <td style="text-align: center">{{$logRequest->queries_total_count}} &rarr; <span style="color: red" title="Not elequent queries">({{$logRequest->queries_not_elequent_count}})</span></td>
-                    <td style="text-align: center">
-                        {{$logRequest->queries_total_time}} ms <br/>
-                        {{$logRequest->queries_total_time/1000}} s
-                    </td>
-                    <td style="text-align: center">{{$logRequest->exec_time}} s</td>
-                    <td style="text-align: center">
-                        <p><b>Session ID:</b> {{$logRequest->session_id}}</p>
-                    </td>
-                    </tr>
-                    <tr>
-                        <td colspan="3">
-                            <p><b>Parameters: </b>
-                                <span class="label label-success">{{$logRequest->type}}</span>
-                                @if($logRequest->has_errors == '1')
-                                <span class="label label-danger">Error</span>
-                                @endif
-                                @if($logRequest->is_json_response == '1')
-                                <span class="label label-warning">JSON Response</span>
-                                @endif
-                            </p>
-                            <pre><textarea id="params-textarea" class="form-control" readonly="" style="">{{print_r(json_decode($logRequest->parameters, true))}}</textarea></pre>
-                        </td>
-                        <td colspan="3">
-                            <p><b>Session Data:</b>
-                            <pre><textarea id="session-textarea" class="form-control" readonly="" style="">{{print_r(json_decode($logRequest->session_data, true))}}</textarea></pre>
-                        </td>
-                    </tr>
+                            <td><ul>
+                                    <li><b>Action:</b> {{$logRequest->action}}</li>
+                                    <li><b>Route URI:</b> {{$logRequest->route_uri}}</li>
+                                    <li><b>Route Static:</b> {{$logRequest->route_static_prefix}}</li>
+                                    <li><b>IP:</b> {{$logRequest->ip}}</li>
+                                    <li><b>URL:</b> {{$logRequest->url}}</li>
+                                </ul>
+                            </td>
+                            <td style="text-align: center">{{$logRequest->queries_total_count}} &rarr; <span style="color: red" title="Not elequent queries">({{$logRequest->queries_not_elequent_count}})</span></td>
+                            <td style="text-align: center">
+                                {{$logRequest->queries_total_time}} ms <br/>
+                                {{$logRequest->queries_total_time/1000}} s
+                            </td>
+                            <td style="text-align: center">{{$logRequest->exec_time}} s</td>
+                            <td style="text-align: center">
+                                <p><b>Session ID:</b> {{$logRequest->session_id}}</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">
+                                <p><b>Parameters: </b>
+                                    <span class="label label-success">{{$logRequest->type}}</span>
+                                    @if($logRequest->has_errors == '1')
+                                    <span class="label label-danger">Error</span>
+                                    @endif
+                                    @if($logRequest->is_json_response == '1')
+                                    <span class="label label-warning">JSON Response</span>
+                                    @endif
+                                </p>
+                                <pre><textarea id="params-textarea" class="form-control" readonly="" style="">{{print_r(json_decode($logRequest->parameters, true))}}</textarea></pre>
+                            </td>
+                            <td colspan="3">
+                                <p><b>Session Data:</b>
+                                <pre><textarea id="session-textarea" class="form-control" readonly="" style="">{{print_r(json_decode($logRequest->session_data, true))}}</textarea></pre>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -107,25 +108,43 @@
                             <div class="col-md-5">
                                 <textarea class="form-control" id="search" name="search" placeholder="Query, Bindings, Or Connection Name">{{request('search')}}</textarea>
                             </div>
-                            <div class="col-md-3">
-                                <select id="order" class="form-control" name="order" value="{{request('order')}}">
-                                    <option value="id.asc" @if(request('order') == 'id.asc'){{'selected'}}@endif >ID Ascending</option>
-                                    <option value="id.desc" @if(request('order') == 'id.desc'){{'selected'}}@endif >ID Descending</option>
-                                    <option value="time.asc" @if(request('order') == 'time.asc'){{'selected'}}@endif >Time Ascending</option>
-                                    <option value="time.desc" @if(request('order') == 'time.desc'){{'selected'}}@endif >Time Descending</option>
-                                    <option value="connection_name.asc" @if(request('order') == 'connection_name.asc'){{'selected'}}@endif >Connection Ascending</option>
-                                    <option value="connection_name.desc" @if(request('order') == 'connection_name.desc'){{'selected'}}@endif >Connection Descending</option>
-                                </select>
-                            </div>
-                            <div class="col-md-1">
-                                <div class="checkbox-inline">
-                                    <label>
-                                        <input type="checkbox" name="is_not_elequent" id="is_not_elequent" value="1" @if(request('is_not_elequent') == '1'){{'checked'}}@endif > Not Elequent
-                                    </label>
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <select id="order" class="form-control" name="order" value="{{request('order')}}">
+                                            <option value="id.asc" @if(request('order') == 'id.asc'){{'selected'}}@endif >Creation Date Ascending</option>
+                                            <option value="id.desc" @if(request('order') == 'id.desc'){{'selected'}}@endif >Creation Date Descending</option>
+                                            <option value="time.asc" @if(request('order') == 'time.asc'){{'selected'}}@endif >Time Ascending</option>
+                                            <option value="time.desc" @if(request('order') == 'time.desc'){{'selected'}}@endif >Time Descending</option>
+                                            <option value="total_c.asc" @if(request('order') == 'total_c.asc'){{'selected'}}@endif >Repetition Count Ascending</option>
+                                            <option value="total_c.desc" @if(request('order') == 'total_c.desc'){{'selected'}}@endif >Repition Count Descending</option>
+                                            <option value="connection_name.asc" @if(request('order') == 'connection_name.asc'){{'selected'}}@endif >Connection Ascending</option>
+                                            <option value="connection_name.desc" @if(request('order') == 'connection_name.desc'){{'selected'}}@endif >Connection Descending</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <input type="number" class="form-control" id="reps_count" name="reps_count" placeholder="Repititions >= X" value="{{request('reps_count')}}">
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-md-2" style="text-align: center">
-                                <button type="submit" class="btn btn-primary">Search</button>
+                                <br/>
+                                <div class="row">
+                                    <div class="col-md-8" style="text-align: center">
+                                        <div class="checkbox-inline">
+                                            <label>
+                                                <input type="checkbox" name="is_not_elequent" id="is_not_elequent" value="1" @if(request('is_not_elequent') == '1'){{'checked'}}@endif > Not Elequent
+                                            </label>
+                                        </div>
+                                        <div class="checkbox-inline">
+                                            <label>
+                                                <input type="checkbox" name="distinct_view" id="distinct_view" value="1" @if(request('distinct_view') == '1'){{'checked'}}@endif > Distinct View
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4" style="text-align: center">
+                                        <button type="submit" class="btn btn-primary">Search</button>
+                                    </div>
+
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -135,6 +154,46 @@
 
             <div style="text-align: center; margin-top: -10px" class="alert-info"><h4>Page {{$logQueries->currentPage()}} of {{$logQueries->lastPage()}} - Display {{$logQueries->count()}} of {{$logQueries->total()}} Records</h4></div>
 
+            @if(request('distinct_view') == '1')
+            <div class="table-responsive">
+                <table class="table table-hover table-striped table-bordered">
+                    @forelse($logQueries as $i=>$query)
+                    @if($i == 0)
+                    <thead>
+                        <tr>
+                            <th style="text-align: center">#</th>
+                            <th>Query</th>
+                            <th style="text-align: center">Total Time</th>
+                            <th style="text-align: center">Connection Name</th>
+                            <th style="text-align: center">Repeated</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    @endif
+                    <tr>
+                        <th style="text-align: center">{!!($i+1+(($logQueries->currentPage()-1)*$logQueries->perPage()))!!}</th>
+                        <td><textarea readonly="" class="form-control">{{$query->query2}}</textarea></td>
+                        <td style="text-align: center">{{$query->sum_t}} ms<br/>
+                            {{($query->sum_t/1000)}} s
+                        </td>
+                        <td style="text-align: center">{{$query->connection_name2}}</td>
+                        <td><ul>
+                                <li style="color: red"><b>Non Elequent:</b> {{$query->non_elequent_c}}</li>
+                                <li style="color: green"><b>Elequent:</b> {{$query->elequent_c}}</li>
+                                <li><b>Total:</b> {{$query->total_c}}</li>
+                            </ul>
+                        </td>
+                        <td style="text-align: center"><br/><a href="{{url('admin-monitor/run-query/'.$query->last_id)}}">Run Last Query</a></td>
+                    </tr>
+                    @empty
+                    <tr>
+                        <th>The request has no queries</th>
+                    </tr>                        
+                    @endforelse
+
+                </table>
+            </div>
+            @else
             <div class="table-responsive">
                 <table class="table table-hover table-striped table-bordered">
                     @forelse($logQueries as $i=>$query)
@@ -147,6 +206,7 @@
                             <th>Bindings</th>
                             <th style="text-align: center">Time</th>
                             <th style="text-align: center">Connection Name</th>
+                            <th style="text-align: center">Repeated</th>
                             <th style="text-align: center">Is Elequent</th>
                             <th></th>
                         </tr>
@@ -162,6 +222,7 @@
                             {{($query->time/1000)}} s
                         </td>
                         <td style="text-align: center">{{$query->connection_name}}</td>
+                        <td style="text-align: center">{{$query->total_c}}</td>
                         <td style="text-align: center">@if($query->is_elequent == 1) Yes @else No @endif</td>
                         <td style="text-align: center"><a href="{{url('admin-monitor/run-query/'.$query->id)}}">Run</a></td>
                     </tr>
@@ -179,6 +240,7 @@
                 {{$logQueries->appends(request()->all())->links()}}
                 @endif
             </div>
+            @endif
         </div> 
     </div>
     <div class="panel panel-danger"> 
@@ -286,6 +348,7 @@
                 return false;
             });
         });
+
     });
 </script>
 @if(request()->all())

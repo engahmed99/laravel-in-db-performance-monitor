@@ -225,8 +225,55 @@ class InDbPerformanceMonitorController extends Controller {
         $logRequest = LogRequests::findOrFail($id);
 
         // Get request queries 
+        $model = new LogQueries();
+        $table_name = $model->getTable();
+        $conn_name = $model->getConnectionName();
+        $query1 = LogQueries::where('request_id', $id);
+        $query2 = \DB::connection($conn_name)->table($table_name)
+                        ->where('request_id', $id)
+                        ->select(
+                                \DB::raw('query as query2'), \DB::raw('sum(time) sum_t'),
+                                //
+                                \DB::raw('min(connection_name) as connection_name2'), \DB::raw('max(id) as last_id'),
+                                //
+                                \DB::raw('count(*) total_c'), \DB::raw('sum(is_elequent) elequent_c'), \DB::raw('(count(*) - sum(is_elequent)) non_elequent_c')
+                        )->groupBy('query');
+        // ---
+        if ($request->get('distinct_view') != '1')
+            $query1->join(\DB::raw("(" . $query2->toSql() . ") as q2"), 'query', '=', 'query2')
+                    ->mergeBindings($query2);
+        // Set conditions
+        $query1 = $this->setQuereiesWhere($query1, $request);
+        $query2 = $this->setQuereiesWhere($query2, $request);
+        // Set Order
+        $order = ['id', 'asc'];
+        if ($request->get('distinct_view') == '1')
+            $order = ['sum_t', 'desc'];
+        if ($request->get('order'))
+            $order = explode('.', $request->get('order'));
+
+        if ($request->get('distinct_view') == '1' && $order[0] == 'time')
+            $order[0] = 'sum_t';
+        $logQueries = null;
+        if ($request->get('distinct_view') == '1')
+            $logQueries = $query2->orderBy($order[0], $order[1])->paginate(6);
+        else
+            $logQueries = $query1->orderBy($order[0], $order[1])->paginate(6);
+
+        // Get request error
+        $logError = LogErrors::where('request_id', $id)->first();
+
+        return view('inDbPerformanceMonitor::showRequest', compact(['logRequest', 'logQueries', 'logError', 'is_last_of_mine']));
+    }
+
+    /**
+     * Set the where conditions of the inner queries search
+     * @param Query $query
+     * @param Request $request
+     * @return Query
+     */
+    public function setQuereiesWhere($query, $request) {
         $search = $request->get('search');
-        $query = LogQueries::where('request_id', $id);
         if ($search)
             $query->where(function($q) use($search) {
                 $q->where('query', 'like', $search)
@@ -235,15 +282,11 @@ class InDbPerformanceMonitorController extends Controller {
             });
         if ($request->get('is_not_elequent'))
             $query->where('is_elequent', '=', 0);
-        $order = ['id', 'asc'];
-        if ($request->get('order'))
-            $order = explode('.', $request->get('order'));
-        $logQueries = $query->orderBy($order[0], $order[1])->paginate();
-
-        // Get request error
-        $logError = LogErrors::where('request_id', $id)->first();
-
-        return view('inDbPerformanceMonitor::showRequest', compact(['logRequest', 'logQueries', 'logError', 'is_last_of_mine']));
+        if ($request->get('reps_count') && $request->get('distinct_view') == '1')
+            $query->having(\DB::raw('count(*)'), '>=', $request->get('reps_count'));
+        else if ($request->get('reps_count'))
+            $query->where('total_c', '>=', $request->get('reps_count'));
+        return $query;
     }
 
     /**
