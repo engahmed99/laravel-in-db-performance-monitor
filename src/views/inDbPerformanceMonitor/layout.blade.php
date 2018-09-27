@@ -17,22 +17,27 @@ $(function () {
     $('[data-toggle="tooltip"]').tooltip();
     // Animate textareas
     $("textarea").not('.query-textarea, .bind-textarea').focus(function () {
+        $(this).attr("style", "");
         $(this).attr('data-cols', $(this)[0].cols);
         $(this).attr('data-rows', $(this)[0].rows);
         var cols = $(this)[0].cols;
         var lines_c = 0;
-        $.each($(this).html().split("\n"), function (i, l) {
-            lines_c += Math.ceil(l.length / cols); // Take into account long lines
+        $.each($(this).val().split("\n"), function (i, l) {
+            if (l.length <= cols)
+                lines_c++;
+            else
+                lines_c += Math.ceil(l.length / cols); // Take into account long lines
         });
         $(this).animate({
             'rows': lines_c
-        }, 200);
+        }, 500);
     });
+    //--------
     $("textarea").not('.query-textarea, .bind-textarea').blur(function () {
         $(this).animate({
             'cols': $(this).attr('data-cols'),
             'rows': $(this).attr('data-rows')
-        }, 200);
+        }, 500);
     });
 
 });
@@ -59,7 +64,7 @@ $(function () {
                                 <span class="icon-bar"></span> 
                                 <span class="icon-bar"></span> 
                             </button> 
-                            <a href="#" class="navbar-brand">Admin Monitor</a> 
+                            <a href="{{url('')}}" class="navbar-brand">Admin Monitor</a> 
                         </div> 
                         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-9"> 
                             <ul class="nav navbar-nav"> 

@@ -78,11 +78,11 @@
                                     <span class="label label-warning">JSON Response</span>
                                     @endif
                                 </p>
-                                <pre><textarea id="params-textarea" class="form-control" readonly="" style="">{{print_r(json_decode($logRequest->parameters, true))}}</textarea></pre>
+                                <textarea id="params-textarea" class="form-control" readonly="" style="">{{print_r(unserialize($logRequest->parameters))}}</textarea>
                             </td>
                             <td colspan="3">
                                 <p><b>Session Data:</b>
-                                <pre><textarea id="session-textarea" class="form-control" readonly="" style="">{{print_r(json_decode($logRequest->session_data, true))}}</textarea></pre>
+                                <textarea id="session-textarea" class="form-control" readonly="" style="">{{print_r(unserialize($logRequest->session_data))}}</textarea>
                             </td>
                         </tr>
                     </tbody>
@@ -299,10 +299,10 @@
         // Set params & session textarea sizes
         $("#params-textarea")[0].rows = $("#params-textarea").html().split("\n").length + 2;
         $("#session-textarea")[0].rows = $("#session-textarea").html().split("\n").length + 2;
-        if ($("#params-textarea")[0].rows > 20)
-            $("#params-textarea")[0].rows = 20;
-        if ($("#session-textarea")[0].rows > 20)
-            $("#session-textarea")[0].rows = 20;
+        if ($("#params-textarea")[0].rows > 15)
+            $("#params-textarea")[0].rows = 15;
+        if ($("#session-textarea")[0].rows > 15)
+            $("#session-textarea")[0].rows = 15;
 
         $(".query-textarea, .bind-textarea").click(function () {
             // Initialize

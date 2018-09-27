@@ -37,7 +37,7 @@ class InDbPerformanceMonitorMiddleware {
 
             LogRequests::find($request->input('__asamir_request_id'))->update([
                 'session_id' => session()->getId(),
-                'session_data' => json_encode($session_data),
+                'session_data' => serialize($session_data),
                 'exec_time' => (microtime(true) - LARAVEL_START),
                 'route_uri' => ((\Route::current()) ? \Route::current()->uri() : ''),
                 'route_static_prefix' => ((\Route::current()) ? \Route::current()->getCompiled()->getStaticPrefix() : ''),

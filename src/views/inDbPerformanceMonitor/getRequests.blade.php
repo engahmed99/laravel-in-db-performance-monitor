@@ -151,7 +151,7 @@
                     <td style="text-align: center">{{$req->exec_time}} s</td>
                     <td rowspan="2" style="text-align: center">
                         <p><b>Session ID:</b> {{$req->session_id}}</p>
-                        <p><b>Session Data:</b><textarea readonly="" class="form-control">{{ $req->session_data }}</textarea></p>
+                        <p><b>Session Data:</b><textarea readonly="" class="form-control">{{ json_encode(unserialize($req->session_data)) }}</textarea></p>
                     </td>
                 </tr>
                 <tr>
@@ -164,7 +164,7 @@
                         @if($req->is_json_response == '1')
                         <span class="label label-warning">JSON Response</span>
                         @endif
-                        <textarea readonly="" class="form-control">{{ $req->parameters }}</textarea>
+                        <textarea readonly="" class="form-control">{{ json_encode(unserialize($req->parameters)) }}</textarea>
                     </td>
                 </tr>
                 @endforeach
