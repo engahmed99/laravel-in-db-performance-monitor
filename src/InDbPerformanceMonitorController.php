@@ -64,31 +64,44 @@ class InDbPerformanceMonitorController extends Controller {
         $model = new LogRequests();
         $table_name = $model->getTable();
         $conn_name = $model->getConnectionName();
+
+        // Get all archives
+        $archives = \DB::connection($conn_name)->table($table_name)
+                        ->select(\DB::raw('distinct(archive_tag) archive_tag'))->orderBy('archive_tag')->get();
+
         // Select requests types
-        $requests_types = \DB::connection($conn_name)->table($table_name)
+        $query = \DB::connection($conn_name)->table($table_name)
                 ->select('type', \DB::raw('count(*) total_c'),
-                        //
-                        \DB::raw('count(id) requests_count'), \DB::raw('sum(has_errors) with_errors_count'), \DB::raw('(count(id)-sum(has_errors)) with_no_errors_count')
-                )
-                ->groupBy('type')
-                ->orderBy('type', 'asc')
-                ->get();
+                //
+                \DB::raw('count(id) requests_count'), \DB::raw('sum(has_errors) with_errors_count'), \DB::raw('(count(id)-sum(has_errors)) with_no_errors_count')
+        );
+        if ($request->get('archive') || $request->get('archive') == '0')
+            $query->where('archive_tag', $request->get('archive'));
+        $requests_types = $query->groupBy('type')
+                        ->orderBy('type', 'asc')->get();
         $requests_types = collect($requests_types);
 
+        // Select requests by countries
+        $model = new LogIPs();
+        $table_name = $model->getTable();
+        $conn_name = $model->getConnectionName();
         // Select aggregate functions
-        $archive_tags = \DB::connection($conn_name)->table($table_name)
-                ->select('archive_tag', 'type', \DB::raw('count(*) total_c'),
+        $req_countries = \DB::connection($conn_name)->table($table_name)
+                ->select('country', \DB::raw('count(*) req_total_c'),
                         //
-                        \DB::raw('count(id) requests_count'), \DB::raw('sum(has_errors) with_errors_count'), \DB::raw('(count(id)-sum(has_errors)) with_no_errors_count')
+                        \DB::raw('min(country_name) country_name'), \DB::raw('sum(total_c) req_total_sum'), \DB::raw('sum(total_c_error) req_total_sum_error')
                 )
-                ->groupBy('archive_tag', 'type')
-                ->orderBy('archive_tag', 'asc')
-                ->orderBy('type', 'asc')
+                ->groupBy('country')
+                ->orderBy('country_name', 'asc')
                 ->get();
+        $req_countries = collect($req_countries);
 
-        $archive_tags = collect($archive_tags)->groupBy('archive_tag');
+        // Count not finished
+        $not_finished_c = \DB::connection($conn_name)->table($table_name)
+                ->where('is_finished', 0)
+                ->count();
 
-        return view('inDbPerformanceMonitor::dashboard', compact(['archive_tags', 'requests_types']));
+        return view('inDbPerformanceMonitor::dashboard', compact(['archives', 'requests_types', 'req_countries', 'not_finished_c']));
     }
 
     /**
@@ -190,7 +203,7 @@ class InDbPerformanceMonitorController extends Controller {
             $query->where('created_at', '<', date('Y-m-d', strtotime($request->get('to_date') . "+1 days")));
 
         // Get requests
-        $requests = $query->with('error')->orderBy($order_by, $order_type)->paginate();
+        $requests = $query->with(['ip_info', 'error'])->orderBy($order_by, $order_type)->paginate();
 
         return view('inDbPerformanceMonitor::getRequests', compact('requests'));
     }

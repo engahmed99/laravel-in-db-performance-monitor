@@ -50,4 +50,12 @@ return [
      * If your log system is fie, you will find the queries log in storage/logs
      */
     'IN_DB_MONITOR_LOG_PACKAGE_QUERIES' => env('IN_DB_MONITOR_LOG_PACKAGE_QUERIES', false),
+    /**
+     * If true it will save IP information like country, city
+     */
+    'IN_DB_MONITOR_GET_IP_INFO' => env('IN_DB_MONITOR_GET_IP_INFO', true),
+    /**
+     * Refer to the class with get ip info webservices
+     */
+    'IN_DB_MONITOR_GET_IP_CLASS' => '\\ASamir\\InDbPerformanceMonitor\\IPInfo',
 ];

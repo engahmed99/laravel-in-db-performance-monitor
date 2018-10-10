@@ -48,12 +48,17 @@
                     <tbody>
                         <tr>
                             <th rowspan="2" style="text-align: center">{{($logRequest->id)}}</th>
-                            <td style="text-align: center">{{$logRequest->created_at}}</td>
+                            <td style="text-align: center">
+                                {{$logRequest->created_at}}
+                                <br/>
+                                <br/>
+                                <span class="label label-default">Archive: {{$logRequest->archive_tag}}</span>
+                            </td>
                             <td><ul>
                                     <li><b>Action:</b> {{$logRequest->action}}</li>
                                     <li><b>Route URI:</b> {{$logRequest->route_uri}}</li>
                                     <li><b>Route Static:</b> {{$logRequest->route_static_prefix}}</li>
-                                    <li><b>IP:</b> {{$logRequest->ip}}</li>
+                                    <li><b>IP:</b> {{$logRequest->ip}} &nbsp;&nbsp; <span class="label label-info">{{$logRequest->ip_info->country_name}}</span></li>
                                     <li><b>URL:</b> {{$logRequest->url}}</li>
                                 </ul>
                             </td>
@@ -82,7 +87,7 @@
                             </td>
                             <td colspan="3">
                                 <p><b>Session Data:</b>
-                                <textarea id="session-textarea" class="form-control" readonly="" style="">{{print_r(unserialize($logRequest->session_data))}}</textarea>
+                                    <textarea id="session-textarea" class="form-control" readonly="" style="">{{print_r(unserialize($logRequest->session_data))}}</textarea>
                             </td>
                         </tr>
                     </tbody>

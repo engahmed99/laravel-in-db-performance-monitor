@@ -134,12 +134,17 @@
                 @foreach ($requests as $i => $req)
                 <tr>
                     <th rowspan="2" style="text-align: center">{!!($i+1+(($requests->currentPage()-1)*$requests->perPage())).' <span class="label label-info">('.$req->id.')</span>'!!}</th>
-                    <th rowspan="2" style="text-align: center"><a href="{{url('admin-monitor/request/'.$req->id)}}">{{$req->created_at}} --></a> <br/><br/><span class="label label-default">Archive: {{$req->archive_tag}}</span></th>
+                    <th rowspan="2" style="text-align: center">
+                        <a href="{{url('admin-monitor/request/'.$req->id)}}">{{$req->created_at}} --></a> 
+                        <br/>
+                        <br/>
+                        <span class="label label-default">Archive: {{$req->archive_tag}}</span>
+                    </th>
                     <td rowspan="2"><ul>
                             <li><b>Action:</b> {{$req->action}}</li>
                             <li><b>Route URI:</b> {{$req->route_uri}}</li>
                             <li><b>Route Static:</b> {{$req->route_static_prefix}}</li>
-                            <li><b>IP:</b> {{$req->ip}}</li>
+                            <li><b>IP:</b> {{$req->ip}} &nbsp;&nbsp; <span class="label label-info">{{$req->ip_info->country_name}}</span></li>
                             <li><b>URL:</b> {{$req->url}}</li>
                         </ul>
                     </td>

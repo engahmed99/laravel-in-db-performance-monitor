@@ -57,10 +57,11 @@ class InDbPerformanceMonitorCommand extends Command {
                 . "\nIN_DB_MONITOR_DB_PASSWORD="
                 . "\nIN_DB_MONITOR_LOG_PACKAGE_QUERIES=false"
                 . "\nIN_DB_MONITOR_NEGLICT_REQUEST_DATA=false"
-                . "\nIN_DB_MONITOR_NEGLICT_SESSION_DATA=false";
+                . "\nIN_DB_MONITOR_NEGLICT_SESSION_DATA=false"
+                . "\IN_DB_MONITOR_GET_IP_INFO=true";
         file_put_contents(base_path('.env'), $content . $append);
         $this->info('Done => Append .env file with the package variables');
-        
+
         $this->info("---------");
         $this->info("--------- Remember ---------");
         $this->info("---------");

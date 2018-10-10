@@ -23,6 +23,7 @@ class LogRequests extends Model {
      */
     public static function startInDbMonitor() {
 
+        // Save request data
         $req = LogRequests::create([
                     'action' => request()->getPathInfo(),
                     'parameters' => serialize(self::getRequestFields()),
@@ -30,7 +31,12 @@ class LogRequests extends Model {
                     'url' => request()->url(),
                     'ip' => request()->ip(),
         ]);
+        // Store IP info.
+        LogIPs::saveIPInfo();
+
         request()->request->add(['__asamir_request_id' => $req->id]);
+
+        // Log queries
         LogQueries::inDbLogQueries();
     }
 
@@ -82,6 +88,14 @@ class LogRequests extends Model {
      */
     public function error() {
         return $this->hasOne('\ASamir\InDbPerformanceMonitor\LogErrors', 'request_id');
+    }
+
+    /**
+     * The relation with LogIPs
+     * @return type
+     */
+    public function ip_info() {
+        return $this->hasOne('\ASamir\InDbPerformanceMonitor\LogIPs', 'ip', 'ip');
     }
 
 }

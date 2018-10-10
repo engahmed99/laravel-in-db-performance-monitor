@@ -33,6 +33,9 @@ class LogErrors extends Model {
             'request_id' => request('__asamir_request_id'),
         ]);
 
+        // Update ip
+        LogIPs::where('ip', request()->ip())->update(['total_c_error' => \DB::raw('total_c_error+1')]);
+
         // Update request data
         LogRequests::find(request('__asamir_request_id'))->update([
             'has_errors' => 1,
