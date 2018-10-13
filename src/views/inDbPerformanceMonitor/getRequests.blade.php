@@ -19,7 +19,7 @@
                             <label for="search">Search</label>
                         </div>
                         <div class="col-md-6">
-                            <input type="text" class="form-control" id="search" name="search" placeholder="e.x. action,ip,url,route,session_id,archive_tag,.. => %/orders%" value="{{request('search')}}" data-toggle="tooltip" data-placement="right" title="Remember: you can use sql like wildcards like % or _ e.x. %/customers%, /sales%">
+                            <input type="text" class="form-control" id="search" name="search" placeholder="e.x. Action, URI, IP, Session ID, Archive Tag, or Country .. => %/orders%" value="{{request('search')}}" data-toggle="tooltip" data-placement="right" title="Remember: you can use sql like wildcards like % or _ e.x. %/customers%, /sales%">
                         </div>
                         <div class="col-md-2">
                             <select id="search_type" class="form-control" name="search_type" value="{{request('search_type')}}">

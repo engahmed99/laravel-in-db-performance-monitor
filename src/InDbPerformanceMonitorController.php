@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use ASamir\InDbPerformanceMonitor\LogRequests;
 use ASamir\InDbPerformanceMonitor\LogQueries;
 use ASamir\InDbPerformanceMonitor\LogErrors;
+use ASamir\InDbPerformanceMonitor\LogIPs;
 
 class InDbPerformanceMonitorController extends Controller {
 
@@ -381,10 +382,20 @@ class InDbPerformanceMonitorController extends Controller {
         // Filter the result
         $search = $request->get('search');
         if ($search)
-            $query->where(function($q) use($search) {
+            $query->where(function($q) use($search, $table_name) {
                 $q->where('route_uri', 'like', $search)
                         ->orWhere('session_id', 'like', $search)
-                        ->orWhere('ip', 'like', $search);
+                        ->orWhere('ip', 'like', $search)
+                        ->orWhere(function ($qt) use($search, $table_name) {
+                            $qt->whereExists(function ($q) use($search, $table_name) {
+                                $model = new LogIPs();
+                                $prefix = $model->getConnection()->getTablePrefix();
+                                $q->select(\DB::raw(1))
+                                ->from($model->getTable())
+                                ->where('country_name', 'like', $search)
+                                ->whereRaw($prefix . $model->getTable() . '.ip = ' . $prefix . $table_name . '.ip');
+                            });
+                        });
             });
         if ($request->get('type'))
             $query->where('type', '=', strtoupper($request->get('type')));
@@ -429,12 +440,22 @@ class InDbPerformanceMonitorController extends Controller {
         // Filter the result
         $search = $request->get('search');
         if ($search)
-            $query->where(function($q) use($search) {
+            $query->where(function($q) use($search, $table_name_r) {
                 $q->where('route_uri', 'like', $search)
                         ->orWhere('session_id', 'like', $search)
                         ->orWhere('ip', 'like', $search)
                         ->orWhere('message', 'like', $search)
-                        ->orWhere('file', 'like', $search);
+                        ->orWhere('file', 'like', $search)
+                        ->orWhere(function ($qt) use($search, $table_name_r) {
+                            $qt->whereExists(function ($q) use($search, $table_name_r) {
+                                $model = new LogIPs();
+                                $prefix = $model->getConnection()->getTablePrefix();
+                                $q->select(\DB::raw(1))
+                                ->from($model->getTable())
+                                ->where('country_name', 'like', $search)
+                                ->whereRaw($prefix . $model->getTable() . '.ip = ' . $prefix . $table_name_r . '.ip');
+                            });
+                        });
             });
         if ($request->get('type'))
             $query->where('type', '=', strtoupper($request->get('type')));
