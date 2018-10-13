@@ -112,6 +112,9 @@
                 </div>
             </form>								
             <!-- Advance search ends -->
+            <form action="{{url('admin-monitor/archive-requests')}}" method="post"id="archive-form">
+                {{ csrf_field() }}
+            </form>
         </div>
     </div>
 
@@ -189,7 +192,7 @@
     function confirmArchive() {
         var r = confirm("Are you sure, you want to archive unarchived requests???");
         if (r == true) {
-            window.location = "{{url('admin-monitor/archive-requests')}}";
+            $("#archive-form").submit();
             return true;
         } else {
             return false;
