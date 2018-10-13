@@ -165,6 +165,11 @@ class InDbPerformanceMonitorController extends Controller {
                             ->where('session_id', $search_type, $search)
                             ->where('ip', $search_type, $search)
                             ->where('archive_tag', $search_type, $search);
+                    // Search in country name
+                    $q->whereHas('ip_info', function($qq) use($search_type, $search) {
+                        $qq->where('country_name', $search_type, $search);
+                    });
+                    // Search in error
                     if ($has_errors)
                         $q->whereHas('error', function($qq) use($search_type, $search) {
                             $qq->where('message', $search_type, $search)
@@ -178,6 +183,11 @@ class InDbPerformanceMonitorController extends Controller {
                             ->orWhere('session_id', $search_type, $search)
                             ->orWhere('ip', $search_type, $search)
                             ->orWhere('archive_tag', $search_type, $search);
+                    // Search in country name
+                    $q->orWhereHas('ip_info', function($qq) use($search_type, $search) {
+                        $qq->where('country_name', $search_type, $search);
+                    });
+                    // Search in error
                     if ($has_errors)
                         $q->orWhereHas('error', function($qq) use($search_type, $search) {
                             $qq->where('message', $search_type, $search)
