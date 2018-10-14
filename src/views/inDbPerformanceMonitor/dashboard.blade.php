@@ -104,6 +104,7 @@
                     <table class="table table-hover table-striped table-bordered">
                         <thead>
                             <tr>
+                                <th style="text-align: center" class="alert-warning">#</th>
                                 <th style="" class="alert-warning">Country</th>
                                 <th style="text-align: center" class="alert-warning">Total IPs</th>
                                 <th style="text-align: center" class="alert-success">Without Error</th>
@@ -115,11 +116,12 @@
                             <?php $total_c = 0; ?>
                             <?php $total_sum = 0; ?>
                             <?php $total_sum_error = 0; ?>
-                            @foreach ($req_countries as $country)
+                            @foreach ($req_countries as $i=>$country)
                             <?php $total_c += $country->req_total_c; ?>
                             <?php $total_sum += $country->req_total_sum; ?>
                             <?php $total_sum_error += $country->req_total_sum_error; ?>
                             <tr>
+                                <th style="text-align: center" class="alert-info">{{($i+1)}}</th>
                                 <th style="" class="alert-info">{{$country->country_name}} [{{$country->country}}]</th>
                                 <td style="text-align: center" class="">{{$country->req_total_c}}</td>
                                 <td style="text-align: center" class="alert-success">{{$country->req_total_sum - $country->req_total_sum_error}}</td>
@@ -128,7 +130,7 @@
                             </tr>
                             @endforeach
                             <tr>
-                                <th style="" class="alert-warning">Total</th>
+                                <th colspan="2" style="text-align: center" class="alert-warning">Total</th>
                                 <th style="text-align: center" class="alert-info">{{$total_c}}</th>
                                 <th style="text-align: center" class="alert-success">{{$total_sum-$total_sum_error}}</th>
                                 <th style="text-align: center" class="alert-danger">{{$total_sum_error}}</th>

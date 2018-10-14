@@ -55,8 +55,8 @@
                         </div>
                         <div class="col-md-4">
                             <select id="order_by" class="form-control" name="order_by" value="{{request('order_by')}}">
-                                <option value="created_at" @if(request('order_by') == 'created_at'){{'selected'}}@endif >Creation Date</option>
-                                <option value="updated_at" @if(request('order_by') == 'updated_at'){{'selected'}}@endif >Last Update Date</option>
+                                <option value="created_at" @if(request('order_by') == 'created_at'){{'selected'}}@endif >Start Date</option>
+                                <option value="updated_at" @if(request('order_by') == 'updated_at'){{'selected'}}@endif >End Date</option>
                                 <option value="country_name" @if(request('order_by') == 'country_name'){{'selected'}}@endif >Country</option>
                                 <option value="total_c" @if(request('order_by') == 'total_c'){{'selected'}}@endif >Total Requests</option>
                                 <option value="total_c_error" @if(request('order_by') == 'total_c_error'){{'selected'}}@endif >Total Requests With Errors</option>
@@ -107,7 +107,6 @@
                     <th style="text-align: center">City</th>
                     <th style="text-align: center">Region</th>
                     <th style="text-align: center">Requests Count</th>
-                    <th style="text-align: center">Completed</th>                
                     <th style="text-align: center">Start Date</th>                
                     <th style="text-align: center">End Date</th>                
                     <th style="text-align: center">Location</th>                
@@ -117,21 +116,26 @@
                 @foreach ($ips as $i => $stat)
                 <tr>
                     <th style="text-align: center">{{($i+1+(($ips->currentPage()-1)*$ips->perPage()))}}</th>
-                    <th style="text-align: center"><a href="https://ipinfo.io/{{$stat->ip}}/json" target="blanck">{{$stat->ip}}</a></th>
+                    <th style="text-align: center">
+                        <a href="https://ipinfo.io/{{$stat->ip}}/json" target="blanck">{{$stat->ip}}</a>
+                        <br/>
+                        <i>
+                            <small>
+                                @if($stat->is_finished == '1')
+                                Completed
+                                @else
+                                Not Completed
+                                @endif
+                            </small>
+                        </i>
+                    </th>
                     <td style="text-align: center"><a href="https://restcountries.eu/rest/v2/alpha/{{$stat->country}}" target="blanck">{{$stat->country_name}} [{{$stat->country}}]</a></td>
                     <td style="text-align: center">{{$stat->city}}</td>
                     <td style="text-align: center">{{$stat->region}}</td>
                     <td>
-            <li style="color: red"><b>With Errors:</b> {{$stat->total_c_error}}</li>
-            <li style="color: green"><b>Without Errors:</b> {{($stat->total_c-$stat->total_c_error)}}</li>
+            <li style="color: red"><b>Errors:</b> {{$stat->total_c_error}}</li>
+            <li style="color: green"><b>Success:</b> {{($stat->total_c-$stat->total_c_error)}}</li>
             <li><b>Total:</b> {{$stat->total_c}}</li>
-            </td>
-            <td style="text-align: center">
-                @if($stat->is_finished == '1')
-                Yes
-                @else
-                No
-                @endif
             </td>
             <td style="text-align: center">{{$stat->created_at}}</td>
             <td style="text-align: center">{{$stat->updated_at}}</td>

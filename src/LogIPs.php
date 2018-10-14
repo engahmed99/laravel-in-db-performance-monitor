@@ -16,7 +16,7 @@ class LogIPs extends Model {
     /**
      * Handle the IP Info. in the DB
      */
-    public static function saveIPInfo($ip_str) {
+    public static function saveIPInfo($ip_str, $is_retry = false) {
         $ip = LogIPs::where('ip', $ip_str)->first();
         $class = config('inDbPerformanceMonitor.IN_DB_MONITOR_GET_IP_CLASS');
         $info = [];
@@ -35,7 +35,9 @@ class LogIPs extends Model {
                 $info['is_finished'] = 1;
                 $info['country_name'] = 'Localhost';
             }
-            $info['total_c'] = \DB::raw('total_c+1');
+            $info['total_c'] = \DB::raw('total_c');
+            if (!$is_retry)
+                $info['total_c'] = \DB::raw('total_c+1');
             $ip->update($info);
         } else {
             if ($ip->ip == '127.0.0.1') {

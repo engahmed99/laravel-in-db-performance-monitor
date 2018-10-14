@@ -554,7 +554,7 @@ class InDbPerformanceMonitorController extends Controller {
             $query->where('is_finished', '=', 0);
 
         // Get the result
-        $ips = $query->orderBy($request->get('order_by', 'created_at'), $request->get('order_type', 'asc'))
+        $ips = $query->orderBy($request->get('order_by', 'created_at'), $request->get('order_type', 'desc'))
                 ->paginate();
 
         // Count not finished
@@ -571,7 +571,7 @@ class InDbPerformanceMonitorController extends Controller {
     public function completeIPs(Request $request) {
         LogIPs::where('is_finished', '=', '0')->chunk(100, function ($ips) {
             foreach ($ips as $ip) {
-                $info = LogIPs::saveIPInfo($ip->ip);
+                $info = LogIPs::saveIPInfo($ip->ip, true);
                 if ($info['is_finished'] == '0')
                     break;
             }
