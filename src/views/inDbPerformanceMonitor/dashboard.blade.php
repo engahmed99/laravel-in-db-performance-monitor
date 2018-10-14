@@ -105,7 +105,7 @@
                         <thead>
                             <tr>
                                 <th style="" class="alert-warning">Country</th>
-                                <th style="text-align: center" class="alert-warning">Total Users</th>
+                                <th style="text-align: center" class="alert-warning">Total IPs</th>
                                 <th style="text-align: center" class="alert-success">Without Error</th>
                                 <th style="text-align: center" class="alert-danger">With Error</th>
                                 <th style="text-align: center" class="alert-warning">Total Requests</th>

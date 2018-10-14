@@ -47,7 +47,7 @@ class LogErrors extends Model {
      * @return type
      */
     public function request() {
-        return $this->hasOne('LogRequests', 'request_id');
+        return $this->hasOne('\ASamir\InDbPerformanceMonitor\LogRequests', 'id', 'request_id');
     }
 
 }

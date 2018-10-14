@@ -105,7 +105,7 @@
             <thead>
                 <tr>
                     <th style="text-align: center">#</th>
-                    <th>Route URI</th>
+                    <th style="text-align: center">Route URI</th>
                     <th style="text-align: center">Queries Count</th>
                     <th style="text-align: center">Queries Time</th>
                     <th style="text-align: center">Exec Time</th>

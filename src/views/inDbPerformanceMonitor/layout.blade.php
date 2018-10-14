@@ -70,8 +70,16 @@ $(function () {
                             <ul class="nav navbar-nav"> 
                                 <li @if(request()->getPathInfo() == '/admin-monitor/dashboard') class="active" @endif><a href="{{url('admin-monitor/dashboard')}}" class="">Dashboard</a></li>
                                 <li @if(request()->getPathInfo() == '/admin-monitor/requests') class="active" @endif><a href="{{url('admin-monitor/requests')}}" class="">Requests List</a></li>
-                                <li @if(request()->getPathInfo() == '/admin-monitor/statistics-report') class="active" @endif><a href="{{url('admin-monitor/statistics-report')}}" class="">Statistics Report</a></li>
-                                <li @if(request()->getPathInfo() == '/admin-monitor/errors-report') class="active" @endif><a href="{{url('admin-monitor/errors-report')}}" class="">Errors Report</a></li>
+                                <li @if(in_array(request()->getPathInfo(), ['/admin-monitor/statistics-report', '/admin-monitor/errors-report', '/admin-monitor/archives-report'])) class="active" @endif role="presentation" class="dropdown">
+                                     <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                                        Reports <span class="caret"></span>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="{{url('admin-monitor/statistics-report')}}" class="">Statistics Report</a></li>
+                                        <li><a href="{{url('admin-monitor/errors-report')}}" class="">Errors Report</a></li>
+                                        <li><a href="{{url('admin-monitor/archives-report')}}" class="">Archives Report</a></li>
+                                    </ul>
+                                </li>
                                 <li @if(substr(request()->getPathInfo(), 0, 23) == '/admin-monitor/request/') class="active" @endif role="presentation" class="dropdown">
                                      <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
                                         Latest By <span class="caret"></span>

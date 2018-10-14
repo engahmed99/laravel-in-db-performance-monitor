@@ -106,7 +106,7 @@
                         </div>
                         <div class="col-md-2" style="text-align: center">
                             <button type="submit" class="btn btn-primary">Search</button>
-                            <button type="reset" class="btn btn-danger" onclick="confirmArchive()">Archive</button>
+                            <button class="btn btn-danger" onclick="confirmArchive()" id="archive-btn">Archive</button>
                         </div>
                     </div>
                 </div>
@@ -189,7 +189,8 @@
 </div>
 
 <script>
-    function confirmArchive() {
+    $("#archive-btn").click(function (e) {
+        e.preventDefault();
         var r = confirm("Are you sure, you want to archive unarchived requests???");
         if (r == true) {
             $("#archive-form").submit();
@@ -197,8 +198,7 @@
         } else {
             return false;
         }
-
-    }
+    });
 </script>
 
 @endsection

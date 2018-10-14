@@ -8,6 +8,8 @@ Route::group($__middleware, function () {
     Route::post('admin-monitor/archive-requests', 'ASamir\InDbPerformanceMonitor\InDbPerformanceMonitorController@archiveRequests');
     Route::get('admin-monitor/statistics-report', 'ASamir\InDbPerformanceMonitor\InDbPerformanceMonitorController@statisticsReport');
     Route::get('admin-monitor/errors-report', 'ASamir\InDbPerformanceMonitor\InDbPerformanceMonitorController@errorsReport');
+    Route::get('admin-monitor/archives-report', 'ASamir\InDbPerformanceMonitor\InDbPerformanceMonitorController@archivesReport');
+    Route::delete('admin-monitor/delete-archive', 'ASamir\InDbPerformanceMonitor\InDbPerformanceMonitorController@deleteArchive');
     Route::get('admin-monitor', '\ASamir\InDbPerformanceMonitor\InDbPerformanceMonitorController@index');
     Route::post('admin-monitor', '\ASamir\InDbPerformanceMonitor\InDbPerformanceMonitorController@index');
     Route::get('admin-monitor/logout', '\ASamir\InDbPerformanceMonitor\InDbPerformanceMonitorController@logout');

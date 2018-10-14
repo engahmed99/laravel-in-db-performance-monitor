@@ -473,4 +473,54 @@ class InDbPerformanceMonitorController extends Controller {
         return view('inDbPerformanceMonitor::errorsReport', compact('errors_stats'));
     }
 
+    /**
+     * Display statistics report about all archives
+     * @param Request $request
+     * @return \Illuminate\View\View
+     */
+    public function archivesReport(Request $request) {
+        $model = new LogRequests();
+        $table_name = $model->getTable();
+        $conn_name = $model->getConnectionName();
+        // Select aggregate functions
+        $query = \DB::connection($conn_name)->table($table_name)
+                ->select('archive_tag',
+                //
+                \DB::raw('min(queries_total_time) min_queries_time'), \DB::raw('avg(queries_total_time) avg_queries_time'), \DB::raw('max(queries_total_time) max_queries_time'),
+                //
+                \DB::raw('min(queries_total_count) min_queries_count'), \DB::raw('max(queries_total_count) max_queries_count'),
+                //
+                \DB::raw('min(queries_not_elequent_count) min_not_elequent_queries_count'), \DB::raw('max(queries_not_elequent_count) max_not_elequent_queries_count'),
+                //
+                \DB::raw('min(exec_time) min_exec_time'), \DB::raw('avg(exec_time) avg_exec_time'), \DB::raw('max(exec_time) max_exec_time'),
+                //
+                \DB::raw('count(id) requests_count'), \DB::raw('sum(has_errors) with_errors_count'), \DB::raw('(count(id)-sum(has_errors)) with_no_errors_count'),
+                //
+                \DB::raw('max(is_json_response) is_json_response'), \DB::raw('max(has_errors) has_errors'), \DB::raw('max(id) last_id')
+        );
+
+        // Get the result
+        $archives = $query->groupBy('archive_tag')
+                ->orderBy('archive_tag')
+                ->get();
+
+        return view('inDbPerformanceMonitor::archivesReport', compact('archives'));
+    }
+
+    public function deleteArchive(Request $request) {
+        // Delete from Requests
+        LogRequests::where('archive_tag', '=', $request->archive)->delete();
+
+        // Delete from Queries
+        LogQueries::whereDoesntHave('request')->delete();
+
+        // Delete from Errors
+        LogErrors::whereDoesntHave('request')->delete();
+
+        // Delete from IPs
+        LogIPs::whereDoesntHave('request')->delete();
+
+        return redirect('admin-monitor/archives-report')->with('alert-success', 'Archive [ ' . $request->archive . ' ] deleted successfully');
+    }
+
 }

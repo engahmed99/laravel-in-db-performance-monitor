@@ -39,4 +39,12 @@ class LogIPs extends Model {
         }
     }
 
+    /**
+     * The relation with LogRequests
+     * @return type
+     */
+    public function request() {
+        return $this->belongsTo('\ASamir\InDbPerformanceMonitor\LogRequests', 'ip', 'ip');
+    }
+
 }

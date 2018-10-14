@@ -63,7 +63,7 @@ class LogQueries extends Model {
      * @return type
      */
     public function request() {
-        return $this->belongsTo('LogRequests', 'request_id');
+        return $this->hasOne('\ASamir\InDbPerformanceMonitor\LogRequests', 'id', 'request_id');
     }
 
     public function getBindingsPrint() {
