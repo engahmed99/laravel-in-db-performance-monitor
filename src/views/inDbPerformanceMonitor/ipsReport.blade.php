@@ -110,6 +110,7 @@
                     <th style="text-align: center">Completed</th>                
                     <th style="text-align: center">Start Date</th>                
                     <th style="text-align: center">End Date</th>                
+                    <th style="text-align: center">Location</th>                
                 </tr>
             </thead>
             <tbody>
@@ -134,6 +135,7 @@
             </td>
             <td style="text-align: center">{{$stat->created_at}}</td>
             <td style="text-align: center">{{$stat->updated_at}}</td>
+            <td style="text-align: center"><a href="https://www.google.com.eg/maps/search/{{$stat->loc}}" target="blanck">{{$stat->loc}}</a></td>
             </tr>
             @endforeach
             </tbody>
