@@ -104,8 +104,6 @@
                     <th style="text-align: center">#</th>
                     <th style="text-align: center">IP</th>
                     <th style="text-align: center">Country</th>
-                    <th style="text-align: center">City</th>
-                    <th style="text-align: center">Region</th>
                     <th style="text-align: center">Requests Count</th>
                     <th style="text-align: center">Start Date</th>                
                     <th style="text-align: center">End Date</th>                
@@ -129,9 +127,11 @@
                             </small>
                         </i>
                     </th>
-                    <td style="text-align: center"><a href="https://restcountries.eu/rest/v2/alpha/{{$stat->country}}" target="blanck">{{$stat->country_name}} [{{$stat->country}}]</a></td>
-                    <td style="text-align: center">{{$stat->city}}</td>
-                    <td style="text-align: center">{{$stat->region}}</td>
+                    <th style="text-align: center">
+                        <a href="https://restcountries.eu/rest/v2/alpha/{{$stat->country}}" target="blanck">{{$stat->country_name}} [{{$stat->country}}]</a>
+                        <br/>
+                        <i><small>{{$stat->city}} - {{$stat->region}}</small></i>
+                    </th>
                     <td>
             <li style="color: red"><b>Errors:</b> {{$stat->total_c_error}}</li>
             <li style="color: green"><b>Success:</b> {{($stat->total_c-$stat->total_c_error)}}</li>
