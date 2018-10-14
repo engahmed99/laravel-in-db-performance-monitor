@@ -31,11 +31,19 @@ class LogIPs extends Model {
             LogIPs::create($info);
         } else if ($ip->is_finished == 0) {
             $info = $class::getIPInfo($ip->ip, config('inDbPerformanceMonitor.IN_DB_MONITOR_GET_IP_INFO'));
+            if ($ip->ip == '127.0.0.1') {
+                $info['is_finished'] = 1;
+                $info['country_name'] = 'Localhost';
+            }
             $info['total_c'] = \DB::raw('total_c+1');
-            LogIPs::where('ip', $ip->ip)->update($info);
+            $ip->update($info);
         } else {
+            if ($ip->ip == '127.0.0.1') {
+                $info['is_finished'] = 1;
+                $info['country_name'] = 'Localhost';
+            }
             $info['total_c'] = \DB::raw('total_c+1');
-            LogIPs::where('ip', $ip->ip)->update($info);
+            $ip->update($info);
         }
         return $info;
     }

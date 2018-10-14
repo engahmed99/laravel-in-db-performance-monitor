@@ -11,7 +11,7 @@ class InDbPerformanceMonitorCommand extends Command {
      *
      * @var string
      */
-    protected $signature = 'in-db-performance-monitor:init';
+    protected $signature = 'in-db-performance-monitor:init {--ips=false}';
 
     /**
      * The console command description.
@@ -35,6 +35,15 @@ class InDbPerformanceMonitorCommand extends Command {
      * @return mixed
      */
     public function handle() {
+
+        // Fill IPs table
+        if ($this->option('ips') == 'true') {
+            \DB::statement('insert into asamir_log_ips(created_at, updated_at, ip, total_c, total_c_error,  is_finished) SELECT min(created_at), max(updated_at), ip, count(*), sum(has_errors), 0 FROM asamir_log_requests group by ip');
+            $this->info('Done => Filling IPs table');
+            $this->info('Hint => Go to /admin-monitor/ips-report and click "Complete IPs Info." button in order to update the IPs Info.');
+            return;
+        }
+
         //  Publish
         $this->call('vendor:publish', ['--provider' => 'ASamir\InDbPerformanceMonitor\InDbPerformanceMonitorProvider', '--force' => true]);
         $this->info('Done => Publish the package files');

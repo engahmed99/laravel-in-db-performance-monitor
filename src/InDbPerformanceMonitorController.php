@@ -563,6 +563,11 @@ class InDbPerformanceMonitorController extends Controller {
         return view('inDbPerformanceMonitor::ipsReport', compact(['ips', 'not_finished_c']));
     }
 
+    /**
+     * Loop all IPs with not completed Info. and retry to get it.
+     * @param Request $request
+     * @return type
+     */
     public function completeIPs(Request $request) {
         LogIPs::where('is_finished', '=', '0')->chunk(100, function ($ips) {
             foreach ($ips as $ip) {
@@ -571,7 +576,7 @@ class InDbPerformanceMonitorController extends Controller {
                     break;
             }
         });
-        
+
         return redirect('admin-monitor/ips-report')->with('alert-success', 'Done ...');
     }
 
