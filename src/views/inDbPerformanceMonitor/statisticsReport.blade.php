@@ -145,7 +145,7 @@
             <li style="color: green"><b>Without Errors:</b> {{$stat->with_no_errors_count}}</li>
             <li><b>Total:</b> {{$stat->requests_count}}</li>
             </td>
-            <td style="text-align: center"><br/><a href="{{url('admin-monitor/request/'.$stat->last_id)}}" class="btn btn-danger">Show Last Request</a></td>
+            <td style="text-align: center"><br/><a href="{{url('admin-monitor/request/'.$stat->last_id)}}" class="btn btn-success">Show Last Request</a></td>
             </tr>
             @endforeach
             </tbody>

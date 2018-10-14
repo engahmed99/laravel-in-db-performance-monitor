@@ -507,6 +507,11 @@ class InDbPerformanceMonitorController extends Controller {
         return view('inDbPerformanceMonitor::archivesReport', compact('archives'));
     }
 
+    /**
+     * Delete all archive data [Requests - Queries - Errors - IPs]
+     * @param Request $request
+     * @return type
+     */
     public function deleteArchive(Request $request) {
         // Delete from Requests
         LogRequests::where('archive_tag', '=', $request->archive)->delete();
@@ -521,6 +526,38 @@ class InDbPerformanceMonitorController extends Controller {
         LogIPs::whereDoesntHave('request')->delete();
 
         return redirect('admin-monitor/archives-report')->with('alert-success', 'Archive [ ' . $request->archive . ' ] deleted successfully');
+    }
+
+    /**
+     * Display IPs report
+     * @param Request $request
+     * @return \Illuminate\View\View
+     */
+    public function ipsReport(Request $request) {
+
+        $query = LogIPs::query();
+        // Filter the result
+        $search = $request->get('search');
+        if ($search)
+            $query->where(function($q) use($search) {
+                $q->where('ip', 'like', $search)
+                        ->orWhere('country_name', 'like', $search)
+                        ->orWhere('region', 'like', $search)
+                        ->orWhere('city', 'like', $search)
+                        ->orWhere('country', 'like', $search);
+            });
+        if ($request->get('from_date'))
+            $query->where('created_at', '>=', $request->get('from_date'));
+        if ($request->get('to_date'))
+            $query->where('updated_at', '<', date('Y-m-d', strtotime($request->get('to_date') . "+1 days")));
+        if ($request->get('not_finished') && $request->get('not_finished') == '1')
+            $query->where('is_finished', '=', 0);
+
+        // Get the result
+        $ips = $query->orderBy($request->get('order_by', 'created_at'), $request->get('order_type', 'asc'))
+                ->paginate();
+
+        return view('inDbPerformanceMonitor::ipsReport', compact('ips'));
     }
 
 }
