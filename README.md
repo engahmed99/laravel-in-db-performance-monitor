@@ -18,9 +18,12 @@ Monitor your laravel application performance by logging requests in your databas
 	      * [/admin-monitor/request/{id}](#admin-monitorrequestid)
 	      * [/admin-monitor/statistics-report](#admin-monitorstatistics-report)
 	      * [/admin-monitor/errors-report](#admin-monitorerrors-report)
+	      * [/admin-monitor/archives-report](#admin-monitorarchives-report)
+	      * [/admin-monitor/ips-report](#admin-monitorips-report)
 	      * [/admin-monitor/change-password](#admin-monitorchange-password)
    * [Best Practices](#best-practices)
    * [Generate Dummy Requests](./tests)
+   * [New Features and Upgrade](#new-features-and-upgrade)
    * [Author](#author)
 <!--te-->
 
@@ -106,6 +109,10 @@ Monitor your laravel application performance by logging requests in your databas
 	- **IN\_DB\_MONITOR\_NEGLICT\_SESSION\_DATA** => If true session data will not be logged and will be replaced with ['%\_\_ALL\_HIDDEN\_\_%'] and will log the session id only (default = false)
 	
 	- **IN\_DB\_MONITOR\_LOG\_PACKAGE\_QUERIES** => If true log queries made by the package in your laravel log (default = false)
+
+	- **IN\_DB\_MONITOR\_GET\_IP\_INFO** => If true get IP location data (default = true)
+
+	- **IN\_DB\_MONITOR\_GET\_IP\_CLASS** => You can change it and use your own class with new third party web services to get the IP location.
 	
 - **Hint:** You will find the package env variables created in your .env file
 
@@ -117,7 +124,9 @@ Monitor your laravel application performance by logging requests in your databas
 - **/admin-monitor/request/{id}** => Display request details.
 - **/admin-monitor/run-query/{id}** => Display query details and re-run it.
 - **/admin-monitor/statistics-report** => Statistics report of requests performance group by request route uri and type.
-- **/admin-monitor/errors-report** => Statistics report of requests errors by group by page uri, type, and error message.
+- **/admin-monitor/errors-report** => Statistics report of requests errors group by page uri, type, and error message.
+- **/admin-monitor/archives-report** => Statistics report of requests archives.
+- **/admin-monitor/ips-report** => Statistics report of requests IPs Info.. Also you have the ability to recalculate the uncompleted IPs Info.
 - **/admin-monitor/change-password** => Change the password of the admin monitor panel.
 - **/admin-monitor/logout** => Logout from the admin monitor panel.
 ### Demo screen shots
@@ -134,7 +143,7 @@ The login page (default password = monitor)
 #### /admin-monitor/dashboard
 
 Dashboard with requests counts grouped by type and archive tag.
-![alt 12-Dashboard.png](screenshots/12-Dashboard.png)
+![alt 12-Dashboard.png](screenshots/16-Dashboard.png)
 
 ------------------------------------------------
 
@@ -208,8 +217,22 @@ Statistics report about the requests performance group by request route uri and 
 
 #### /admin-monitor/errors-report
 
-Statistics report of requests errors by group by page uri, type, and error message.
+Statistics report of requests errors group by page uri, type, and error message.
 ![alt 13-Errors_Report.png](screenshots/13-Errors_Report.png)
+
+------------------------------------------------
+
+#### /admin-monitor/archives-report
+
+Statistics report of requests archives.
+![alt 14-Archives_Report.png](screenshots/14-Archives_Report.png)
+
+------------------------------------------------
+
+#### /admin-monitor/ips-report
+
+Statistics report of requests IPs. Also you have the ability to recalculate the uncompleted IPs Info.
+![alt 15-IPs_Report.png](screenshots/15-IPs_Report.png)
 
 ------------------------------------------------
 
@@ -241,6 +264,23 @@ I was working on a project and my task was to test the application performance a
 - Check the requests of your dashboards and reports and make sure that you use the sql aggregation functions correctly.
 
 --------------------
+
+## New Features and Upgrade
+
+- Get the request country and location Info.
+- Storing data as serialized string instead of encoded JSON.
+- Add more reports and statistics.
+- Enhance the UI and Fix Issues.
+
+Hint: If you are using an older version (<v2) please run this command after upgrade
+
+	php artisan in-db-performance-monitor:init --ips=true --serialize=true
+
+and add this lines in config/inDbPerformanceMonitor.php
+
+    'IN_DB_MONITOR_GET_IP_INFO' => env('IN_DB_MONITOR_GET_IP_INFO', true),
+    'IN_DB_MONITOR_GET_IP_CLASS' => '\\ASamir\\InDbPerformanceMonitor\\IPInfo',
+
 
 #### Dummy Data => [Demo](http://asamirdemos.codeagroup.net/admin-monitor "http://asamirdemos.codeagroup.net") (password=monitor)
 
