@@ -43,7 +43,7 @@ class LogQueries extends Model {
         // Save Queries Log
         LogQueries::create([
             'query' => (!is_string($query->sql)) ? $query->sql->getValue() : $query->sql,
-            'bindings' => json_encode($query->bindings),
+            'bindings' => serialize($query->bindings),
             'time' => $query->time,
             'connection_name' => ($query->connectionName) ?: config('database.default'),
             'is_elequent' => (!is_string($query->sql)) ? 0 : 1,
@@ -66,8 +66,12 @@ class LogQueries extends Model {
         return $this->hasOne('\ASamir\InDbPerformanceMonitor\LogRequests', 'id', 'request_id');
     }
 
+    /**
+     * Return beautiful print for query buindings
+     * @return string
+     */
     public function getBindingsPrint() {
-        $arr = json_decode($this->bindings, true);
+        $arr = unserialize($this->bindings);
         $print = print_r($arr, true);
         $lines = explode("\n", $print);
         $final = "";

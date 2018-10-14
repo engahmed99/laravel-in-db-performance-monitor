@@ -11,7 +11,7 @@ class InDbPerformanceMonitorCommand extends Command {
      *
      * @var string
      */
-    protected $signature = 'in-db-performance-monitor:init {--ips=false}';
+    protected $signature = 'in-db-performance-monitor:init {--ips=false} {--serialize=false}';
 
     /**
      * The console command description.
@@ -36,13 +36,40 @@ class InDbPerformanceMonitorCommand extends Command {
      */
     public function handle() {
 
+        $stop = false;
         // Fill IPs table
         if ($this->option('ips') == 'true') {
             \DB::statement('insert into asamir_log_ips(created_at, updated_at, ip, total_c, total_c_error,  is_finished) SELECT min(created_at), max(updated_at), ip, count(*), sum(has_errors), 0 FROM asamir_log_requests group by ip');
             $this->info('Done => Filling IPs table');
             $this->info('Hint => Go to /admin-monitor/ips-report and click "Complete IPs Info." button in order to update the IPs Info.');
-            return;
+            $stop = true;
         }
+
+        // 
+        if ($this->option('serialize') == 'true') {
+            // Update requests
+            LogRequests::chunk(100, function ($data) {
+                foreach ($data as $row) {
+                    $row->parameters = serialize(json_decode($row->parameters, true));
+                    $row->session_data = serialize(json_decode($row->session_data, true));
+                    $row->save();
+                }
+            });
+
+            // Update queries
+            LogQueries::chunk(100, function ($data) {
+                foreach ($data as $row) {
+                    $row->bindings = serialize(json_decode($row->bindings, true));
+                    $row->save();
+                }
+            });
+
+            $this->info('Done => All json decoded data have been serialized');
+            $stop = true;
+        }
+
+        if ($stop)
+            return;
 
         //  Publish
         $this->call('vendor:publish', ['--provider' => 'ASamir\InDbPerformanceMonitor\InDbPerformanceMonitorProvider', '--force' => true]);

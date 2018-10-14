@@ -328,9 +328,9 @@ class InDbPerformanceMonitorController extends Controller {
         try {
             // Case select query => Get records
             if (substr(strtolower($logQuery->query), 0, 7) == 'select ')
-                $results = \DB::connection($logQuery->connection_name)->select(\DB::raw($logQuery->query), json_decode($logQuery->bindings, true));
+                $results = \DB::connection($logQuery->connection_name)->select(\DB::raw($logQuery->query), unserialize($logQuery->bindings));
             else // Else run statement
-                $results = \DB::connection($logQuery->connection_name)->statement(\DB::raw($logQuery->query), json_decode($logQuery->bindings, true));
+                $results = \DB::connection($logQuery->connection_name)->statement(\DB::raw($logQuery->query), unserialize($logQuery->bindings));
         } catch (\Exception $e) {
             $exception = $e;
         }
