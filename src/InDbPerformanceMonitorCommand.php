@@ -45,7 +45,7 @@ class InDbPerformanceMonitorCommand extends Command {
             $stop = true;
         }
 
-        // 
+        // Serialize all json objects
         if ($this->option('serialize') == 'true') {
             // Update requests
             LogRequests::chunk(100, function ($data) {
