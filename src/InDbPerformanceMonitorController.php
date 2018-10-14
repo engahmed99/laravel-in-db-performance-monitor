@@ -557,7 +557,22 @@ class InDbPerformanceMonitorController extends Controller {
         $ips = $query->orderBy($request->get('order_by', 'created_at'), $request->get('order_type', 'asc'))
                 ->paginate();
 
-        return view('inDbPerformanceMonitor::ipsReport', compact('ips'));
+        // Count not finished
+        $not_finished_c = LogIPs::where('is_finished', 0)->count();
+
+        return view('inDbPerformanceMonitor::ipsReport', compact(['ips', 'not_finished_c']));
+    }
+
+    public function completeIPs(Request $request) {
+        LogIPs::where('is_finished', '=', '0')->chunk(100, function ($ips) {
+            foreach ($ips as $ip) {
+                $info = LogIPs::saveIPInfo($ip->ip);
+                if ($info['is_finished'] == '0')
+                    break;
+            }
+        });
+        
+        return redirect('admin-monitor/ips-report')->with('alert-success', 'Done ...');
     }
 
 }

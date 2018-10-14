@@ -16,17 +16,17 @@ class LogIPs extends Model {
     /**
      * Handle the IP Info. in the DB
      */
-    public static function saveIPInfo() {
-        $ip = LogIPs::where('ip', request()->ip())->first();
+    public static function saveIPInfo($ip_str) {
+        $ip = LogIPs::where('ip', $ip_str)->first();
         $class = config('inDbPerformanceMonitor.IN_DB_MONITOR_GET_IP_CLASS');
         $info = [];
         if (!$ip) {
-            if (request()->ip() == '127.0.0.1') {
-                $info = $class::getIPInfo(request()->ip(), false);
+            if ($ip_str == '127.0.0.1') {
+                $info = $class::getIPInfo($ip_str, false);
                 $info['is_finished'] = 1;
                 $info['country_name'] = 'Localhost';
             } else
-                $info = $class::getIPInfo(request()->ip(), config('inDbPerformanceMonitor.IN_DB_MONITOR_GET_IP_INFO'));
+                $info = $class::getIPInfo($ip_str, config('inDbPerformanceMonitor.IN_DB_MONITOR_GET_IP_INFO'));
             $info['total_c'] = 1;
             LogIPs::create($info);
         } else if ($ip->is_finished == 0) {
@@ -37,6 +37,7 @@ class LogIPs extends Model {
             $info['total_c'] = \DB::raw('total_c+1');
             LogIPs::where('ip', $ip->ip)->update($info);
         }
+        return $info;
     }
 
     /**

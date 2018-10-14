@@ -84,7 +84,18 @@
         </div>
     </div>
 
-    <div class="alert-info" style="text-align: center"><h4 class="">Page {{$ips->currentPage()}} of {{$ips->lastPage()}} - Display {{$ips->count()}} of {{$ips->total()}} Records</h4></div>   
+    <div class="" style="text-align: center">
+        <span>We have <span style="color:red">{{$not_finished_c}}</span> IPs without country information</span>
+        @if($not_finished_c > 0)
+        <form style="display: inline-block" action="{{url('admin-monitor/complete-ips')}}" method="post" id="complete-ips-form">
+            {{ csrf_field() }}
+            <button class="btn btn-success" id="complete-ips-btn">Complete IPs Info,</button>
+        </form>
+        @endif
+    </div>
+    <div class="alert-info" style="text-align: center">
+        <h4 class="">Page {{$ips->currentPage()}} of {{$ips->lastPage()}} - Display {{$ips->count()}} of {{$ips->total()}} Records</h4>
+    </div>   
 
     <div class="table-responsive">
         <table class="table table-hover table-striped table-bordered">
@@ -136,6 +147,20 @@
         @endif
     </div>
 </div>
+
+<script>
+
+    $("#complete-ips-btn").click(function (e) {
+        e.preventDefault();
+        var r = confirm("Are you sure, you want to retry to get not completed IPs Info.???");
+        if (r == true) {
+            $("#complete-ips-form").submit();
+            return true;
+        } else {
+            return false;
+        }
+    });
+</script>
 
 @endsection
 

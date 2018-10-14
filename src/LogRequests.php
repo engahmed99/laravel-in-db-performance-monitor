@@ -32,7 +32,7 @@ class LogRequests extends Model {
                     'ip' => request()->ip(),
         ]);
         // Store IP info.
-        LogIPs::saveIPInfo();
+        LogIPs::saveIPInfo(request()->ip());
 
         request()->request->add(['__asamir_request_id' => $req->id]);
 
