@@ -554,7 +554,7 @@ class InDbPerformanceMonitorController extends Controller {
             $query->where('is_finished', '=', 0);
 
         // Get the result
-        $ips = $query->orderBy($request->get('order_by', 'created_at'), $request->get('order_type', 'desc'))
+        $ips = $query->orderBy($request->get('order_by', 'updated_at'), $request->get('order_type', 'desc'))
                 ->paginate();
 
         // Count not finished

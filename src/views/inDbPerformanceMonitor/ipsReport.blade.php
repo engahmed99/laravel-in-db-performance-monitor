@@ -55,8 +55,8 @@
                         </div>
                         <div class="col-md-4">
                             <select id="order_by" class="form-control" name="order_by" value="{{request('order_by')}}">
-                                <option value="created_at" @if(request('order_by') == 'created_at'){{'selected'}}@endif >Start Date</option>
-                                <option value="updated_at" @if(request('order_by') == 'updated_at'){{'selected'}}@endif >End Date</option>
+                                <option value="updated_at" @if(request('order_by') == 'updated_at'){{'selected'}}@endif >Last Date</option>
+                                <option value="created_at" @if(request('order_by') == 'created_at'){{'selected'}}@endif >First Date</option>
                                 <option value="country_name" @if(request('order_by') == 'country_name'){{'selected'}}@endif >Country</option>
                                 <option value="total_c" @if(request('order_by') == 'total_c'){{'selected'}}@endif >Total Requests</option>
                                 <option value="total_c_error" @if(request('order_by') == 'total_c_error'){{'selected'}}@endif >Total Requests With Errors</option>
@@ -105,9 +105,8 @@
                     <th style="text-align: center">IP</th>
                     <th style="text-align: center">Country</th>
                     <th style="text-align: center">Requests Count</th>
-                    <th style="text-align: center">Start Date</th>                
-                    <th style="text-align: center">End Date</th>                
-                    <th style="text-align: center">Location</th>                
+                    <th style="text-align: center">First Date</th>
+                    <th style="text-align: center">Last Date</th>                
                 </tr>
             </thead>
             <tbody>
@@ -115,7 +114,7 @@
                 <tr>
                     <th style="text-align: center">{{($i+1+(($ips->currentPage()-1)*$ips->perPage()))}}</th>
                     <th style="text-align: center">
-                        <a href="https://ipinfo.io/{{$stat->ip}}/json" target="blanck">{{$stat->ip}}</a>
+                        <a href="{{url('admin-monitor/requests/?search='.$stat->ip.'&search_type=like')}}">{{$stat->ip}}</a>
                         <br/>
                         <i>
                             <small>
@@ -128,9 +127,11 @@
                         </i>
                     </th>
                     <th style="text-align: center">
-                        <a href="https://restcountries.eu/rest/v2/alpha/{{$stat->country}}" target="blanck">{{$stat->country_name}} [{{$stat->country}}]</a>
+                        <a href="{{url('admin-monitor/requests/?search='.$stat->country_name.'&search_type=like')}}" >{{$stat->country_name}} [{{$stat->country}}]</a>
                         <br/>
                         <i><small>{{$stat->city}} - {{$stat->region}}</small></i>
+                        <br/>
+                        <i><small><a href="https://www.google.com.eg/maps/search/{{$stat->loc}}" target="blanck">{{$stat->loc}}</a></small></i>
                     </th>
                     <td>
             <li style="color: red"><b>Errors:</b> {{$stat->total_c_error}}</li>
@@ -139,7 +140,6 @@
             </td>
             <td style="text-align: center">{{$stat->created_at}}</td>
             <td style="text-align: center">{{$stat->updated_at}}</td>
-            <td style="text-align: center"><a href="https://www.google.com.eg/maps/search/{{$stat->loc}}" target="blanck">{{$stat->loc}}</a></td>
             </tr>
             @endforeach
             </tbody>
