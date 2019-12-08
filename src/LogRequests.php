@@ -52,10 +52,13 @@ class LogRequests extends Model {
             return ['%__ALL_HIDDEN__%'];
 
         $neglict = config('inDbPerformanceMonitor.IN_DB_MONITOR_NEGLICT_PARAMS_CONTAIN');
-        foreach ($data as $k => $v)
+        foreach ($data as $k => $v) {
             foreach ($neglict as $n)
                 if (strpos(trim(strtolower($k)), trim(strtolower($n))) !== false)
                     $data[$k] = '%_HIDDEN_%';
+            if (is_object($v))
+                $data[$k] = "Object of " . get_class($v);
+		}
         return $data;
     }
 

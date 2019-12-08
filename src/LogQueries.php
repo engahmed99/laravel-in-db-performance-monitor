@@ -21,6 +21,8 @@ class LogQueries extends Model {
         if (!request('__asamir_request_id'))
             return;
         $version = substr(app()->version(), 0, 3);
+        \DB::enableQueryLog();
+
         if (in_array($version, ['5.0', '5.1']))
             \DB::listen(function ($sql, $bindings, $time, $connectionName) {
                 $query = json_decode(json_encode(['sql' => $sql, 'bindings' => $bindings, 'time' => $time, 'connectionName' => $connectionName]));
